@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "OnlineCowboyGame",
+			"Path": "C:\\Users\\lukas\\Documents\\Unreal Projects\\OnlineCowboyCompetitionGame\\OnlineCowboyGame\\Source\\OnlineCowboyGame.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "OnlineCowboyGameEditor",
+			"Path": "C:\\Users\\lukas\\Documents\\Unreal Projects\\OnlineCowboyCompetitionGame\\OnlineCowboyGame\\Source\\OnlineCowboyGameEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

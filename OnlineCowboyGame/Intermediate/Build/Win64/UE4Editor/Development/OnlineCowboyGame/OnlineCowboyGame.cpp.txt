@@ -1,0 +1,2 @@
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\Definitions.OnlineCowboyGame.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\OnlineCowboyGame.h

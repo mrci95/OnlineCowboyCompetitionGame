@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\lukas\\Documents\\Unreal Projects\\OnlineCowboyCompetitionGame\\OnlineCowboyGame\\Source\\OnlineCowboyGame\\OnlineCowboyGame.Build.cs",
+		"C:\\Users\\lukas\\Documents\\Unreal Projects\\OnlineCowboyCompetitionGame\\OnlineCowboyGame\\Source\\OnlineCowboyGame.Target.cs",
+		"C:\\Users\\lukas\\Documents\\Unreal Projects\\OnlineCowboyCompetitionGame\\OnlineCowboyGame\\Source\\OnlineCowboyGameEditor.Target.cs"
+	],
+	"EngineVersion": "4.25.3"
+}

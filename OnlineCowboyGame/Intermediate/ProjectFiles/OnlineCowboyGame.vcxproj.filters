@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\OnlineCowboyGame.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{942AA39F-4BB2-4BB3-A921-21C2F247F2F7}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\OnlineCowboyGameEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{6E969827-7DE7-42BB-AEAF-E92F9E762C28}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\OnlineCowboyGame">
+      <UniqueIdentifier>{94095FC0-08D0-4C45-8E31-FCCD5AB9AC51}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyCharacter.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyCharacter.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\OnlineCowboyGame\OnlineCowboyGame.Build.cs">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\OnlineCowboyGame.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\OnlineCowboyGame.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\OnlineCowboyGameGameModeBase.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\OnlineCowboyGameGameModeBase.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
