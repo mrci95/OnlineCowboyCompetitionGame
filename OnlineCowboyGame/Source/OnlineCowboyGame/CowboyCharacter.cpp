@@ -74,7 +74,7 @@ void ACowboyCharacter::BeginPlay()
 
 	TPPCameraRoot->SetWorldRotation(LookAtRandomRotation.Quaternion());
 
-	DrawDebugLine(GetWorld(), TPPCameraPos, (TPPCameraPos + InitialRandomVector * 1000), FColor::Emerald, true, -1, 0, 5);
+	DrawDebugLine(GetWorld(), TPPCamera->GetComponentLocation(), (TPPCamera->GetComponentLocation() + InitialRandomVector * 1000), FColor::Emerald, true, -1, 0, 5);
 
 
 }
