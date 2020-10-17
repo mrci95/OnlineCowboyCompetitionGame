@@ -21,8 +21,8 @@ void EmptyLinkFunctionForGeneratedCodeOnlineCowboyGame_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x6E2C394D,
-				0x46D0DD7D,
+				0x09E6860C,
+				0xC8B5BA27,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);
