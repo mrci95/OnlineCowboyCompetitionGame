@@ -2,11 +2,11 @@
   Building OnlineCowboyGameEditor...
   Using Visual Studio 2019 14.27.29111 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
   Building 4 actions with 4 processes...
-    [1/4] CowboyCharacter.cpp
-    [2/4] UE4Editor-OnlineCowboyGame-0040.lib
-       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0040.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0040.exp
-    [3/4] UE4Editor-OnlineCowboyGame-0040.dll
-       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0040.suppressed.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0040.suppressed.exp
+    [1/4] TPPAimingComponent.cpp
+    [2/4] UE4Editor-OnlineCowboyGame-0097.lib
+       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0097.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0097.exp
+    [3/4] UE4Editor-OnlineCowboyGame-0097.dll
+       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0097.suppressed.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame-0097.suppressed.exp
     [4/4] OnlineCowboyGameEditor.target
-  Total time in Parallel executor: 2,39 seconds
-  Total execution time: 3,30 seconds
+  Total time in Parallel executor: 21,87 seconds
+  Total execution time: 22,92 seconds

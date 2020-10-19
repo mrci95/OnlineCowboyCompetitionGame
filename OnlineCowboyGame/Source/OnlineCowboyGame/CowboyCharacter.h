@@ -7,9 +7,14 @@
 #include "CowboyCharacter.generated.h"
 
 class UStaticMeshComponent;
+class UCapsuleComponent;
+
+class UCowboyMovement;
+class UViewComponent;
+class UTPPAimingComponent;
 class USpringArmComponent;
 class UCameraComponent;
-class UCapsuleComponent;
+class USceneComponent;
 
 USTRUCT()
 struct FMouseMove
@@ -52,15 +57,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-private:
 
-	
-
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly)
 	UCapsuleComponent* CapsuleComponent;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* CoboyMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* TPPAimuthGimbal;
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* TPPCameraRoot;
@@ -68,46 +73,21 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* TPPCamera;
 
-	UPROPERTY(EditAnywhere)
-	float TPPCameraRangeRadius = 200.0f;
+	UCowboyMovement* CowboyMovement;
 
-	float TPPCameraLimit;
-	FVector TPPConeDirection;
+	UTPPAimingComponent* TppAimingComponent;
 
-	void IntitiateTPPRangeCone();
+private:
 
-	//View debug section
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppRangeCone = true;
 
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppConeDirectionLine = true;
 
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppRandomInitialCameraViewLine = true;
-
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppConeRadiusLine = true;
-
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppConeLimitEdgeLine = true;
-
-	UPROPERTY(EditAnywhere, Category = "Draw debug")
-	bool DrawTppCurrentCameraViewLine = true;
-
-	//input
+	//Input binding
 	void LookUp(float Val);
 
 	void LookRight(float Val);
 
-	FVector2D MouseMove;
-
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FMouseMove Move);
-
-	FMouseMove CreateMove(float DeltaTime);
-
-	void SimulateAiming(FMouseMove LastMove);
 
 	void UpdateServerState();
 
@@ -116,5 +96,5 @@ private:
 
 
 	UFUNCTION()
-		void OnRep_ServerState();
+	void OnRep_ServerState();
 };

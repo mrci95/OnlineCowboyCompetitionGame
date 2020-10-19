@@ -23,6 +23,7 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_APawn();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
+	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCapsuleComponent_NoRegister();
 // End Cross Module References
@@ -303,40 +304,6 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ServerState;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppCurrentCameraViewLine_MetaData[];
-#endif
-		static void NewProp_DrawTppCurrentCameraViewLine_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppCurrentCameraViewLine;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppConeLimitEdgeLine_MetaData[];
-#endif
-		static void NewProp_DrawTppConeLimitEdgeLine_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppConeLimitEdgeLine;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppConeRadiusLine_MetaData[];
-#endif
-		static void NewProp_DrawTppConeRadiusLine_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppConeRadiusLine;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppRandomInitialCameraViewLine_MetaData[];
-#endif
-		static void NewProp_DrawTppRandomInitialCameraViewLine_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppRandomInitialCameraViewLine;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppConeDirectionLine_MetaData[];
-#endif
-		static void NewProp_DrawTppConeDirectionLine_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppConeDirectionLine;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DrawTppRangeCone_MetaData[];
-#endif
-		static void NewProp_DrawTppRangeCone_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DrawTppRangeCone;
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TPPCameraRangeRadius_MetaData[];
-#endif
-		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_TPPCameraRangeRadius;
-#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TPPCamera_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_TPPCamera;
@@ -344,6 +311,10 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TPPCameraRoot_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_TPPCameraRoot;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TPPAimuthGimbal_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_TPPAimuthGimbal;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CoboyMesh_MetaData[];
 #endif
@@ -378,88 +349,13 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 #endif
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_ServerState = { "ServerState", "OnRep_ServerState", (EPropertyFlags)0x0040000100000020, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, ServerState), Z_Construct_UScriptStruct_FAimingServerState, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_ServerState_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_ServerState_MetaData)) };
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppCurrentCameraViewLine = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine = { "DrawTppCurrentCameraViewLine", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppConeLimitEdgeLine = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine = { "DrawTppConeLimitEdgeLine", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppConeRadiusLine = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine = { "DrawTppConeRadiusLine", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppRandomInitialCameraViewLine = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine = { "DrawTppRandomInitialCameraViewLine", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppConeDirectionLine = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine = { "DrawTppConeDirectionLine", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone_MetaData[] = {
-		{ "Category", "Draw debug" },
-		{ "Comment", "//View debug section\n" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-		{ "ToolTip", "View debug section" },
-	};
-#endif
-	void Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone_SetBit(void* Obj)
-	{
-		((ACowboyCharacter*)Obj)->DrawTppRangeCone = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone = { "DrawTppRangeCone", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(ACowboyCharacter), &Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone_SetBit, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone_MetaData)) };
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRangeRadius_MetaData[] = {
-		{ "Category", "CowboyCharacter" },
-		{ "ModuleRelativePath", "CowboyCharacter.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRangeRadius = { "TPPCameraRangeRadius", nullptr, (EPropertyFlags)0x0040000000000001, UE4CodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPCameraRangeRadius), METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRangeRadius_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRangeRadius_MetaData)) };
-#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera = { "TPPCamera", nullptr, (EPropertyFlags)0x00400000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera = { "TPPCamera", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
@@ -467,7 +363,15 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot = { "TPPCameraRoot", nullptr, (EPropertyFlags)0x00400000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPCameraRoot), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot = { "TPPCameraRoot", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPCameraRoot), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal_MetaData[] = {
+		{ "Category", "CowboyCharacter" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "CowboyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal = { "TPPAimuthGimbal", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPAimuthGimbal), Z_Construct_UClass_USceneComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
@@ -475,7 +379,7 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh = { "CoboyMesh", nullptr, (EPropertyFlags)0x00400000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CoboyMesh), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh = { "CoboyMesh", nullptr, (EPropertyFlags)0x0010000000080009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CoboyMesh), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
@@ -483,18 +387,12 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent = { "CapsuleComponent", nullptr, (EPropertyFlags)0x00400000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CapsuleComponent), Z_Construct_UClass_UCapsuleComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent = { "CapsuleComponent", nullptr, (EPropertyFlags)0x001000000008001c, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CapsuleComponent), Z_Construct_UClass_UCapsuleComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ACowboyCharacter_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_ServerState,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppCurrentCameraViewLine,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeLimitEdgeLine,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeRadiusLine,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRandomInitialCameraViewLine,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppConeDirectionLine,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_DrawTppRangeCone,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRangeRadius,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyMesh,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent,
 	};
@@ -525,7 +423,7 @@ static struct FScriptStruct_OnlineCowboyGame_StaticRegisterNativesFMouseMove
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ACowboyCharacter, 3517500457);
+	IMPLEMENT_CLASS(ACowboyCharacter, 375714166);
 	template<> ONLINECOWBOYGAME_API UClass* StaticClass<ACowboyCharacter>()
 	{
 		return ACowboyCharacter::StaticClass();

@@ -14,22 +14,22 @@ struct FMouseMove;
 #endif
 #define ONLINECOWBOYGAME_CowboyCharacter_generated_h
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_28_GENERATED_BODY \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_33_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FAimingServerState_Statics; \
 	ONLINECOWBOYGAME_API static class UScriptStruct* StaticStruct();
 
 
 template<> ONLINECOWBOYGAME_API UScriptStruct* StaticStruct<struct FAimingServerState>();
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_17_GENERATED_BODY \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_22_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FMouseMove_Statics; \
 	ONLINECOWBOYGAME_API static class UScriptStruct* StaticStruct();
 
 
 template<> ONLINECOWBOYGAME_API UScriptStruct* StaticStruct<struct FMouseMove>();
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_SPARSE_DATA
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_RPC_WRAPPERS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_SPARSE_DATA
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_RPC_WRAPPERS \
 	virtual bool Server_SendMove_Validate(FMouseMove ); \
 	virtual void Server_SendMove_Implementation(FMouseMove Move); \
  \
@@ -37,7 +37,7 @@ template<> ONLINECOWBOYGAME_API UScriptStruct* StaticStruct<struct FMouseMove>()
 	DECLARE_FUNCTION(execServer_SendMove);
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual bool Server_SendMove_Validate(FMouseMove ); \
 	virtual void Server_SendMove_Implementation(FMouseMove Move); \
  \
@@ -45,15 +45,15 @@ template<> ONLINECOWBOYGAME_API UScriptStruct* StaticStruct<struct FMouseMove>()
 	DECLARE_FUNCTION(execServer_SendMove);
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_EVENT_PARMS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_EVENT_PARMS \
 	struct CowboyCharacter_eventServer_SendMove_Parms \
 	{ \
 		FMouseMove Move; \
 	};
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_CALLBACK_WRAPPERS
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_INCLASS_NO_PURE_DECLS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_CALLBACK_WRAPPERS
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesACowboyCharacter(); \
 	friend struct Z_Construct_UClass_ACowboyCharacter_Statics; \
@@ -69,7 +69,7 @@ public: \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_INCLASS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_INCLASS \
 private: \
 	static void StaticRegisterNativesACowboyCharacter(); \
 	friend struct Z_Construct_UClass_ACowboyCharacter_Statics; \
@@ -85,7 +85,7 @@ public: \
 	NO_API virtual void ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const override;
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_STANDARD_CONSTRUCTORS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API ACowboyCharacter(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(ACowboyCharacter) \
@@ -98,7 +98,7 @@ private: \
 public:
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_ENHANCED_CONSTRUCTORS \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API ACowboyCharacter(ACowboyCharacter&&); \
@@ -109,47 +109,36 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ACowboyCharacter); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(ACowboyCharacter)
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_PRIVATE_PROPERTY_OFFSET \
-	FORCEINLINE static uint32 __PPO__CapsuleComponent() { return STRUCT_OFFSET(ACowboyCharacter, CapsuleComponent); } \
-	FORCEINLINE static uint32 __PPO__CoboyMesh() { return STRUCT_OFFSET(ACowboyCharacter, CoboyMesh); } \
-	FORCEINLINE static uint32 __PPO__TPPCameraRoot() { return STRUCT_OFFSET(ACowboyCharacter, TPPCameraRoot); } \
-	FORCEINLINE static uint32 __PPO__TPPCamera() { return STRUCT_OFFSET(ACowboyCharacter, TPPCamera); } \
-	FORCEINLINE static uint32 __PPO__TPPCameraRangeRadius() { return STRUCT_OFFSET(ACowboyCharacter, TPPCameraRangeRadius); } \
-	FORCEINLINE static uint32 __PPO__DrawTppRangeCone() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppRangeCone); } \
-	FORCEINLINE static uint32 __PPO__DrawTppConeDirectionLine() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppConeDirectionLine); } \
-	FORCEINLINE static uint32 __PPO__DrawTppRandomInitialCameraViewLine() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppRandomInitialCameraViewLine); } \
-	FORCEINLINE static uint32 __PPO__DrawTppConeRadiusLine() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppConeRadiusLine); } \
-	FORCEINLINE static uint32 __PPO__DrawTppConeLimitEdgeLine() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppConeLimitEdgeLine); } \
-	FORCEINLINE static uint32 __PPO__DrawTppCurrentCameraViewLine() { return STRUCT_OFFSET(ACowboyCharacter, DrawTppCurrentCameraViewLine); } \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__ServerState() { return STRUCT_OFFSET(ACowboyCharacter, ServerState); }
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_35_PROLOG \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_EVENT_PARMS
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_40_PROLOG \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_EVENT_PARMS
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_GENERATED_BODY_LEGACY \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_PRIVATE_PROPERTY_OFFSET \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_SPARSE_DATA \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_RPC_WRAPPERS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_CALLBACK_WRAPPERS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_INCLASS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_STANDARD_CONSTRUCTORS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_PRIVATE_PROPERTY_OFFSET \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_SPARSE_DATA \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_RPC_WRAPPERS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_CALLBACK_WRAPPERS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_INCLASS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_GENERATED_BODY \
+#define OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_PRIVATE_PROPERTY_OFFSET \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_SPARSE_DATA \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_RPC_WRAPPERS_NO_PURE_DECLS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_CALLBACK_WRAPPERS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_INCLASS_NO_PURE_DECLS \
-	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_38_ENHANCED_CONSTRUCTORS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_PRIVATE_PROPERTY_OFFSET \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_SPARSE_DATA \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_RPC_WRAPPERS_NO_PURE_DECLS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_CALLBACK_WRAPPERS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_INCLASS_NO_PURE_DECLS \
+	OnlineCowboyGame_Source_OnlineCowboyGame_CowboyCharacter_h_43_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
