@@ -44,6 +44,16 @@ public:
 
 	void SetMouseMoveY(float Val) { MouseMoveVector.Y = Val; };
 
+	void SimulateMouseMovement(const FMouseMovement& Move);
+
+	FMouseMovement GetLastMouseMovement(){ return LastMouseMovement; };
+
+	FTransform GetAzimuthGizmoTransform();
+	void SetAzimuthGizmoTransform(FTransform Transform);
+
+	float GetCameraPitch();
+	void SetCameraPitch(float Val);
+
 private:
 
 	APawn* Pawn;

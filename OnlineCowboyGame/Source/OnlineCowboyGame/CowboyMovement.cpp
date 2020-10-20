@@ -36,12 +36,15 @@ void UCowboyMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	{
 		LastMouseMovement = CreateMouseMovement(DeltaTime);
 
-		//UE_LOG(LogTemp, Warning, TEXT("UCowboyMovement Move: %s, DeltaTime: %d"), *LastMouseMovement.MouseMoveVector.ToString(), LastMouseMovement.DeltaTime);
-
-		if (!ensure(ViewComponent != nullptr)) return;
-
-		ViewComponent->SimulateMouseMovement(LastMouseMovement);
+		SimulateMouseMovement(LastMouseMovement);
 	}
+}
+
+void UCowboyMovement::SimulateMouseMovement(const FMouseMovement& Move)
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->SimulateMouseMovement(Move);
 }
 
 FMouseMovement UCowboyMovement::CreateMouseMovement(float DeltaTime)
@@ -51,5 +54,34 @@ FMouseMovement UCowboyMovement::CreateMouseMovement(float DeltaTime)
 	Movement.DeltaTime = DeltaTime;
 
 	return Movement;
+}
+
+FTransform UCowboyMovement::GetAzimuthGizmoTransform()
+{
+	FTransform AzimuthGizmo;
+	if (!ensure(ViewComponent != nullptr)) return AzimuthGizmo;
+
+	AzimuthGizmo = ViewComponent->GetAzimuthGizmoTransform();
+	return AzimuthGizmo;
+}
+
+void UCowboyMovement::SetAzimuthGizmoTransform(FTransform Transform)
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->SetAzimuthGizmoTransform(Transform);
+}
+
+float UCowboyMovement::GetCameraPitch()
+{
+	if (!ensure(ViewComponent != nullptr)) return 0;
+
+	return ViewComponent->GetCameraPitch();
+}
+void UCowboyMovement::SetCameraPitch(float Val)
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->SetCameraPitch(Val);
 }
 

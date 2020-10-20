@@ -63,4 +63,11 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void SimulateMouseMovement(const FMouseMovement& Move);
+
+	FTransform GetAzimuthGizmoTransform();
+
+	void SetAzimuthGizmoTransform(FTransform Transform);
+
+	float GetCameraPitch();
+	void SetCameraPitch(float Val);
 };

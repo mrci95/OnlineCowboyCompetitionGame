@@ -16,26 +16,6 @@ class USpringArmComponent;
 class UCameraComponent;
 class USceneComponent;
 
-USTRUCT()
-struct FMouseMove
-{
-	GENERATED_USTRUCT_BODY()
-
-		UPROPERTY()
-		FVector2D Move;
-	UPROPERTY()
-		float DeltaTime;
-};
-
-USTRUCT()
-struct FAimingServerState
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY()
-		FTransform Transform;
-
-};
 
 UCLASS()
 class ONLINECOWBOYGAME_API ACowboyCharacter : public APawn
@@ -75,26 +55,10 @@ public:
 
 	UCowboyMovement* CowboyMovement;
 
-	UTPPAimingComponent* TppAimingComponent;
-
 private:
-
-
 
 	//Input binding
 	void LookUp(float Val);
 
 	void LookRight(float Val);
-
-	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_SendMove(FMouseMove Move);
-
-	void UpdateServerState();
-
-	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
-	FAimingServerState ServerState;
-
-
-	UFUNCTION()
-	void OnRep_ServerState();
 };

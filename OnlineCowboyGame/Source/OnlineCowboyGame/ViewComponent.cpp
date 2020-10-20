@@ -76,4 +76,121 @@ void UViewComponent::TPP_SimulateMouseMovement(const FMouseMovement& Move)
 	TPPAimingComponent->SimulateMouseMovement(Move);
 }
 
+FTransform UViewComponent::GetAzimuthGizmoTransform()
+{
+	FTransform AzimuthGizmo;
+	switch (CurrentView)
+	{
+	case View::FPP:
+		AzimuthGizmo = FPP_GetAzimuthGizmoTransform();
+		break;
+	case View::TPP:
+		AzimuthGizmo = TPP_GetAzimuthGizmoTransform();
+		break;
+	default:
+		break;
+	}
+
+	return AzimuthGizmo;
+}
+
+FTransform UViewComponent::FPP_GetAzimuthGizmoTransform()
+{
+	FTransform AzimuthGizmo;
+	return AzimuthGizmo;
+}
+
+FTransform UViewComponent::TPP_GetAzimuthGizmoTransform()
+{
+	FTransform AzimuthGizmo;
+	if (!ensure(TPPAimingComponent != nullptr)) return AzimuthGizmo;
+	
+	AzimuthGizmo = TPPAimingComponent->GetAzimuthGizmoTransform();
+	return AzimuthGizmo;
+}
+
+
+void UViewComponent::SetAzimuthGizmoTransform(FTransform Transform)
+{
+	switch (CurrentView)
+	{
+	case View::FPP:
+		FPP_SetAzimuthGizmoTransform(Transform);
+		break;
+	case View::TPP:
+		TPP_SetAzimuthGizmoTransform(Transform);
+		break;
+	default:
+		break;
+	}
+}
+
+void UViewComponent::FPP_SetAzimuthGizmoTransform(FTransform Transform)
+{
+
+}
+
+void UViewComponent::TPP_SetAzimuthGizmoTransform(FTransform Transform)
+{
+	if (!ensure(TPPAimingComponent != nullptr)) return;
+
+	TPPAimingComponent->SetAzimuthGizmoTransform(Transform);
+}
+
+float UViewComponent::GetCameraPitch()
+{
+	float CameraPitch;
+	switch (CurrentView)
+	{
+	case View::FPP:
+		CameraPitch = FPP_GetCameraPitch();
+		break;
+	case View::TPP:
+		CameraPitch = TPP_GetCameraPitch();
+		break;
+	default:
+		break;
+	}
+
+	return CameraPitch;
+}
+
+float UViewComponent::FPP_GetCameraPitch()
+{
+	return 0;
+}
+float UViewComponent::TPP_GetCameraPitch()
+{
+	if (!ensure(TPPAimingComponent != nullptr)) return 0;
+
+	return TPPAimingComponent->GetCameraPitch();
+}
+
+void UViewComponent::SetCameraPitch(float Val)
+{
+	switch (CurrentView)
+	{
+	case View::FPP:
+		FPP_SetCameraPitch(Val);
+		break;
+	case View::TPP:
+		TPP_SetCameraPitch(Val);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void UViewComponent::FPP_SetCameraPitch(float Val)
+{
+
+}
+void UViewComponent::TPP_SetCameraPitch(float Val)
+{
+	if (!ensure(TPPAimingComponent != nullptr)) return;
+
+	TPPAimingComponent->SetCameraPitch(Val);
+}
+
 

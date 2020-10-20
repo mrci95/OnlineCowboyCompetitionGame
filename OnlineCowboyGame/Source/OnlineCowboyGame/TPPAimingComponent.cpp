@@ -139,3 +139,29 @@ void UTPPAimingComponent::SimulateMouseMovement(const FMouseMovement& Move)
 	TPPCameraRoot->SetRelativeRotation(NewPitch);
 }
 
+FTransform UTPPAimingComponent::GetAzimuthGizmoTransform()
+{
+	return TPPAimuthGimbal->GetRelativeTransform();
+}
+
+void UTPPAimingComponent::SetAzimuthGizmoTransform(FTransform Transform)
+{
+	TPPAimuthGimbal->SetRelativeTransform(Transform);
+}
+
+float UTPPAimingComponent::GetCameraPitch()
+{
+	if (!ensure(TPPCameraRoot != nullptr)) return 0;
+
+	return TPPCameraRoot->GetRelativeRotation().Pitch;
+}
+void UTPPAimingComponent::SetCameraPitch(float Val)
+{
+
+	if (!ensure(TPPCameraRoot != nullptr)) return;
+
+	FRotator NewPitch = TPPCameraRoot->GetRelativeRotation();
+	NewPitch.Pitch = FMath::Clamp<float>(Val, -80.f, 10.f);
+	TPPCameraRoot->SetRelativeRotation(NewPitch);
+}
+
