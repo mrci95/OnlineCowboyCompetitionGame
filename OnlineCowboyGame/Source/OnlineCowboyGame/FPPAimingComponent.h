@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "CowboyMovement.h"
 #include "FPPAimingComponent.generated.h"
 
+class USceneComponent;
+class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UFPPAimingComponent : public UActorComponent
@@ -20,9 +24,28 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	USceneComponent* FPPAimuthGimbal;
+
+	USpringArmComponent* FPPCameraRoot;
+
+	UCameraComponent* FPPCamera;
+
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void SimulateMouseMovement(const FMouseMovement& Move);
+
+	void SetViewActive(bool Activate);
+
+	float GetCameraYaw();
+
+	void SetCameraYaw(float Val);
+
+	float GetCameraPitch();
+
+	void SetCameraPitch(float Val);
 
 		
 };

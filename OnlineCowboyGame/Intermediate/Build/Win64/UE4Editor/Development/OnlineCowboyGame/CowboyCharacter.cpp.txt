@@ -14,5 +14,5 @@ C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowbo
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyMovement.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\ViewComponent.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\ViewComponent.generated.h
-C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\TPPAimingComponent.h
-C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\TPPAimingComponent.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MovementReplicator.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\MovementReplicator.generated.h

@@ -3,6 +3,7 @@
 
 #include "ViewComponent.h"
 #include "TPPAimingComponent.h"
+#include "FPPAimingComponent.h"
 
 // Sets default values for this component's properties
 UViewComponent::UViewComponent()
@@ -22,7 +23,7 @@ void UViewComponent::BeginPlay()
 	CurrentView = View::TPP;
 
 	TPPAimingComponent = GetOwner()->FindComponentByClass<UTPPAimingComponent>();
-
+	FPPAimingComponent = GetOwner()->FindComponentByClass<UFPPAimingComponent>();
 }
 
 
@@ -35,22 +36,20 @@ void UViewComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	// ...
 }
 
-void UViewComponent::ToggleCurrentView()
+void UViewComponent::ToggleAimingView()
 {
 	if (CurrentView == View::FPP)
 	{
-		CurrentView = View::TPP;
+		ChangeViewToTPP();
 	}
 	else
 	{
-		CurrentView = View::FPP;
+		ChangeViewToFPP();
 	}
 }
 
 void UViewComponent::SimulateMouseMovement(const FMouseMovement& Move)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("UViewComponent Move: %s, DeltaTime: %d"), *Move.MouseMoveVector.ToString(), Move.DeltaTime);
-
 	switch (CurrentView)
 	{
 		case View::FPP:
@@ -66,7 +65,9 @@ void UViewComponent::SimulateMouseMovement(const FMouseMovement& Move)
 
 void UViewComponent::FPP_SimulateMouseMovement(const FMouseMovement& Move)
 {
+	if (!ensure(FPPAimingComponent != nullptr)) return;
 
+	FPPAimingComponent->SimulateMouseMovement(Move);
 }
 
 void UViewComponent::TPP_SimulateMouseMovement(const FMouseMovement& Move)
@@ -76,70 +77,71 @@ void UViewComponent::TPP_SimulateMouseMovement(const FMouseMovement& Move)
 	TPPAimingComponent->SimulateMouseMovement(Move);
 }
 
-FTransform UViewComponent::GetAzimuthGizmoTransform()
+float UViewComponent::GetCameraYaw()
 {
-	FTransform AzimuthGizmo;
+	float Yaw = 0;
 	switch (CurrentView)
 	{
 	case View::FPP:
-		AzimuthGizmo = FPP_GetAzimuthGizmoTransform();
+		Yaw = FPP_GetCameraYaw();
 		break;
 	case View::TPP:
-		AzimuthGizmo = TPP_GetAzimuthGizmoTransform();
+		Yaw = TPP_GetCameraYaw();
 		break;
 	default:
 		break;
 	}
 
-	return AzimuthGizmo;
+	return Yaw;
 }
 
-FTransform UViewComponent::FPP_GetAzimuthGizmoTransform()
+float UViewComponent::FPP_GetCameraYaw()
 {
-	FTransform AzimuthGizmo;
-	return AzimuthGizmo;
+	if (!ensure(FPPAimingComponent != nullptr)) return 0;
+
+	return FPPAimingComponent->GetCameraYaw();
 }
 
-FTransform UViewComponent::TPP_GetAzimuthGizmoTransform()
+float UViewComponent::TPP_GetCameraYaw()
 {
-	FTransform AzimuthGizmo;
-	if (!ensure(TPPAimingComponent != nullptr)) return AzimuthGizmo;
+	if (!ensure(TPPAimingComponent != nullptr)) return 0;
 	
-	AzimuthGizmo = TPPAimingComponent->GetAzimuthGizmoTransform();
-	return AzimuthGizmo;
+	return TPPAimingComponent->GetCameraYaw();
 }
 
 
-void UViewComponent::SetAzimuthGizmoTransform(FTransform Transform)
+void UViewComponent::SetCameraYaw(float Val)
 {
 	switch (CurrentView)
 	{
 	case View::FPP:
-		FPP_SetAzimuthGizmoTransform(Transform);
+		FPP_SetCameraYaw(Val);
 		break;
 	case View::TPP:
-		TPP_SetAzimuthGizmoTransform(Transform);
+		TPP_SetCameraYaw(Val);
 		break;
 	default:
 		break;
 	}
 }
 
-void UViewComponent::FPP_SetAzimuthGizmoTransform(FTransform Transform)
+void UViewComponent::FPP_SetCameraYaw(float Val)
 {
+	if (!ensure(FPPAimingComponent != nullptr)) return;
 
+	FPPAimingComponent->SetCameraYaw(Val);
 }
 
-void UViewComponent::TPP_SetAzimuthGizmoTransform(FTransform Transform)
+void UViewComponent::TPP_SetCameraYaw(float Val)
 {
 	if (!ensure(TPPAimingComponent != nullptr)) return;
 
-	TPPAimingComponent->SetAzimuthGizmoTransform(Transform);
+	TPPAimingComponent->SetCameraYaw(Val);
 }
 
 float UViewComponent::GetCameraPitch()
 {
-	float CameraPitch;
+	float CameraPitch = 0;
 	switch (CurrentView)
 	{
 	case View::FPP:
@@ -157,7 +159,9 @@ float UViewComponent::GetCameraPitch()
 
 float UViewComponent::FPP_GetCameraPitch()
 {
-	return 0;
+	if (!ensure(FPPAimingComponent != nullptr)) return 0;
+
+	return FPPAimingComponent->GetCameraPitch();
 }
 float UViewComponent::TPP_GetCameraPitch()
 {
@@ -181,16 +185,56 @@ void UViewComponent::SetCameraPitch(float Val)
 	}
 }
 
-
 void UViewComponent::FPP_SetCameraPitch(float Val)
 {
+	if (!ensure(FPPAimingComponent != nullptr)) return;
 
+	FPPAimingComponent->SetCameraPitch(Val);
 }
 void UViewComponent::TPP_SetCameraPitch(float Val)
 {
 	if (!ensure(TPPAimingComponent != nullptr)) return;
 
 	TPPAimingComponent->SetCameraPitch(Val);
+}
+
+
+void UViewComponent::ChangeViewToTPP()
+{
+	if (!ensure(TPPAimingComponent != nullptr)) return;
+
+	CurrentView = View::TPP;
+
+	TPPAimingComponent->SetViewActive(true);
+	FPPAimingComponent->SetViewActive(false);
+}
+
+void UViewComponent::ChangeViewToFPP()
+{
+
+	if (!ensure(FPPAimingComponent != nullptr)) return;
+
+	CurrentView = View::FPP;
+
+	TPPAimingComponent->SetViewActive(false);
+	FPPAimingComponent->SetViewActive(true);
+
+}
+
+void UViewComponent::SetAimingView(TEnumAsByte<View> Val)
+{
+	switch (Val)
+	{
+	case View::FPP:
+		ChangeViewToFPP();
+		break;
+	case View::TPP:
+		ChangeViewToTPP();
+		break;
+	default:
+		break;
+	}
+
 }
 
 

@@ -15,10 +15,13 @@ struct FAimingServerState
 	GENERATED_USTRUCT_BODY()
 
 		UPROPERTY()
-		FTransform AimuthGizmo;
+		float CameraYaw;
 
 		UPROPERTY()
 		float CameraPitch;
+
+		UPROPERTY()
+		uint8 View;
 
 };
 
@@ -30,6 +33,8 @@ class ONLINECOWBOYGAME_API UMovementReplicator : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UMovementReplicator();
+
+	void ToggleAimingView();
 
 protected:
 	// Called when the game starts
@@ -46,7 +51,11 @@ public:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FMouseMovement Move);
 
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_ToggleAimingView();
+
 	void UpdateServerState();
+
 
 	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
 	FAimingServerState ServerState;

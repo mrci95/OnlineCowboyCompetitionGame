@@ -4,23 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Containers/EnumAsByte.h"
 #include "CowboyMovement.generated.h"
-
-
-class UViewComponent;
 
 USTRUCT()
 struct FMouseMovement
 {
 	GENERATED_USTRUCT_BODY()
 
-	//Mouse coordinates
-	UPROPERTY()
-	FVector2D MouseMoveVector;
+		//Mouse coordinates
+		UPROPERTY()
+		FVector2D MouseMoveVector;
 
 	UPROPERTY()
-	float DeltaTime;
+		float DeltaTime;
 };
+
+UENUM()
+enum View
+{
+	TPP     UMETA(DisplayName = "TPP"),
+	FPP     UMETA(DisplayName = "FPP"),
+};
+
+class UViewComponent;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UCowboyMovement : public UActorComponent
@@ -48,11 +56,20 @@ public:
 
 	FMouseMovement GetLastMouseMovement(){ return LastMouseMovement; };
 
-	FTransform GetAzimuthGizmoTransform();
-	void SetAzimuthGizmoTransform(FTransform Transform);
+	float GetCameraYaw();
+
+	void SetCameraYaw(float Val);
 
 	float GetCameraPitch();
+
 	void SetCameraPitch(float Val);
+
+	void ToggleAimingView();
+
+	void SetAimingView(TEnumAsByte<View> Val);
+
+	TEnumAsByte<View> GetAimingView();
+
 
 private:
 

@@ -15,6 +15,7 @@ class UTPPAimingComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class USceneComponent;
+class UMovementReplicator;
 
 
 UCLASS()
@@ -42,7 +43,7 @@ public:
 	UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* CoboyMesh;
+	UStaticMeshComponent* CoboyTppMesh;
 
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* TPPAimuthGimbal;
@@ -53,7 +54,19 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* TPPCamera;
 
-	UCowboyMovement* CowboyMovement;
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* FPPAimuthGimbal;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* FPPCameraRoot;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* FPPCamera;
+
+	UPROPERTY(VisibleAnywhere)
+	UCowboyMovement* CowboyMovementComponent;
+
+	UMovementReplicator* CowboyMovementReplicator;
 
 private:
 
@@ -61,4 +74,8 @@ private:
 	void LookUp(float Val);
 
 	void LookRight(float Val);
+
+	void ToggleAimingView();
+
+	FString RoleString();
 };

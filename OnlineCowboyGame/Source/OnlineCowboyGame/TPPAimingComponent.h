@@ -19,6 +19,7 @@ class ONLINECOWBOYGAME_API UTPPAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTPPAimingComponent();
+
 	FString OwnerRoleString();
 
 	USceneComponent* TPPAimuthGimbal;
@@ -28,7 +29,7 @@ public:
 	UCameraComponent* TPPCamera;
 
 	UPROPERTY(EditAnywhere)
-		float TPPCameraRangeRadius = 200.0f;
+	float TPPCameraRangeRadius = 200.0f;
 
 	float TPPCameraLimit;
 	FVector TPPConeDirection;
@@ -62,12 +63,15 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void SetViewActive(bool Activate);
+
 	void SimulateMouseMovement(const FMouseMovement& Move);
 
-	FTransform GetAzimuthGizmoTransform();
+	float GetCameraYaw();
 
-	void SetAzimuthGizmoTransform(FTransform Transform);
+	void SetCameraYaw(float Val);
 
 	float GetCameraPitch();
+
 	void SetCameraPitch(float Val);
 };

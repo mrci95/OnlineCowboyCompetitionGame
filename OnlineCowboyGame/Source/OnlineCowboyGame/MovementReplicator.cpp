@@ -3,6 +3,7 @@
 
 #include "MovementReplicator.h"
 #include "Net/UnrealNetwork.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 UMovementReplicator::UMovementReplicator()
@@ -12,7 +13,7 @@ UMovementReplicator::UMovementReplicator()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	SetIsReplicatedByDefault(true);
-	
+	SetIsReplicated(true);
 }
 
 
@@ -70,21 +71,45 @@ void UMovementReplicator::UpdateServerState()
 {
 	if (!ensure(CowboyMovement != nullptr)) return;
 
-	FTransform AzimuthGizmo = CowboyMovement->GetAzimuthGizmoTransform();
+	float CameraYaw = CowboyMovement->GetCameraYaw();
 	float CameraPitch = CowboyMovement->GetCameraPitch();
+	uint8 View = static_cast<uint8>(CowboyMovement->GetAimingView().GetValue());
 
-	ServerState.AimuthGizmo = AzimuthGizmo;
+	ServerState.CameraYaw = CameraYaw;
 	ServerState.CameraPitch = CameraPitch;
+	ServerState.View = View;
 }
 
 void UMovementReplicator::OnRep_ServerState()
 {
 	if (GetOwnerRole() == ROLE_SimulatedProxy)
 	{
+		DrawDebugString(GetOwner()->GetWorld(), FVector(0, 0, 200), "SetCamera", GetOwner(), FColor::Black,0.1f);
 		if (!ensure(CowboyMovement != nullptr)) return;
-			
-		CowboyMovement->SetAzimuthGizmoTransform(ServerState.AimuthGizmo);
+		
+		CowboyMovement->SetAimingView(ServerState.View==1 ? View::FPP : View::TPP);
+		CowboyMovement->SetCameraYaw(ServerState.CameraYaw);
 		CowboyMovement->SetCameraPitch(ServerState.CameraPitch);
 	}
+}
+
+void UMovementReplicator::ToggleAimingView()
+{
+	if (GetOwnerRole() == ROLE_AutonomousProxy)
+	{
+		//Server_ToggleAimingView();
+	}
+}
+
+void UMovementReplicator::Server_ToggleAimingView_Implementation()
+{
+	CowboyMovement->ToggleAimingView();
+
+	UpdateServerState();
+}
+
+bool UMovementReplicator::Server_ToggleAimingView_Validate()
+{
+	return true;
 }
 

@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{50B033BB-B8FE-4228-8EE6-5A0831914899}</UniqueIdentifier>
+      <UniqueIdentifier>{780D6F9D-3B36-45A1-A791-2B68F13A9E18}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{3E6DD13F-8D37-484A-885C-0B0CB1649A38}</UniqueIdentifier>
+      <UniqueIdentifier>{E0E676F6-A498-40DD-B3BC-AEFBF3B18432}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,7 +28,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{5FE86194-99F0-48A3-BB9B-1C9A00537BC9}</UniqueIdentifier>
+      <UniqueIdentifier>{E622C178-8706-4B9A-85ED-4FCCB8F5A4DD}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyCharacter.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>

@@ -25,9 +25,9 @@ void UTPPAimingComponent::BeginPlay()
 
 	TPPAimuthGimbal = Cast<USceneComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPAimuthGimbal")));
 
-	TPPCameraRoot = GetOwner()->FindComponentByClass<USpringArmComponent>();
+	TPPCameraRoot = Cast<USpringArmComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPCameraRoot")));
 
-	TPPCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
+	TPPCamera = Cast<UCameraComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPCamera")));
 
 	IntitiateRangeCone();
 	
@@ -139,14 +139,20 @@ void UTPPAimingComponent::SimulateMouseMovement(const FMouseMovement& Move)
 	TPPCameraRoot->SetRelativeRotation(NewPitch);
 }
 
-FTransform UTPPAimingComponent::GetAzimuthGizmoTransform()
+float UTPPAimingComponent::GetCameraYaw()
 {
-	return TPPAimuthGimbal->GetRelativeTransform();
+	if (!ensure(TPPAimuthGimbal != nullptr)) return 0;
+
+	return TPPAimuthGimbal->GetRelativeRotation().Yaw;
 }
 
-void UTPPAimingComponent::SetAzimuthGizmoTransform(FTransform Transform)
+void UTPPAimingComponent::SetCameraYaw(float Val)
 {
-	TPPAimuthGimbal->SetRelativeTransform(Transform);
+	if (!ensure(TPPAimuthGimbal != nullptr)) return;
+
+	FRotator NewYaw = TPPAimuthGimbal->GetRelativeRotation();
+	NewYaw.Yaw = FMath::Clamp<float>(Val, -90.f, 10.f);
+	TPPAimuthGimbal->SetRelativeRotation(NewYaw);
 }
 
 float UTPPAimingComponent::GetCameraPitch()
@@ -163,5 +169,10 @@ void UTPPAimingComponent::SetCameraPitch(float Val)
 	FRotator NewPitch = TPPCameraRoot->GetRelativeRotation();
 	NewPitch.Pitch = FMath::Clamp<float>(Val, -80.f, 10.f);
 	TPPCameraRoot->SetRelativeRotation(NewPitch);
+}
+
+void UTPPAimingComponent::SetViewActive(bool Activate)
+{
+	TPPCamera->SetActive(Activate);
 }
 

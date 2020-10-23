@@ -4,7 +4,6 @@
 #include "CowboyMovement.h"
 #include "ViewComponent.h"
 
-
 // Sets default values for this component's properties
 UCowboyMovement::UCowboyMovement()
 {
@@ -49,6 +48,7 @@ void UCowboyMovement::SimulateMouseMovement(const FMouseMovement& Move)
 
 FMouseMovement UCowboyMovement::CreateMouseMovement(float DeltaTime)
 {
+
 	FMouseMovement Movement;
 	Movement.MouseMoveVector = MouseMoveVector;
 	Movement.DeltaTime = DeltaTime;
@@ -56,20 +56,18 @@ FMouseMovement UCowboyMovement::CreateMouseMovement(float DeltaTime)
 	return Movement;
 }
 
-FTransform UCowboyMovement::GetAzimuthGizmoTransform()
+float UCowboyMovement::GetCameraYaw()
 {
-	FTransform AzimuthGizmo;
-	if (!ensure(ViewComponent != nullptr)) return AzimuthGizmo;
+	if (!ensure(ViewComponent != nullptr)) return 0;
 
-	AzimuthGizmo = ViewComponent->GetAzimuthGizmoTransform();
-	return AzimuthGizmo;
+	return ViewComponent->GetCameraYaw();
 }
 
-void UCowboyMovement::SetAzimuthGizmoTransform(FTransform Transform)
+void UCowboyMovement::SetCameraYaw(float Val)
 {
 	if (!ensure(ViewComponent != nullptr)) return;
 
-	ViewComponent->SetAzimuthGizmoTransform(Transform);
+	ViewComponent->SetCameraYaw(Val);
 }
 
 float UCowboyMovement::GetCameraPitch()
@@ -83,5 +81,27 @@ void UCowboyMovement::SetCameraPitch(float Val)
 	if (!ensure(ViewComponent != nullptr)) return;
 
 	ViewComponent->SetCameraPitch(Val);
+}
+
+void UCowboyMovement::ToggleAimingView()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->ToggleAimingView();
+}
+
+void UCowboyMovement::SetAimingView(TEnumAsByte<View> Val)
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->SetAimingView(Val);
+}
+
+
+TEnumAsByte<View> UCowboyMovement::GetAimingView()
+{
+	if (!ensure(ViewComponent != nullptr)) return View::TPP;
+
+	return ViewComponent->GetAimingView();
 }
 

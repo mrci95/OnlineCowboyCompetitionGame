@@ -7,14 +7,8 @@
 #include "CowboyMovement.h"
 #include "ViewComponent.generated.h"
 
-UENUM()
-enum View
-{
-	TPP     UMETA(DisplayName = "TPP"),
-	FPP     UMETA(DisplayName = "FPP"),
-};
-
 class UTPPAimingComponent;
+class UFPPAimingComponent;
 // Manages FPP and TPP view
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UViewComponent : public UActorComponent
@@ -33,16 +27,23 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void ToggleCurrentView();
+	void ToggleAimingView();
+
+	void SetAimingView(TEnumAsByte<View> Val);
+
+	TEnumAsByte<View> GetAimingView() { return CurrentView; };
 
 	void SimulateMouseMovement(const FMouseMovement& Move);
 
-	FTransform GetAzimuthGizmoTransform();
+	float GetCameraYaw();
 
-	void SetAzimuthGizmoTransform(FTransform Transform);
+	void SetCameraYaw(float Val);
 
 	float GetCameraPitch();
+
 	void SetCameraPitch(float Val);
+
+	TEnumAsByte<View> GetCurrentView(){ return CurrentView; };
 
 protected:
 
@@ -51,21 +52,32 @@ protected:
 
 	UPROPERTY()
 	UTPPAimingComponent* TPPAimingComponent;
+
+	UPROPERTY()
+	UFPPAimingComponent* FPPAimingComponent;
+
 private:
 	void FPP_SimulateMouseMovement(const FMouseMovement& Move);
 
 	void TPP_SimulateMouseMovement(const FMouseMovement& Move);
 
-	FTransform FPP_GetAzimuthGizmoTransform();
+	float FPP_GetCameraYaw();
 
-	FTransform TPP_GetAzimuthGizmoTransform();
+	float TPP_GetCameraYaw();
 
-	void FPP_SetAzimuthGizmoTransform(FTransform Transform);
+	void FPP_SetCameraYaw(float Val);
 
-	void TPP_SetAzimuthGizmoTransform(FTransform Transform);
+	void TPP_SetCameraYaw(float Val);
 
 	float FPP_GetCameraPitch();
+
 	float TPP_GetCameraPitch();
+
 	void FPP_SetCameraPitch(float Val);
+
 	void TPP_SetCameraPitch(float Val);
+
+	void ChangeViewToTPP();
+
+	void ChangeViewToFPP();
 };
