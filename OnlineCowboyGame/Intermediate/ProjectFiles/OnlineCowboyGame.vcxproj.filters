@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{780D6F9D-3B36-45A1-A791-2B68F13A9E18}</UniqueIdentifier>
+      <UniqueIdentifier>{F0434214-A5D1-4BF6-97E1-C58C4732E22A}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{E0E676F6-A498-40DD-B3BC-AEFBF3B18432}</UniqueIdentifier>
+      <UniqueIdentifier>{6EE382E1-85F1-4565-91FE-46C4EC8D30A3}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,8 +28,14 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{E622C178-8706-4B9A-85ED-4FCCB8F5A4DD}</UniqueIdentifier>
+      <UniqueIdentifier>{013D31DF-6F3C-4849-BEBF-05C606439883}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyAnimInstance.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyAnimInstance.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyCharacter.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
@@ -46,6 +52,12 @@
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\FPPAimingComponent.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\FPPAnimInstance.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\FPPAnimInstance.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\MovementReplicator.cpp">
@@ -79,6 +91,12 @@
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\ViewComponent.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\WeaponBase.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\WeaponBase.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
   </ItemGroup>

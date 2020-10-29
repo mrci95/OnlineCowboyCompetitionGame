@@ -39,6 +39,8 @@ public:
 
 	void SetViewActive(bool Activate);
 
+	UCameraComponent* GetCamera() { return FPPCamera; };
+
 	float GetCameraYaw();
 
 	void SetCameraYaw(float Val);
@@ -47,5 +49,8 @@ public:
 
 	void SetCameraPitch(float Val);
 
-		
+	void SetCameraLookAtPoint(FVector PointInWorld);
+
+	void GetAimingOffset(float& Yaw, float& Pitch);
+
 };

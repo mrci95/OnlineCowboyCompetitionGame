@@ -9,6 +9,11 @@
 
 class UTPPAimingComponent;
 class UFPPAimingComponent;
+class UCameraComponent;
+class USkeletalMeshComponent;
+class UCowboyAnimInstance;
+class AWeaponBase;
+
 // Manages FPP and TPP view
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UViewComponent : public UActorComponent
@@ -18,6 +23,8 @@ class ONLINECOWBOYGAME_API UViewComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UViewComponent();
+
+	void Setup(AWeaponBase* FPPWeaponArg, AWeaponBase* TPPWeaponArg);
 
 protected:
 	// Called when the game starts
@@ -45,7 +52,13 @@ public:
 
 	TEnumAsByte<View> GetCurrentView(){ return CurrentView; };
 
+	void TakeGun();
+
+	void GunTaken();
+
 protected:
+
+	APawn* Pawn;
 
 	UPROPERTY(VisibleAnywhere)
 	TEnumAsByte<View> CurrentView;
@@ -55,6 +68,16 @@ protected:
 
 	UPROPERTY()
 	UFPPAimingComponent* FPPAimingComponent;
+
+	USkeletalMeshComponent* CoboyTppMesh;
+
+	USkeletalMeshComponent* CowboyFppMesh;
+
+	UCowboyAnimInstance* TPPAnimInstance;
+
+	AWeaponBase* FPPWeapon = nullptr;
+
+	AWeaponBase* TPPWeapon = nullptr;
 
 private:
 	void FPP_SimulateMouseMovement(const FMouseMovement& Move);
@@ -80,4 +103,6 @@ private:
 	void ChangeViewToTPP();
 
 	void ChangeViewToFPP();
+
+	void SetCameraLookAtRotationPreviousView(View oldView);
 };

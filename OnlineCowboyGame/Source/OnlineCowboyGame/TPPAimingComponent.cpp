@@ -38,6 +38,10 @@ void UTPPAimingComponent::BeginPlay()
 void UTPPAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+
+	
+
 }
 
 void UTPPAimingComponent::IntitiateRangeCone()
@@ -84,8 +88,14 @@ void UTPPAimingComponent::IntitiateRangeCone()
 	FQuat LocalLookAtRotationYaw = TPPAimuthGimbal->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
 	FQuat LocalLookAtRotationPitch= TPPCameraRoot->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
 
-	TPPAimuthGimbal->SetRelativeRotation(FRotator(0, LocalLookAtRotationYaw.Rotator().Yaw, 0));
-	TPPCameraRoot->SetRelativeRotation(FRotator(LocalLookAtRotationYaw.Rotator().Pitch,0, 0));
+	
+	
+
+	TPPAimuthGimbal->SetRelativeRotation(FRotator(0,0, 0));
+	TPPCameraRoot->SetRelativeRotation(FRotator(0,0, 0));
+	TPPAimuthGimbal->SetWorldRotation(LookAtRandomRotation);
+
+
 
 	if (DrawTppRangeCone)
 		DrawDebugCone(GetWorld(), TPPCameraRootLocation, TPPConeDirection.GetSafeNormal(), ConeHigh, ConeAncleInRadians, ConeAncleInRadians, 16, FColor::Red, true, -1, 0, 1);
@@ -131,11 +141,11 @@ void UTPPAimingComponent::SimulateMouseMovement(const FMouseMovement& Move)
 
 
 	FRotator NewYaw = TPPAimuthGimbal->GetRelativeRotation();
-	NewYaw.Yaw = FMath::Clamp<float>(NewYaw.Yaw + Move.MouseMoveVector.X, -90.f, 10.f);
+	NewYaw.Yaw = FMath::Clamp<float>(NewYaw.Yaw + Move.MouseMoveVector.X, -TPPCameraYawLimit, TPPCameraYawLimit);
 	TPPAimuthGimbal->SetRelativeRotation(NewYaw);
 
 	FRotator NewPitch = TPPCameraRoot->GetRelativeRotation();
-	NewPitch.Pitch = FMath::Clamp<float>(NewPitch.Pitch + Move.MouseMoveVector.Y, -80.f, 10.f);
+	NewPitch.Pitch = FMath::Clamp<float>(NewPitch.Pitch + Move.MouseMoveVector.Y, -TPPCameraPitchLimit, TPPCameraPitchLimit);
 	TPPCameraRoot->SetRelativeRotation(NewPitch);
 }
 
@@ -151,7 +161,7 @@ void UTPPAimingComponent::SetCameraYaw(float Val)
 	if (!ensure(TPPAimuthGimbal != nullptr)) return;
 
 	FRotator NewYaw = TPPAimuthGimbal->GetRelativeRotation();
-	NewYaw.Yaw = FMath::Clamp<float>(Val, -90.f, 10.f);
+	NewYaw.Yaw = FMath::Clamp<float>(Val, -TPPCameraYawLimit, TPPCameraYawLimit);
 	TPPAimuthGimbal->SetRelativeRotation(NewYaw);
 }
 
@@ -167,7 +177,7 @@ void UTPPAimingComponent::SetCameraPitch(float Val)
 	if (!ensure(TPPCameraRoot != nullptr)) return;
 
 	FRotator NewPitch = TPPCameraRoot->GetRelativeRotation();
-	NewPitch.Pitch = FMath::Clamp<float>(Val, -80.f, 10.f);
+	NewPitch.Pitch = FMath::Clamp<float>(Val, -TPPCameraPitchLimit, TPPCameraPitchLimit);
 	TPPCameraRoot->SetRelativeRotation(NewPitch);
 }
 
@@ -175,4 +185,23 @@ void UTPPAimingComponent::SetViewActive(bool Activate)
 {
 	TPPCamera->SetActive(Activate);
 }
+
+
+void UTPPAimingComponent::SetCameraLookAtPoint(FVector PointInWorld)
+{
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(TPPAimuthGimbal->GetComponentLocation(), PointInWorld);
+
+	TPPAimuthGimbal->SetRelativeRotation(FRotator(0, 0, 0));
+	TPPCameraRoot->SetRelativeRotation(FRotator(0, 0, 0));
+	TPPAimuthGimbal->SetWorldRotation(LookAtRotation);
+}
+
+void UTPPAimingComponent::GetAimingOffset(float& Yaw, float& Pitch)
+{
+	FVector CowboyDirection = GetOwner()->GetActorForwardVector();
+	FQuat OffsetAngle = FQuat::FindBetweenNormals(TPPConeDirection.GetSafeNormal(), TPPCamera->GetForwardVector());
+	Pitch = FMath::Clamp<float>(OffsetAngle.Rotator().Pitch, -7.5f, 7.5f) * CowboyDirection.X;
+	Yaw = FMath::Clamp<float>(OffsetAngle.Rotator().Yaw, -7.5f, 7.5f);
+}
+
 

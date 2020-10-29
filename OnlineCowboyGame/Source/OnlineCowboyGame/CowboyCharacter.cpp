@@ -3,7 +3,7 @@
 
 #include "CowboyCharacter.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -13,6 +13,8 @@
 #include "CowboyMovement.h"
 #include "ViewComponent.h"
 #include "MovementReplicator.h"
+
+#include "WeaponBase.h"
 #include "DrawDebugHelpers.h"
 
 // Sets default values
@@ -30,9 +32,9 @@ ACowboyCharacter::ACowboyCharacter()
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	SetRootComponent(CapsuleComponent);
 
-	CoboyTppMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CowboyTPPMesh"));
+	CoboyTppMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CowboyTPPMesh"));
+	CoboyTppMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	CoboyTppMesh->SetRelativeLocation(FVector(0, 0, 0));
-	CoboyTppMesh->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
 	
 	TPPAimuthGimbal = CreateDefaultSubobject<USceneComponent>(TEXT("TPPAimuthGimbal"));
 	TPPAimuthGimbal->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -48,7 +50,7 @@ ACowboyCharacter::ACowboyCharacter()
 
 	FPPAimuthGimbal = CreateDefaultSubobject<USceneComponent>(TEXT("FPPAimuthGimbal"));
 	FPPAimuthGimbal->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	FPPAimuthGimbal->SetRelativeLocation(FVector(0, 0, 100));
+	FPPAimuthGimbal->SetRelativeLocation(FVector(0, 0, 60));
 
 	FPPCameraRoot = CreateDefaultSubobject<USpringArmComponent>(TEXT("FPPCameraRoot"));
 	FPPCameraRoot->AttachToComponent(FPPAimuthGimbal, FAttachmentTransformRules::KeepRelativeTransform);
@@ -59,6 +61,10 @@ ACowboyCharacter::ACowboyCharacter()
 	FPPCamera->SetupAttachment(FPPCameraRoot, USpringArmComponent::SocketName);
 	FPPCamera->SetAutoActivate(false);
 
+	CowboyFppMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CowboyFPPMesh"));
+	CowboyFppMesh->AttachToComponent(FPPCameraRoot, FAttachmentTransformRules::KeepRelativeTransform);
+	CowboyFppMesh->SetRelativeLocation(FVector(0, 0, 0));
+
 	CowboyMovementComponent = CreateDefaultSubobject< UCowboyMovement>(TEXT("CowboyMovementComponent"));
 }
 
@@ -67,9 +73,28 @@ void ACowboyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UE_LOG(LogTemp, Warning, TEXT("ACowboyCharacter::BeginPlay()"));
 	DrawDebugString(GetWorld(), FVector(0, 0, 150), RoleString(), this, FColor::Black);
 
+	CowboyFppMesh->SetVisibility(false);
 	CowboyMovementReplicator = FindComponentByClass<UMovementReplicator>();
+	ViewComponent = FindComponentByClass<UViewComponent>();
+
+	if (!ensure(Weapon!= nullptr)) return;
+	FPPWeapon = GetWorld()->SpawnActor<AWeaponBase>(Weapon.Get(), GetTransform());
+	FPPWeapon->SetOwner(this);
+	FPPWeapon->AttachToComponent(CowboyFppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale,FName("Gun"));
+	FPPWeapon->SetOnlyOwnerSee(true);
+	FPPWeapon->SetVisibility(false);
+	FPPWeapon->SetCastShadow(false);
+
+	TPPWeapon = GetWorld()->SpawnActor<AWeaponBase>(Weapon.Get(), GetTransform());
+	TPPWeapon->SetOwner(this);
+	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunLeg"));
+	TPPWeapon->SetCastHiddenShadow(true);
+
+	if (!ensure(ViewComponent != nullptr)) return;
+	ViewComponent->Setup(FPPWeapon, TPPWeapon);
 }
 
 // Called every frame
@@ -86,6 +111,7 @@ void ACowboyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookUp", this, &ACowboyCharacter::LookUp);
 	PlayerInputComponent->BindAxis("LookRight", this, &ACowboyCharacter::LookRight);
 	PlayerInputComponent->BindAction("Aiming",IE_Pressed, this, &ACowboyCharacter::ToggleAimingView);
+	PlayerInputComponent->BindAction("GrabGun", IE_Pressed, this, &ACowboyCharacter::GrabGun);
 }
 
 
@@ -107,11 +133,19 @@ void ACowboyCharacter::LookRight(float Val)
 void ACowboyCharacter::ToggleAimingView()
 {
 	if (!ensure(CowboyMovementComponent != nullptr)) return;
-
-	UE_LOG(LogTemp, Warning, TEXT("ToggleAimingView"));
+	if (!ensure(CowboyMovementReplicator != nullptr)) return;
 
 	CowboyMovementComponent->ToggleAimingView();
 	CowboyMovementReplicator->ToggleAimingView();
+}
+
+void ACowboyCharacter::GrabGun()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+	if (!ensure(CowboyMovementReplicator != nullptr)) return;
+
+	CowboyMovementComponent->TakeGun();
+	CowboyMovementReplicator->TakeGun();
 }
 
 

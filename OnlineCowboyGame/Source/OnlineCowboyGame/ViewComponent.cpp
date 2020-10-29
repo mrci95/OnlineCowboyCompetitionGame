@@ -2,8 +2,14 @@
 
 
 #include "ViewComponent.h"
+#include "CowboyCharacter.h"
 #include "TPPAimingComponent.h"
 #include "FPPAimingComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Camera/CameraComponent.h"
+#include "CowboyAnimInstance.h"
+#include "WeaponBase.h"
 
 // Sets default values for this component's properties
 UViewComponent::UViewComponent()
@@ -20,10 +26,21 @@ void UViewComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::BeginPlay()"));
 	CurrentView = View::TPP;
 
+
+	Pawn = Cast<APawn>(GetOwner());
 	TPPAimingComponent = GetOwner()->FindComponentByClass<UTPPAimingComponent>();
 	FPPAimingComponent = GetOwner()->FindComponentByClass<UFPPAimingComponent>();
+	CoboyTppMesh = Cast<USkeletalMeshComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("CowboyTPPMesh")));
+
+	CowboyFppMesh = Cast<USkeletalMeshComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("CowboyFPPMesh")));
+
+	if (!ensure(CoboyTppMesh != nullptr)) return;
+
+	TPPAnimInstance = Cast<UCowboyAnimInstance>(CoboyTppMesh->GetAnimInstance());
+	TPPAnimInstance->Setup(this);
 }
 
 
@@ -33,7 +50,16 @@ void UViewComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	//TO DO - no need to tick
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+}
+
+
+
+void UViewComponent::Setup(AWeaponBase* FPPWeaponArg, AWeaponBase* TPPWeaponArg)
+{
+	FPPWeapon = FPPWeaponArg;
+	TPPWeapon = TPPWeaponArg;
+
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup, FPP %p, TPP %p"), (void*)FPPWeapon, (void*)TPPWeapon);
 }
 
 void UViewComponent::ToggleAimingView()
@@ -68,6 +94,15 @@ void UViewComponent::FPP_SimulateMouseMovement(const FMouseMovement& Move)
 	if (!ensure(FPPAimingComponent != nullptr)) return;
 
 	FPPAimingComponent->SimulateMouseMovement(Move);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	FPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetFppAimOffset(Yaw, Pitch);
+
 }
 
 void UViewComponent::TPP_SimulateMouseMovement(const FMouseMovement& Move)
@@ -75,6 +110,14 @@ void UViewComponent::TPP_SimulateMouseMovement(const FMouseMovement& Move)
 	if (!ensure(TPPAimingComponent!= nullptr)) return;
 
 	TPPAimingComponent->SimulateMouseMovement(Move);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	TPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetTppAimOffset(Yaw, Pitch);
 }
 
 float UViewComponent::GetCameraYaw()
@@ -130,6 +173,15 @@ void UViewComponent::FPP_SetCameraYaw(float Val)
 	if (!ensure(FPPAimingComponent != nullptr)) return;
 
 	FPPAimingComponent->SetCameraYaw(Val);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	FPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetFppAimOffset(Yaw, Pitch);
+
 }
 
 void UViewComponent::TPP_SetCameraYaw(float Val)
@@ -137,6 +189,14 @@ void UViewComponent::TPP_SetCameraYaw(float Val)
 	if (!ensure(TPPAimingComponent != nullptr)) return;
 
 	TPPAimingComponent->SetCameraYaw(Val);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	TPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetTppAimOffset(Yaw, Pitch);
 }
 
 float UViewComponent::GetCameraPitch()
@@ -190,12 +250,29 @@ void UViewComponent::FPP_SetCameraPitch(float Val)
 	if (!ensure(FPPAimingComponent != nullptr)) return;
 
 	FPPAimingComponent->SetCameraPitch(Val);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	FPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetFppAimOffset(Yaw, Pitch);
+
 }
 void UViewComponent::TPP_SetCameraPitch(float Val)
 {
 	if (!ensure(TPPAimingComponent != nullptr)) return;
 
 	TPPAimingComponent->SetCameraPitch(Val);
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+
+	float Yaw;
+	float Pitch;
+	TPPAimingComponent->GetAimingOffset(Yaw, Pitch);
+
+	TPPAnimInstance->SetTppAimOffset(Yaw, Pitch);
 }
 
 
@@ -207,11 +284,26 @@ void UViewComponent::ChangeViewToTPP()
 
 	TPPAimingComponent->SetViewActive(true);
 	FPPAimingComponent->SetViewActive(false);
+
+	//SetCameraLookAtRotationPreviousView(View::FPP);
+
+	if (Pawn->IsLocallyControlled())
+	{
+		CoboyTppMesh->SetVisibility(true);
+		TPPWeapon->SetVisibility(true);
+
+		FPPWeapon->SetVisibility(false);
+		CowboyFppMesh->SetVisibility(false);
+
+	}
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+	TPPAnimInstance->SetIsAiming(false);
+
 }
 
 void UViewComponent::ChangeViewToFPP()
 {
-
 	if (!ensure(FPPAimingComponent != nullptr)) return;
 
 	CurrentView = View::FPP;
@@ -219,6 +311,19 @@ void UViewComponent::ChangeViewToFPP()
 	TPPAimingComponent->SetViewActive(false);
 	FPPAimingComponent->SetViewActive(true);
 
+	//SetCameraLookAtRotationPreviousView(View::TPP);
+
+	if (Pawn->IsLocallyControlled())
+	{
+		CoboyTppMesh->SetVisibility(false);
+		TPPWeapon->SetVisibility(false);
+
+		FPPWeapon->SetVisibility(true);
+		CowboyFppMesh->SetVisibility(true);
+	}
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+	TPPAnimInstance->SetIsAiming(true);
 }
 
 void UViewComponent::SetAimingView(TEnumAsByte<View> Val)
@@ -235,6 +340,50 @@ void UViewComponent::SetAimingView(TEnumAsByte<View> Val)
 		break;
 	}
 
+}
+
+void UViewComponent::SetCameraLookAtRotationPreviousView(View PreviousView)
+{
+	FHitResult OutHit;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredComponent(CoboyTppMesh);
+
+	FVector PreviousViewCameraWorldLocation = PreviousView == View::FPP ? FPPAimingComponent->GetCamera()->GetComponentLocation() : TPPAimingComponent->GetCamera()->GetComponentLocation();
+	FVector PreviousViewCameraForwardVector = PreviousView == View::FPP ? FPPAimingComponent->GetCamera()->GetForwardVector() : TPPAimingComponent->GetCamera()->GetForwardVector();
+
+	FVector LookAtPoint = PreviousViewCameraWorldLocation + PreviousViewCameraForwardVector.GetSafeNormal() * 1500.f;
+
+	if (Pawn->GetWorld()->LineTraceSingleByChannel(OutHit, PreviousViewCameraWorldLocation, LookAtPoint, ECC_Visibility, CollisionParams))
+	{
+		if (OutHit.bBlockingHit)
+		{
+			LookAtPoint = OutHit.Location;
+		}
+	}
+
+	if (CurrentView == View::FPP)
+	{
+		FPPAimingComponent->SetCameraLookAtPoint(LookAtPoint);
+	}
+	else
+	{
+		TPPAimingComponent->SetCameraLookAtPoint(LookAtPoint);
+	}
+}
+
+void UViewComponent::TakeGun()
+{
+	TPPAnimInstance->MontagePlay_TakeGun();
+}
+
+void UViewComponent::GunTaken()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup, FPP %p, TPP %p"), (void*)FPPWeapon, (void*)TPPWeapon);
+
+	if (!ensure(TPPWeapon != nullptr)) return;
+	if (!ensure(CoboyTppMesh != nullptr)) return;
+
+	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunHand"));
 }
 
 

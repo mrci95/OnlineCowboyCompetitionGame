@@ -22,6 +22,8 @@ void UCowboyMovement::BeginPlay()
 	Pawn = Cast<APawn>(GetOwner());
 
 	ViewComponent = GetOwner()->FindComponentByClass<UViewComponent>();
+
+	CurrentCowboyState = CowboyState::Idle;
 }
 
 
@@ -87,6 +89,8 @@ void UCowboyMovement::ToggleAimingView()
 {
 	if (!ensure(ViewComponent != nullptr)) return;
 
+	if (CurrentCowboyState == CowboyState::Idle) return;
+
 	ViewComponent->ToggleAimingView();
 }
 
@@ -103,5 +107,15 @@ TEnumAsByte<View> UCowboyMovement::GetAimingView()
 	if (!ensure(ViewComponent != nullptr)) return View::TPP;
 
 	return ViewComponent->GetAimingView();
+}
+
+void UCowboyMovement::TakeGun()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	if (CurrentCowboyState.GetValue() != CowboyState::Idle) return;
+
+	CurrentCowboyState = CowboyState::TakingGun;
+	return ViewComponent->TakeGun();
 }
 

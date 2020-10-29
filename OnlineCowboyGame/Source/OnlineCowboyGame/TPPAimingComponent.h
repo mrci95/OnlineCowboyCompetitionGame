@@ -31,6 +31,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TPPCameraRangeRadius = 200.0f;
 
+	UPROPERTY(EditAnywhere)
+	float TPPCameraPitchLimit = 89.0f;
+
+	UPROPERTY(EditAnywhere)
+	float TPPCameraYawLimit = 89.0f;
+
 	float TPPCameraLimit;
 	FVector TPPConeDirection;
 
@@ -38,22 +44,22 @@ public:
 
 	//View debug section
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppRangeCone = true;
+		bool DrawTppRangeCone = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppConeDirectionLine = true;
+		bool DrawTppConeDirectionLine = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppRandomInitialCameraViewLine = true;
+		bool DrawTppRandomInitialCameraViewLine = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppConeRadiusLine = true;
+		bool DrawTppConeRadiusLine = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppConeLimitEdgeLine = true;
+		bool DrawTppConeLimitEdgeLine = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppCurrentCameraViewLine = true;
+		bool DrawTppCurrentCameraViewLine = false;
 
 protected:
 	// Called when the game starts
@@ -67,6 +73,8 @@ public:
 
 	void SimulateMouseMovement(const FMouseMovement& Move);
 
+	UCameraComponent* GetCamera() { return TPPCamera; } ;
+
 	float GetCameraYaw();
 
 	void SetCameraYaw(float Val);
@@ -74,4 +82,8 @@ public:
 	float GetCameraPitch();
 
 	void SetCameraPitch(float Val);
+
+	void SetCameraLookAtPoint(FVector PointInWorld);
+
+	void GetAimingOffset(float& Yaw, float& Pitch);
 };

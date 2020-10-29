@@ -17,11 +17,13 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 	ONLINECOWBOYGAME_API UClass* Z_Construct_UClass_ACowboyCharacter();
 	ENGINE_API UClass* Z_Construct_UClass_APawn();
 	UPackage* Z_Construct_UPackage__Script_OnlineCowboyGame();
+	ONLINECOWBOYGAME_API UClass* Z_Construct_UClass_AWeaponBase_NoRegister();
+	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	ONLINECOWBOYGAME_API UClass* Z_Construct_UClass_UCowboyMovement_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
-	ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
+	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UCapsuleComponent_NoRegister();
 // End Cross Module References
 	void ACowboyCharacter::StaticRegisterNativesACowboyCharacter()
@@ -37,6 +39,18 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TPPWeapon_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_TPPWeapon;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_FPPWeapon_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_FPPWeapon;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Weapon_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FClassPropertyParams NewProp_Weapon;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CowboyMovementComponent_MetaData[];
 #endif
@@ -66,6 +80,10 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_TPPAimuthGimbal;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CowboyFppMesh_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CowboyFppMesh;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CoboyTppMesh_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CoboyTppMesh;
@@ -88,6 +106,25 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPWeapon_MetaData[] = {
+		{ "ModuleRelativePath", "CowboyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPWeapon = { "TPPWeapon", nullptr, (EPropertyFlags)0x0010000000000000, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPWeapon), Z_Construct_UClass_AWeaponBase_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPWeapon_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPWeapon_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPWeapon_MetaData[] = {
+		{ "ModuleRelativePath", "CowboyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPWeapon = { "FPPWeapon", nullptr, (EPropertyFlags)0x0010000000000000, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, FPPWeapon), Z_Construct_UClass_AWeaponBase_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPWeapon_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPWeapon_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_Weapon_MetaData[] = {
+		{ "Category", "Setup" },
+		{ "ModuleRelativePath", "CowboyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FClassPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_Weapon = { "Weapon", nullptr, (EPropertyFlags)0x0014000000000001, UE4CodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, Weapon), Z_Construct_UClass_AWeaponBase_NoRegister, Z_Construct_UClass_UClass, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_Weapon_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_Weapon_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyMovementComponent_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
@@ -145,13 +182,21 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal = { "TPPAimuthGimbal", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, TPPAimuthGimbal), Z_Construct_UClass_USceneComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyFppMesh_MetaData[] = {
+		{ "Category", "CowboyCharacter" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "CowboyCharacter.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyFppMesh = { "CowboyFppMesh", nullptr, (EPropertyFlags)0x0010000000080009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CowboyFppMesh), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyFppMesh_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyFppMesh_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh = { "CoboyTppMesh", nullptr, (EPropertyFlags)0x0010000000080009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CoboyTppMesh), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh = { "CoboyTppMesh", nullptr, (EPropertyFlags)0x0010000000080009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CoboyTppMesh), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData[] = {
 		{ "Category", "CowboyCharacter" },
@@ -159,8 +204,11 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 		{ "ModuleRelativePath", "CowboyCharacter.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent = { "CapsuleComponent", nullptr, (EPropertyFlags)0x001000000008001c, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CapsuleComponent), Z_Construct_UClass_UCapsuleComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent = { "CapsuleComponent", nullptr, (EPropertyFlags)0x00100000000a0009, UE4CodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(ACowboyCharacter, CapsuleComponent), Z_Construct_UClass_UCapsuleComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData, UE_ARRAY_COUNT(Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ACowboyCharacter_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPWeapon,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPWeapon,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_Weapon,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyMovementComponent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_FPPCameraRoot,
@@ -168,6 +216,7 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCamera,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPCameraRoot,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_TPPAimuthGimbal,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CowboyFppMesh,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CoboyTppMesh,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ACowboyCharacter_Statics::NewProp_CapsuleComponent,
 	};
@@ -198,7 +247,7 @@ void EmptyLinkFunctionForGeneratedCodeCowboyCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(ACowboyCharacter, 982929184);
+	IMPLEMENT_CLASS(ACowboyCharacter, 979050751);
 	template<> ONLINECOWBOYGAME_API UClass* StaticClass<ACowboyCharacter>()
 	{
 		return ACowboyCharacter::StaticClass();

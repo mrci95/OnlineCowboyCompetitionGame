@@ -75,6 +75,7 @@ void UMovementReplicator::UpdateServerState()
 	float CameraPitch = CowboyMovement->GetCameraPitch();
 	uint8 View = static_cast<uint8>(CowboyMovement->GetAimingView().GetValue());
 
+
 	ServerState.CameraYaw = CameraYaw;
 	ServerState.CameraPitch = CameraPitch;
 	ServerState.View = View;
@@ -84,7 +85,6 @@ void UMovementReplicator::OnRep_ServerState()
 {
 	if (GetOwnerRole() == ROLE_SimulatedProxy)
 	{
-		DrawDebugString(GetOwner()->GetWorld(), FVector(0, 0, 200), "SetCamera", GetOwner(), FColor::Black,0.1f);
 		if (!ensure(CowboyMovement != nullptr)) return;
 		
 		CowboyMovement->SetAimingView(ServerState.View==1 ? View::FPP : View::TPP);
@@ -97,7 +97,7 @@ void UMovementReplicator::ToggleAimingView()
 {
 	if (GetOwnerRole() == ROLE_AutonomousProxy)
 	{
-		//Server_ToggleAimingView();
+		Server_ToggleAimingView();
 	}
 }
 
@@ -112,4 +112,42 @@ bool UMovementReplicator::Server_ToggleAimingView_Validate()
 {
 	return true;
 }
+
+void UMovementReplicator::TakeGun()
+{
+	if (GetOwnerRole() == ROLE_AutonomousProxy)
+	{
+		Server_TakeGun();
+	}
+	else
+	{
+		Multi_TakeGun();
+	}
+}
+
+void UMovementReplicator::Server_TakeGun_Implementation()
+{
+	CowboyMovement->TakeGun();
+
+	Multi_TakeGun();
+}
+bool UMovementReplicator::Server_TakeGun_Validate()
+{
+	return true;
+}
+
+void UMovementReplicator::Multi_TakeGun_Implementation()
+{
+
+	if (!Pawn->IsLocallyControlled())
+	{
+		CowboyMovement->TakeGun();
+	}
+}
+
+bool UMovementReplicator::Multi_TakeGun_Validate()
+{
+	return true;
+}
+
 

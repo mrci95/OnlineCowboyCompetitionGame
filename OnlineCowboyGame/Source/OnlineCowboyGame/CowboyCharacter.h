@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "CowboyCharacter.generated.h"
 
-class UStaticMeshComponent;
+class USkeletalMeshComponent;
 class UCapsuleComponent;
 
 class UCowboyMovement;
@@ -16,7 +16,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class USceneComponent;
 class UMovementReplicator;
-
+class AWeaponBase;
 
 UCLASS()
 class ONLINECOWBOYGAME_API ACowboyCharacter : public APawn
@@ -38,12 +38,18 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	AWeaponBase* GetFPPWeapon() { return FPPWeapon; };
 
-	UPROPERTY(BlueprintReadOnly)
+	AWeaponBase* GetTPPWeapon() { return TPPWeapon; }; 
+
+	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* CoboyTppMesh;
+	USkeletalMeshComponent* CoboyTppMesh;
+
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* CowboyFppMesh;
 
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* TPPAimuthGimbal;
@@ -68,6 +74,18 @@ public:
 
 	UMovementReplicator* CowboyMovementReplicator;
 
+	UViewComponent* ViewComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<AWeaponBase> Weapon;
+
+	UPROPERTY()
+	AWeaponBase* FPPWeapon = nullptr;
+
+	UPROPERTY()
+	AWeaponBase* TPPWeapon = nullptr;
+
+
 private:
 
 	//Input binding
@@ -76,6 +94,8 @@ private:
 	void LookRight(float Val);
 
 	void ToggleAimingView();
+
+	void GrabGun();
 
 	FString RoleString();
 };

@@ -25,6 +25,8 @@ struct FAimingServerState
 
 };
 
+
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UMovementReplicator : public UActorComponent
 {
@@ -35,6 +37,7 @@ public:
 	UMovementReplicator();
 
 	void ToggleAimingView();
+	void TakeGun();
 
 protected:
 	// Called when the game starts
@@ -54,6 +57,16 @@ public:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_ToggleAimingView();
 
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_TakeGun();
+	void Server_TakeGun_Implementation();
+	bool Server_TakeGun_Validate();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_TakeGun();
+	void Multi_TakeGun_Implementation();
+	bool Multi_TakeGun_Validate();
+
 	void UpdateServerState();
 
 
@@ -62,4 +75,5 @@ public:
 
 	UFUNCTION()
 	void OnRep_ServerState();
+
 };

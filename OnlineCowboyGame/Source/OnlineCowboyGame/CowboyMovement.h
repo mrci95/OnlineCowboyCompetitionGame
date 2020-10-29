@@ -27,6 +27,14 @@ enum View
 	FPP     UMETA(DisplayName = "FPP"),
 };
 
+UENUM()
+enum CowboyState
+{
+	Idle     UMETA(DisplayName = "Idle"),
+	TakingGun     UMETA(DisplayName = "TakingGun"),
+	HipIdle     UMETA(DisplayName = "HipIdle"),
+};
+
 class UViewComponent;
 
 
@@ -66,10 +74,15 @@ public:
 
 	void ToggleAimingView();
 
+	void TakeGun();
+
+	bool isGunTaken();
+
 	void SetAimingView(TEnumAsByte<View> Val);
 
 	TEnumAsByte<View> GetAimingView();
 
+	TEnumAsByte<CowboyState> GetCowobyState() { return CurrentCowboyState; };
 
 private:
 
@@ -86,5 +99,6 @@ private:
 	//METHODS
 	FMouseMovement CreateMouseMovement(float DeltaTime);
 
-	
+	TEnumAsByte<CowboyState> CurrentCowboyState;
+
 };

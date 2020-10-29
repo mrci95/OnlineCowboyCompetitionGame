@@ -6,6 +6,8 @@
 #include "Components/SceneComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
+#include "Kismet/KismetMathLibrary.h"
+
 // Sets default values for this component's properties
 UFPPAimingComponent::UFPPAimingComponent()
 {
@@ -82,12 +84,30 @@ float UFPPAimingComponent::GetCameraPitch()
 }
 void UFPPAimingComponent::SetCameraPitch(float Val)
 {
-
 	if (!ensure(FPPCameraRoot != nullptr)) return;
 
 	FRotator NewPitch = FPPCameraRoot->GetRelativeRotation();
 	NewPitch.Pitch = FMath::Clamp<float>(Val, -89.f, 89.f);
 	FPPCameraRoot->SetRelativeRotation(NewPitch);
+}
+
+
+void UFPPAimingComponent::SetCameraLookAtPoint(FVector PointInWorld)
+{
+	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(FPPAimuthGimbal->GetComponentLocation(), PointInWorld);
+
+	FPPAimuthGimbal->SetRelativeRotation(FRotator(0, 0, 0));
+	FPPCameraRoot->SetRelativeRotation(FRotator(0, 0, 0));
+	FPPAimuthGimbal->SetWorldRotation(LookAtRotation);
+}
+
+void UFPPAimingComponent::GetAimingOffset(float& Yaw, float& Pitch)
+{
+	FVector CowboyDirection = GetOwner()->GetActorForwardVector();
+	
+	Pitch = FPPCameraRoot->GetRelativeRotation().Pitch;
+	Yaw = FPPAimuthGimbal->GetRelativeRotation().Yaw;
+	UE_LOG(LogTemp, Warning, TEXT("FPP GetAimingOffset: Pitch: %f, Yaw %f"), Pitch, Yaw);
 }
 
 
