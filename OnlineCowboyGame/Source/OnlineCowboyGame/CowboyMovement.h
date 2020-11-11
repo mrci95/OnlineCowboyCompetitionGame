@@ -47,6 +47,8 @@ public:
 	// Sets default values for this component's properties
 	UCowboyMovement();
 
+	void Setup(APawn* Owner, UViewComponent* Component);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -83,6 +85,12 @@ public:
 	TEnumAsByte<View> GetAimingView();
 
 	TEnumAsByte<CowboyState> GetCowobyState() { return CurrentCowboyState; };
+
+	void OnFire();
+
+	FVector GetBulletHitPoint();
+
+	void Respawn();
 
 private:
 

@@ -16,6 +16,18 @@ UTPPAimingComponent::UTPPAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent()"));
+}
+
+void UTPPAimingComponent::Setup(USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera)
+{
+	TPPAimuthGimbal = Gimbal;
+	TPPCameraRoot = CameraRoot;
+	TPPCamera = Camera;
+
+
+	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::Setup"));
 }
 
 // Called when the game starts
@@ -23,14 +35,7 @@ void UTPPAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TPPAimuthGimbal = Cast<USceneComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPAimuthGimbal")));
-
-	TPPCameraRoot = Cast<USpringArmComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPCameraRoot")));
-
-	TPPCamera = Cast<UCameraComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("TPPCamera")));
-
-	IntitiateRangeCone();
-	
+	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::BeginPlay()"));
 }
 
 
@@ -38,15 +43,10 @@ void UTPPAimingComponent::BeginPlay()
 void UTPPAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-
-	
-
 }
 
 void UTPPAimingComponent::IntitiateRangeCone()
 {
-	//
 	FVector EnemyWorldLoc;
 
 	TArray<AActor*> SpawnPoints;
@@ -68,10 +68,10 @@ void UTPPAimingComponent::IntitiateRangeCone()
 	FVector ConeEdge = ConeBaseEdgePoint - TPPCameraRootLocation;
 
 	float ConeHigh = TPPConeDirection.Size();
-	UE_LOG(LogTemp, Warning, TEXT("ConeHigh: %f"), ConeHigh);
+	//UE_LOG(LogTemp, Warning, TEXT("ConeHigh: %f"), ConeHigh);
 
 	float ConeAncleInRadians = FMath::Sin(TPPCameraRangeRadius / (ConeBaseEdgePoint - TPPCameraRootLocation).Size());
-	UE_LOG(LogTemp, Warning, TEXT("ConeAncleInRadians: %f"), ConeAncleInRadians);
+	//UE_LOG(LogTemp, Warning, TEXT("ConeAncleInRadians: %f"), ConeAncleInRadians);
 
 	const int32 RandomSeed = FMath::Rand();
 	FRandomStream CameraRandomStream(RandomSeed);
@@ -80,8 +80,8 @@ void UTPPAimingComponent::IntitiateRangeCone()
 
 	TPPCameraLimit = FVector::DotProduct(TPPConeDirection.GetSafeNormal(), ConeEdge.GetSafeNormal());
 
-	UE_LOG(LogTemp, Warning, TEXT("DotLimit: %f"), TPPCameraLimit);
-	UE_LOG(LogTemp, Warning, TEXT("DotCamera: %f"), FVector::DotProduct(TPPConeDirection.GetSafeNormal(), InitialRandomVector.GetSafeNormal()));
+	//UE_LOG(LogTemp, Warning, TEXT("DotLimit: %f"), TPPCameraLimit);
+	//UE_LOG(LogTemp, Warning, TEXT("DotCamera: %f"), FVector::DotProduct(TPPConeDirection.GetSafeNormal(), InitialRandomVector.GetSafeNormal()));
 
 	FRotator LookAtRandomRotation = UKismetMathLibrary::FindLookAtRotation(TPPCameraRootLocation, (TPPCameraRootLocation + InitialRandomVector.GetSafeNormal() * 100));
 
@@ -183,6 +183,7 @@ void UTPPAimingComponent::SetCameraPitch(float Val)
 
 void UTPPAimingComponent::SetViewActive(bool Activate)
 {
+	if (!ensure(TPPCamera != nullptr)) return;
 	TPPCamera->SetActive(Activate);
 }
 

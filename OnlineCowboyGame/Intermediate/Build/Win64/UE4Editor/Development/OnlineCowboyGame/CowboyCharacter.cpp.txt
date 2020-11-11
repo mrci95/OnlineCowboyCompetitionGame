@@ -1,5 +1,7 @@
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\Definitions.OnlineCowboyGame.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyCharacter.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\GameStateInterface.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\GameStateInterface.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyCharacter.generated.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/CapsuleComponent.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/ShapeComponent.h
@@ -10,11 +12,27 @@ C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\In
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/SpringArmComponent.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SpringArmComponent.generated.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Public\DrawDebugHelpers.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\TPPAimingComponent.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyMovement.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyMovement.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\TPPAimingComponent.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\FPPAimingComponent.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\FPPAimingComponent.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\ViewComponent.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\ViewComponent.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MovementReplicator.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\MovementReplicator.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\WeaponBase.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\WeaponBase.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyPlayerState.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/PlayerState.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\PlayerState.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyPlayerState.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyCompetitionGameState.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/GameStateBase.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/GameModeBase.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Engine/ServerStatReplicator.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\ServerStatReplicator.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameModeBase.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\GameStateBase.generated.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyCompetitionGameState.generated.h

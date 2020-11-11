@@ -17,9 +17,48 @@ UViewComponent::UViewComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	bWantsInitializeComponent = true;
+
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent()"));
+}
+
+void UViewComponent::Setup(APawn* Owner, UTPPAimingComponent* TPPAimingComp, USkeletalMeshComponent* TPPMesh, UFPPAimingComponent* FPPAimingComp, USkeletalMeshComponent* FPPMesh)
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup(Owner: %x, TPPAimingComp: %x, TPPMesh: %x)"), (void*)Owner, (void*)TPPAimingComp, (void*)TPPMesh);
+	Pawn = Owner;
+
+	TPPAimingComponent = TPPAimingComp;
+
+	FPPAimingComponent = FPPAimingComp;
+
+	CoboyTppMesh = TPPMesh;
+
+	CowboyFppMesh = FPPMesh;
 
 }
 
+void UViewComponent::Setup(AWeaponBase* FPPWeaponArg, AWeaponBase* TPPWeaponArg)
+{
+	FPPWeapon = FPPWeaponArg;
+	TPPWeapon = TPPWeaponArg;
+}
+
+void UViewComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	if(!ensure(CoboyTppMesh != nullptr)) return;
+
+	TPPAnimInstance = Cast<UCowboyAnimInstance>(CoboyTppMesh->GetAnimInstance());
+
+	if (!ensure(TPPAnimInstance != nullptr)) return;
+	TPPAnimInstance->Setup(this);
+
+
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::InitializeComponent()"));
+
+}
 
 // Called when the game starts
 void UViewComponent::BeginPlay()
@@ -29,18 +68,6 @@ void UViewComponent::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::BeginPlay()"));
 	CurrentView = View::TPP;
 
-
-	Pawn = Cast<APawn>(GetOwner());
-	TPPAimingComponent = GetOwner()->FindComponentByClass<UTPPAimingComponent>();
-	FPPAimingComponent = GetOwner()->FindComponentByClass<UFPPAimingComponent>();
-	CoboyTppMesh = Cast<USkeletalMeshComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("CowboyTPPMesh")));
-
-	CowboyFppMesh = Cast<USkeletalMeshComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("CowboyFPPMesh")));
-
-	if (!ensure(CoboyTppMesh != nullptr)) return;
-
-	TPPAnimInstance = Cast<UCowboyAnimInstance>(CoboyTppMesh->GetAnimInstance());
-	TPPAnimInstance->Setup(this);
 }
 
 
@@ -50,17 +77,15 @@ void UViewComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	//TO DO - no need to tick
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	//FVector HitPoint = GetBulletHitPoint();
+
+	//DrawDebugSphere(GetOwner()->GetWorld(), HitPoint, 20.0f, 32, FColor::Red, false, 0.1f, 0, 2);
+
 }
 
 
 
-void UViewComponent::Setup(AWeaponBase* FPPWeaponArg, AWeaponBase* TPPWeaponArg)
-{
-	FPPWeapon = FPPWeaponArg;
-	TPPWeapon = TPPWeaponArg;
 
-	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup, FPP %p, TPP %p"), (void*)FPPWeapon, (void*)TPPWeapon);
-}
 
 void UViewComponent::ToggleAimingView()
 {
@@ -378,12 +403,111 @@ void UViewComponent::TakeGun()
 
 void UViewComponent::GunTaken()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup, FPP %p, TPP %p"), (void*)FPPWeapon, (void*)TPPWeapon);
+	//UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Setup, FPP %p, TPP %p"), (void*)FPPWeapon, (void*)TPPWeapon);
 
 	if (!ensure(TPPWeapon != nullptr)) return;
 	if (!ensure(CoboyTppMesh != nullptr)) return;
 
 	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunHand"));
+}
+
+void UViewComponent::OnFire()
+{
+	if (!TPPAnimInstance->bIsGunTaken) return;
+
+	FVector HitPoint = GetBulletHitPoint();
+	if (Pawn->IsLocallyControlled())
+	{
+		switch (CurrentView)
+		{
+		case View::FPP:
+			FPPWeapon->OnFire(HitPoint);
+			break;
+		case View::TPP:
+			TPPWeapon->OnFire(HitPoint);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		TPPWeapon->OnFire(HitPoint);
+	}
+}
+
+FVector UViewComponent::GetBulletHitPoint()
+{
+	switch (CurrentView)
+	{
+	case View::FPP:
+		return FPP_GetBulletHitPoint();
+		break;
+	case View::TPP:
+		return TPP_GetBulletHitPoint();
+		break;
+	default:
+		return FVector::ZeroVector;
+		break;
+	}
+}
+
+FVector UViewComponent::FPP_GetBulletHitPoint()
+{
+	FHitResult OutHit;
+	FCollisionQueryParams CollisionParams;
+
+	FVector TraceStart = FPPAimingComponent->GetCamera()->GetComponentLocation() + FPPAimingComponent->GetCamera()->GetForwardVector() * 100;
+	FVector TraceEnd = TraceStart + FPPAimingComponent->GetCamera()->GetForwardVector() * 1550;
+	FVector HitPoint = TraceEnd;
+
+	if (Pawn->GetWorld()->LineTraceSingleByChannel(OutHit, TraceStart, TraceEnd, ECC_Visibility, CollisionParams))
+	{
+		if (OutHit.bBlockingHit)
+		{
+			HitPoint = OutHit.Location;
+		}
+	}
+
+	return HitPoint;
+}
+
+FVector UViewComponent::TPP_GetBulletHitPoint()
+{
+	FHitResult OutHit;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(GetOwner());
+
+	FVector TraceStart = TPPAimingComponent->GetCamera()->GetComponentLocation();
+	FVector TraceEnd = TraceStart + TPPAimingComponent->GetCamera()->GetForwardVector() * 1800;
+	FVector HitPoint = TraceEnd;
+
+	if (Pawn->GetWorld()->LineTraceSingleByChannel(OutHit, TraceStart, TraceEnd, ECC_Visibility, CollisionParams))
+	{
+		if (OutHit.bBlockingHit)
+		{
+			if (Pawn->IsLocallyControlled() && GetOwnerRole() == ROLE_Authority)
+			{
+				float time = Pawn->GetWorld()->GetTimeSeconds();
+				UE_LOG(LogTemp, Warning, TEXT("OutHit: Actor: %s, %f"), *OutHit.GetActor()->GetName(), time);
+			}
+			HitPoint = OutHit.ImpactPoint;
+		}
+	}
+
+	return HitPoint;
+}
+
+void UViewComponent::Respawn()
+{
+	if (!ensure(CoboyTppMesh != nullptr)) return;
+	if (!ensure(Pawn != nullptr)) return;
+	UE_LOG(LogTemp, Warning, TEXT("UViewComponent::Respawn()"));
+
+	CoboyTppMesh->SetSimulatePhysics(false);
+	CoboyTppMesh->AttachToComponent(Pawn->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	CoboyTppMesh->SetRelativeLocation(FVector(0, 0, 0));
+	CoboyTppMesh->SetRelativeLocationAndRotation(FVector(0, 0, -81), FRotator(0, -90, 0));
 }
 
 

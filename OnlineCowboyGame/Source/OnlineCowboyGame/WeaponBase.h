@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "WeaponBase.generated.h"
 
+class ABulletBase;
+
 UCLASS()
 class ONLINECOWBOYGAME_API AWeaponBase : public AActor
 {
@@ -23,12 +25,22 @@ public:
 
 	void SetCastHiddenShadow(bool Val);
 
+	USkeletalMeshComponent* GetMesh() { return WeaponMesh; };
+
+	void OnFire(FVector HitPoint);
+
+
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	USkeletalMeshComponent* WeaponMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<ABulletBase> Bullet;
 
 public:	
 	// Called every frame

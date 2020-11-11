@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{F0434214-A5D1-4BF6-97E1-C58C4732E22A}</UniqueIdentifier>
+      <UniqueIdentifier>{50870034-452E-43ED-8D38-715EEB318D2F}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{6EE382E1-85F1-4565-91FE-46C4EC8D30A3}</UniqueIdentifier>
+      <UniqueIdentifier>{B0885354-193C-4880-BA43-53BE3C939918}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,8 +28,14 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{013D31DF-6F3C-4849-BEBF-05C606439883}</UniqueIdentifier>
+      <UniqueIdentifier>{BDE3DD04-1118-4A12-8E4B-D98F9C9F8D5E}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\BulletBase.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\BulletBase.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyAnimInstance.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
@@ -42,10 +48,28 @@
     <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyCharacter.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyCompetitionGameState.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyCompetitionGameState.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyMovement.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyMovement.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyPlayerController.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyPlayerController.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyPlayerState.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyPlayerState.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\FPPAimingComponent.cpp">
@@ -58,6 +82,18 @@
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\FPPAnimInstance.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\GameStateInterface.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\GameStateInterface.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\MatchHUD.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\MatchHUD.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\MovementReplicator.cpp">

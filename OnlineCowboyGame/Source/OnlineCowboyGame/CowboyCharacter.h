@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "GameStateInterface.h"
 #include "CowboyCharacter.generated.h"
 
 class USkeletalMeshComponent;
@@ -17,9 +18,11 @@ class UCameraComponent;
 class USceneComponent;
 class UMovementReplicator;
 class AWeaponBase;
+class UTPPAimingComponent;
+class UFPPAimingComponent;
 
 UCLASS()
-class ONLINECOWBOYGAME_API ACowboyCharacter : public APawn
+class ONLINECOWBOYGAME_API ACowboyCharacter : public APawn, public IGameStateInterface
 {
 	GENERATED_BODY()
 
@@ -42,6 +45,8 @@ public:
 
 	AWeaponBase* GetTPPWeapon() { return TPPWeapon; }; 
 
+	void DestroyWeapons();
+
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* CapsuleComponent;
 
@@ -54,10 +59,10 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* TPPAimuthGimbal;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* TPPCameraRoot;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UCameraComponent* TPPCamera;
 
 	UPROPERTY(VisibleAnywhere)
@@ -72,9 +77,17 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UCowboyMovement* CowboyMovementComponent;
 
+	UPROPERTY(VisibleAnywhere)
 	UMovementReplicator* CowboyMovementReplicator;
 
+	UPROPERTY(VisibleAnywhere)
 	UViewComponent* ViewComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UTPPAimingComponent* TPPAimingComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UFPPAimingComponent* FPPAimingComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AWeaponBase> Weapon;
@@ -85,9 +98,15 @@ public:
 	UPROPERTY()
 	AWeaponBase* TPPWeapon = nullptr;
 
+protected:
+	void OnStartingGame();
 
 private:
+	FTimerHandle RespawnTimer;
+	void OnRespawnTimerExpiration();
 
+	UFUNCTION()
+	void OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	//Input binding
 	void LookUp(float Val);
 
@@ -97,5 +116,11 @@ private:
 
 	void GrabGun();
 
+	void OnFire();
+
 	FString RoleString();
+
+	void Respawn();
+
+
 };

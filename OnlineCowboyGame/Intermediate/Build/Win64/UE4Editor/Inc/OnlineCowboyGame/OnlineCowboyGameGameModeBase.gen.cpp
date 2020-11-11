@@ -40,7 +40,6 @@ void EmptyLinkFunctionForGeneratedCodeOnlineCowboyGameGameModeBase() {}
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AOnlineCowboyGameGameModeBase_Statics::Class_MetaDataParams[] = {
-		{ "Comment", "/**\n * \n */" },
 		{ "HideCategories", "Info Rendering MovementReplication Replication Actor Input Movement Collision Rendering Utilities|Transformation" },
 		{ "IncludePath", "OnlineCowboyGameGameModeBase.h" },
 		{ "ModuleRelativePath", "OnlineCowboyGameGameModeBase.h" },
@@ -74,7 +73,7 @@ void EmptyLinkFunctionForGeneratedCodeOnlineCowboyGameGameModeBase() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AOnlineCowboyGameGameModeBase, 1119142311);
+	IMPLEMENT_CLASS(AOnlineCowboyGameGameModeBase, 1355112095);
 	template<> ONLINECOWBOYGAME_API UClass* StaticClass<AOnlineCowboyGameGameModeBase>()
 	{
 		return AOnlineCowboyGameGameModeBase::StaticClass();

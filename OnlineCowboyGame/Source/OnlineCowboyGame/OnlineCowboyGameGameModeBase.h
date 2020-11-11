@@ -6,12 +6,26 @@
 #include "GameFramework/GameModeBase.h"
 #include "OnlineCowboyGameGameModeBase.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class ONLINECOWBOYGAME_API AOnlineCowboyGameGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+	virtual void Logout(AController* Exiting) override;
+	void DestoryAllPawns();
+	void RespawnPawn(APlayerController* PC);
+
+private:
+	TArray<AController*> ConnectedPlayerControllers;
+
+	uint8 ConnectedPlayers = 0;
+	uint8 MaxConnectedPlayers = 2;
+
+	FTimerHandle StartGame;
+	void SetGameStateStart();
+
 };

@@ -20,12 +20,17 @@ public:
 	// Sets default values for this component's properties
 	UTPPAimingComponent();
 
+	void Setup(USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera);
+
 	FString OwnerRoleString();
 
+	UPROPERTY()
 	USceneComponent* TPPAimuthGimbal;
 
+	UPROPERTY()
 	USpringArmComponent* TPPCameraRoot;
 
+	UPROPERTY()
 	UCameraComponent* TPPCamera;
 
 	UPROPERTY(EditAnywhere)
@@ -44,7 +49,7 @@ public:
 
 	//View debug section
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppRangeCone = false;
+		bool DrawTppRangeCone = true;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
 		bool DrawTppConeDirectionLine = false;
@@ -59,7 +64,7 @@ public:
 		bool DrawTppConeLimitEdgeLine = false;
 
 	UPROPERTY(EditAnywhere, Category = "Draw debug")
-		bool DrawTppCurrentCameraViewLine = false;
+		bool DrawTppCurrentCameraViewLine = true;
 
 protected:
 	// Called when the game starts

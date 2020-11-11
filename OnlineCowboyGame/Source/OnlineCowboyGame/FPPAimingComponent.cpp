@@ -14,20 +14,26 @@ UFPPAimingComponent::UFPPAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+	UE_LOG(LogTemp, Warning, TEXT("UFPPAimingComponent()"));
 }
 
+void UFPPAimingComponent::Setup(USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera)
+{
+	FPPAimuthGimbal = Gimbal;
+	FPPCameraRoot = CameraRoot;
+	FPPCamera = Camera;
+
+
+	UE_LOG(LogTemp, Warning, TEXT("UFPPAimingComponent::Setup"));
+}
 
 // Called when the game starts
 void UFPPAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FPPAimuthGimbal = Cast<USceneComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("FPPAimuthGimbal")));
-
-	FPPCameraRoot = Cast<USpringArmComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("FPPCameraRoot")));
-
-	FPPCamera = Cast<UCameraComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("FPPCamera")));
-	
+	UE_LOG(LogTemp, Warning, TEXT("UFPPAimingComponent::BeginPlay()"));
 }
 
 
@@ -107,7 +113,6 @@ void UFPPAimingComponent::GetAimingOffset(float& Yaw, float& Pitch)
 	
 	Pitch = FPPCameraRoot->GetRelativeRotation().Pitch;
 	Yaw = FPPAimuthGimbal->GetRelativeRotation().Yaw;
-	UE_LOG(LogTemp, Warning, TEXT("FPP GetAimingOffset: Pitch: %f, Yaw %f"), Pitch, Yaw);
 }
 
 

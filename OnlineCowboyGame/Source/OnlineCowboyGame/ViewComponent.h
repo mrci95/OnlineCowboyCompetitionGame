@@ -24,8 +24,10 @@ public:
 	// Sets default values for this component's properties
 	UViewComponent();
 
+	void Setup(APawn* Owner, UTPPAimingComponent* TPPAimingComp, USkeletalMeshComponent* TPPMesh, UFPPAimingComponent* FPPAimingComp, USkeletalMeshComponent* FPPMesh);
 	void Setup(AWeaponBase* FPPWeaponArg, AWeaponBase* TPPWeaponArg);
 
+	virtual void InitializeComponent() override;
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -55,6 +57,12 @@ public:
 	void TakeGun();
 
 	void GunTaken();
+
+	void OnFire();
+
+	FVector GetBulletHitPoint();
+
+	void Respawn();
 
 protected:
 
@@ -105,4 +113,8 @@ private:
 	void ChangeViewToFPP();
 
 	void SetCameraLookAtRotationPreviousView(View oldView);
+
+	FVector FPP_GetBulletHitPoint();
+
+	FVector TPP_GetBulletHitPoint();
 };

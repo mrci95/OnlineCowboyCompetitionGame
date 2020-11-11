@@ -2,8 +2,10 @@
 
 
 #include "WeaponBase.h"
-
+#include "BulletBase.h"
 #include "Components/SkeletalMeshComponent.h"
+
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AWeaponBase::AWeaponBase()
@@ -55,3 +57,19 @@ void AWeaponBase::SetCastHiddenShadow(bool Val)
 	WeaponMesh->bCastHiddenShadow = Val;
 }
 
+void AWeaponBase::OnFire(FVector HitPoint)
+{
+	UE_LOG(LogTemp, Warning, TEXT("AWeaponBase::OnFire, GunOwner %x"), (void*)GetOwner());
+
+	if (!ensure(WeaponMesh != nullptr)) return;
+
+	FVector BulletSpawnLoc = WeaponMesh->GetSocketLocation(FName("BulletSpawn"));
+	FRotator BulletSpawnDir = UKismetMathLibrary::FindLookAtRotation(BulletSpawnLoc, HitPoint);
+
+	if (!ensure(Bullet != nullptr)) return;
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.Owner = this;
+	SpawnParameters.Instigator = Cast<APawn>(GetOwner());
+	GetWorld()->SpawnActor<ABulletBase>(Bullet.Get(), BulletSpawnLoc, BulletSpawnDir, SpawnParameters);
+}

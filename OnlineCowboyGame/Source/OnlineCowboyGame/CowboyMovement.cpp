@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -11,17 +12,23 @@ UCowboyMovement::UCowboyMovement()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	UE_LOG(LogTemp, Warning, TEXT("UCowboyMovement()"));
+}
+
+void UCowboyMovement::Setup(APawn* Owner, UViewComponent* Component)
+{
+	UE_LOG(LogTemp, Warning, TEXT("UCowboyMovement::Setup"));
+	Pawn = Owner;
+	ViewComponent = Component;
 }
 
 
 // Called when the game starts
 void UCowboyMovement::BeginPlay()
 {
+	UE_LOG(LogTemp, Warning, TEXT("UCowboyMovement::BeginPlay()"));
+
 	Super::BeginPlay();
-
-	Pawn = Cast<APawn>(GetOwner());
-
-	ViewComponent = GetOwner()->FindComponentByClass<UViewComponent>();
 
 	CurrentCowboyState = CowboyState::Idle;
 }
@@ -116,6 +123,28 @@ void UCowboyMovement::TakeGun()
 	if (CurrentCowboyState.GetValue() != CowboyState::Idle) return;
 
 	CurrentCowboyState = CowboyState::TakingGun;
-	return ViewComponent->TakeGun();
+	ViewComponent->TakeGun();
+}
+
+
+void UCowboyMovement::OnFire()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->OnFire();
+}
+
+FVector UCowboyMovement::GetBulletHitPoint()
+{
+	if (!ensure(ViewComponent != nullptr)) return FVector::ZeroVector;
+
+	return ViewComponent->GetBulletHitPoint();
+}
+
+void UCowboyMovement::Respawn()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->Respawn();
 }
 

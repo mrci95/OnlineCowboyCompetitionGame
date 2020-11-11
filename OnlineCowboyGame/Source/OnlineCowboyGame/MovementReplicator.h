@@ -38,6 +38,8 @@ public:
 
 	void ToggleAimingView();
 	void TakeGun();
+	void OnFire();
+	void Respawn();
 
 protected:
 	// Called when the game starts
@@ -67,6 +69,27 @@ public:
 	void Multi_TakeGun_Implementation();
 	bool Multi_TakeGun_Validate();
 
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_OnFire(FVector HitPoint);
+	void Server_OnFire_Implementation(FVector HitPoint);
+	bool Server_OnFire_Validate(FVector HitPoint);
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_OnFire(FVector HitPoint);
+	void Multi_OnFire_Implementation(FVector HitPoint);
+	bool Multi_OnFire_Validate(FVector HitPoint);
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_Respawn();
+	void Multi_Respawn_Implementation();
+	bool Multi_Respawn_Validate();
+
+	void DestroyWeapons();
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_DestroyWeapons();
+	void Multi_Multi_DestroyWeapons_Implementation();
+	bool Multi_Multi_DestroyWeapons_Validate();
+
 	void UpdateServerState();
 
 
@@ -76,4 +99,5 @@ public:
 	UFUNCTION()
 	void OnRep_ServerState();
 
+	void Setup(UCowboyMovement* Component);
 };
