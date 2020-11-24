@@ -13,5 +13,11 @@ UCLASS()
 class ONLINECOWBOYGAME_API UFPPAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UPROPERTY(EditAnywhere, Category = "Montages")
+	UAnimMontage* FireMontage;
+
+	void MontagePlay_Fire();
 };

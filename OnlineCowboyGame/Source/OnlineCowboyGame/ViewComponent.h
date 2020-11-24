@@ -12,6 +12,7 @@ class UFPPAimingComponent;
 class UCameraComponent;
 class USkeletalMeshComponent;
 class UCowboyAnimInstance;
+class UFPPAnimInstance;
 class AWeaponBase;
 
 // Manages FPP and TPP view
@@ -82,6 +83,7 @@ protected:
 	USkeletalMeshComponent* CowboyFppMesh;
 
 	UCowboyAnimInstance* TPPAnimInstance;
+	UFPPAnimInstance* FPPAnimInstance;
 
 	AWeaponBase* FPPWeapon = nullptr;
 
@@ -117,4 +119,6 @@ private:
 	FVector FPP_GetBulletHitPoint();
 
 	FVector TPP_GetBulletHitPoint();
+
+	void PlayFireAnimation();
 };

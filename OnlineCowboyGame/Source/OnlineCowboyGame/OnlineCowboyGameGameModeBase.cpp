@@ -32,7 +32,7 @@ void AOnlineCowboyGameGameModeBase::SetGameStateStart()
 	UE_LOG(LogTemp, Warning, TEXT("START GAME!"));
 	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
 	{
-		GS->SetGameState(EGameState::STARTING);
+		GS->SetGameState(EGameState::STARTING_ROUND);
 	}
 }
 

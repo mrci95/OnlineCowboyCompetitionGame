@@ -13,6 +13,24 @@ void UCowboyAnimInstance::MontagePlay_TakeGun()
 	Montage_Play(TakeGunMontage);
 }
 
+void UCowboyAnimInstance::MontagePlay_FireHip()
+{
+	if (!ensure(FireHipMontage != nullptr)) return;
+
+	if (Montage_IsPlaying(FireHipMontage)) return;
+
+	Montage_Play(FireHipMontage);
+}
+
+void UCowboyAnimInstance::MontagePlay_FireAiming()
+{
+	if (!ensure(FireAimingMontage != nullptr)) return;
+
+	if (Montage_IsPlaying(FireAimingMontage)) return;
+
+	Montage_Play(FireAimingMontage);
+}
+
 void UCowboyAnimInstance::SetTppAimOffset(float Yaw, float Pitch)
 {
 	TppAimOffsetYaw = Yaw;

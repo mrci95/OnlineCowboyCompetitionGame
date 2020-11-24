@@ -9,6 +9,7 @@
 #include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "CowboyAnimInstance.h"
+#include "FPPAnimInstance.h"
 #include "WeaponBase.h"
 
 // Sets default values for this component's properties
@@ -49,8 +50,10 @@ void UViewComponent::InitializeComponent()
 	Super::InitializeComponent();
 
 	if(!ensure(CoboyTppMesh != nullptr)) return;
+	if(!ensure(CowboyFppMesh != nullptr)) return;
 
 	TPPAnimInstance = Cast<UCowboyAnimInstance>(CoboyTppMesh->GetAnimInstance());
+	FPPAnimInstance = Cast<UFPPAnimInstance>(CowboyFppMesh->GetAnimInstance());
 
 	if (!ensure(TPPAnimInstance != nullptr)) return;
 	TPPAnimInstance->Setup(this);
@@ -434,6 +437,8 @@ void UViewComponent::OnFire()
 	{
 		TPPWeapon->OnFire(HitPoint);
 	}
+
+	PlayFireAnimation();
 }
 
 FVector UViewComponent::GetBulletHitPoint()
@@ -508,6 +513,38 @@ void UViewComponent::Respawn()
 	CoboyTppMesh->AttachToComponent(Pawn->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	CoboyTppMesh->SetRelativeLocation(FVector(0, 0, 0));
 	CoboyTppMesh->SetRelativeLocationAndRotation(FVector(0, 0, -81), FRotator(0, -90, 0));
+}
+
+void UViewComponent::PlayFireAnimation()
+{
+	if (Pawn->IsLocallyControlled())
+	{
+		switch (CurrentView)
+		{
+		case View::FPP:
+			FPPAnimInstance->MontagePlay_Fire();
+			break;
+		case View::TPP:
+			TPPAnimInstance->MontagePlay_FireHip();
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (CurrentView)
+		{
+		case View::FPP:
+			TPPAnimInstance->MontagePlay_FireAiming();
+			break;
+		case View::TPP:
+			TPPAnimInstance->MontagePlay_FireHip();
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 

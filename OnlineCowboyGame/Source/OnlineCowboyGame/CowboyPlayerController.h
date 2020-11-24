@@ -17,9 +17,16 @@ class ONLINECOWBOYGAME_API ACowboyPlayerController : public APlayerController
 public:
 	ACowboyPlayerController();
 
+	virtual void BeginPlay() override;
+
+	// Called to bind functionality to input
+	virtual void SetupInputComponent() override;
+
 	void RequestRespawn();
 
 private:
+
+	void Reload();
 
 	void RequestRespawnFromGM();
 
@@ -27,5 +34,6 @@ private:
 	void Server_RequestRespawn();
 	void Server_RequestRespawn_Implementation();
 	bool Server_RequestRespawn_Validate();
+
 
 };

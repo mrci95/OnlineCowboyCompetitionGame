@@ -63,8 +63,10 @@ void ACowboyCompetitionGameState::SetGameState(EGameState State)
 		case EGameState::WAITING_FOR_PLAYERS:
 			WaitingForPlayers();
 			break;
-		case EGameState::STARTING:
-			StartingGame();
+		case EGameState::PLAYERS_PRESENTATION:
+			break;
+		case EGameState::STARTING_ROUND:
+			StartingRound();
 			break;
 		case EGameState::ROUND_PENDING:
 			break;
@@ -85,8 +87,8 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 		case EGameState::WAITING_FOR_PLAYERS:
 			WaitingForPlayers();
 			break;
-		case EGameState::STARTING:
-			StartingGame();
+		case EGameState::STARTING_ROUND:
+			StartingRound();
 			break;
 		case EGameState::ROUND_PENDING:
 			break;
@@ -117,7 +119,7 @@ void ACowboyCompetitionGameState::WaitingForPlayers()
 
 }
 
-void ACowboyCompetitionGameState::StartingGame()
+void ACowboyCompetitionGameState::StartingRound()
 {
 	//Inform all subs about starting game
 	for (IGameStateInterface* Sub : SubscribedObj)

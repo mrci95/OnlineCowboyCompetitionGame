@@ -38,7 +38,17 @@ class ONLINECOWBOYGAME_API UCowboyAnimInstance : public UAnimInstance
 		UPROPERTY(EditAnywhere, Category = "Montages")
 		UAnimMontage* TakeGunMontage;
 
+		UPROPERTY(EditAnywhere, Category = "Montages")
+		UAnimMontage* FireAimingMontage;
+
+		UPROPERTY(EditAnywhere, Category = "Montages")
+		UAnimMontage* FireHipMontage;
+
 		void MontagePlay_TakeGun();
+
+		void MontagePlay_FireHip();
+
+		void MontagePlay_FireAiming();
 
 		void SetTppAimOffset(float Yaw, float Pitch);
 

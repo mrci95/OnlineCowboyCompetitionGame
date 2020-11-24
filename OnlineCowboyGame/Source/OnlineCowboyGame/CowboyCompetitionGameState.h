@@ -12,7 +12,8 @@ enum class EGameState : uint8
 
 {
 	WAITING_FOR_PLAYERS,
-	STARTING,
+	PLAYERS_PRESENTATION,
+	STARTING_ROUND,
 	ROUND_PENDING,
 	ROUND_OVER,
 	MATCH_END
@@ -66,7 +67,7 @@ private:
 	void CreateMatchHUD();
 
 	void WaitingForPlayers();
-	void StartingGame();
+	void StartingRound();
 	void RoundOver();
 
 	FTimerHandle RespawnTimer;
