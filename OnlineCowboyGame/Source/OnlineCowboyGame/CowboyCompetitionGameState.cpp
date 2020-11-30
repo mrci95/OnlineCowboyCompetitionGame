@@ -5,18 +5,14 @@
 #include "OnlineCowboyGameGameModeBase.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Net/UnrealNetwork.h"
-#include "MatchHUD.h"
 #include "CowboyPlayerState.h"
 #include "CowboyPlayerController.h"
+#include "GameHUD.h"
 
 ACowboyCompetitionGameState::ACowboyCompetitionGameState()
 {
 	CurrentGameState = EGameState::WAITING_FOR_PLAYERS;
 	CurrentRound = 1;
-
-	ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/Level/MatchHUD"));
-	if (!ensure(MatchHUD_BPClass.Class != nullptr)) return;
-	MatchHUDClass = MatchHUD_BPClass.Class;
 }
 
 void ACowboyCompetitionGameState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -30,7 +26,7 @@ void ACowboyCompetitionGameState::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CreateMatchHUD();
+	GameHUD = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 }
 
 void ACowboyCompetitionGameState::PostInitializeComponents()
@@ -40,7 +36,7 @@ void ACowboyCompetitionGameState::PostInitializeComponents()
 
 void ACowboyCompetitionGameState::AddPlayerState(APlayerState* PlayerState)
 {
-	if (!PlayerState->bIsInactive)
+	if (!PlayerState->IsInactive())
 	{
 		PlayerArray.AddUnique(PlayerState);
 	}
@@ -100,20 +96,6 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 	}
 }
 
-void ACowboyCompetitionGameState::CreateMatchHUD()
-{
-	if (!ensure(MatchHUDClass != nullptr)) return;
-
-	if (UWorld* World = GetWorld())
-	{
-		if (APlayerController* PC = World->GetFirstPlayerController())
-		{
-			UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::CreateMatchHUD()"));
-			MatchHUD = CreateWidget<UMatchHUD>(PC, MatchHUDClass);
-		}
-	}
-}
-
 void ACowboyCompetitionGameState::WaitingForPlayers()
 {
 
@@ -131,8 +113,11 @@ void ACowboyCompetitionGameState::StartingRound()
 	}
 	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::StartingGame(), NoOfPlayers %d"), PlayerArray.Num());
 
-	if (!ensure(MatchHUD!= nullptr)) return;
-	MatchHUD->ShowAtGameStart();
+
+	if (GameHUD != nullptr)
+	{
+		GameHUD->ShowMatchHUDAtGameStart();
+	}
 }
 
 void ACowboyCompetitionGameState::UpdateScore()
@@ -147,24 +132,28 @@ void ACowboyCompetitionGameState::UpdateScore()
 
 	if (FirstCowboyPS == nullptr) return;
 	if (SecondCowboyPS == nullptr) return;
-	if (MatchHUD == nullptr) return;
 	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::UpdateScore() no nulls :)"));
 
-	MatchHUD->SetPlayerOneScore(FirstCowboyPS->GetRoundsWon());
-	MatchHUD->SetPlayerTwoScore(SecondCowboyPS->GetRoundsWon());
+	if (GameHUD != nullptr)
+	{
+		GameHUD->UpdatePlayersScore(FirstCowboyPS->GetRoundsWon(), SecondCowboyPS->GetRoundsWon());
+	}
+
 }
 
 void ACowboyCompetitionGameState::NextRound()
 {
 	++CurrentRound;
-	if (MatchHUD == nullptr) return;
-	MatchHUD->SetCurrentRound(CurrentRound);
+	if (GameHUD == nullptr) return;
+
+	GameHUD->SetCurrentRound(CurrentRound);
 }
 
 void ACowboyCompetitionGameState::OnRep_CurrentRound()
 {
-	if (MatchHUD == nullptr) return;
-	MatchHUD->SetCurrentRound(CurrentRound);
+	if (GameHUD == nullptr) return;
+
+	GameHUD->SetCurrentRound(CurrentRound);
 }
 
 void ACowboyCompetitionGameState::RoundOver()

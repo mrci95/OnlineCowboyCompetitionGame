@@ -16,7 +16,13 @@ class ONLINECOWBOYGAME_API UGameHUDWidget : public UUserWidget
 	
 public:
 
-	void ToggleAmmoHud();
+	void ReloadStart();
+	void ClearCylinder();
+	void InsertingBullet();
+	void BulletInserted();
+	void ReloadEnd();
+	void OnFire();
+	void OnPawnPossessed();
 
 protected:
 

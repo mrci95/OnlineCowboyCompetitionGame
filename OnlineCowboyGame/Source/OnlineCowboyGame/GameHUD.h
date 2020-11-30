@@ -17,7 +17,21 @@ class ONLINECOWBOYGAME_API AGameHUD : public AHUD
 public:
 	AGameHUD();
 
-	void ToggleAmmoHUD();
+
+	void ShowMatchHUDAtGameStart();
+	void UpdatePlayersScore(uint16 PlayerOne, uint16 PlayerTwo);
+
+	void OnPawnPossessed();
+
+	void SetCurrentRound(uint16 Round);
+
+	void OnFire();
+
+	void ReloadStart();
+	void ClearCylinder();
+	void InsertingBullet();
+	void BulletInserted();
+	void ReloadEnd();
 
 protected:
 
@@ -25,9 +39,18 @@ protected:
 
 	//UPROPERTY(EditAnywhere)
 	TSubclassOf<class UGameHUDWidget> GameHUDWidgetClass;
+
+	TSubclassOf<class UMatchHUD> MatchHUDClass;
+
 private:
 
+	UPROPERTY()
 	class UGameHUDWidget* GameHUDWidget;
 
+	UPROPERTY()
+	class UMatchHUD* MatchHUD;
+
 	void CreateGameInterface();
+
+	void CreateMatchHUD();
 };

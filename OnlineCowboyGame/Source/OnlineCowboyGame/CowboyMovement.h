@@ -86,11 +86,18 @@ public:
 
 	TEnumAsByte<CowboyState> GetCowobyState() { return CurrentCowboyState; };
 
+	bool CanFire();
 	void OnFire();
 
 	FVector GetBulletHitPoint();
 
 	void Respawn();
+
+	bool CanReload();
+	void Reload();
+	void BulletInserted();
+	void ReloadEnd();
+	bool IsReloading();
 
 private:
 
@@ -108,5 +115,9 @@ private:
 	FMouseMovement CreateMouseMovement(float DeltaTime);
 
 	TEnumAsByte<CowboyState> CurrentCowboyState;
+
+	uint16 CurrentAmmo = 6;
+
+	bool Reloading = false;
 
 };

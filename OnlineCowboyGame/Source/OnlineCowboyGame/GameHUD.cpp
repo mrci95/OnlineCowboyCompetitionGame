@@ -3,14 +3,18 @@
 
 #include "GameHUD.h"
 #include "GameHUDWidget.h"
+#include "MatchHUD.h"
 
 AGameHUD::AGameHUD()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AGameHUD::AGameHUD()"));
 	ConstructorHelpers::FClassFinder<UGameHUDWidget> WBP_GameHUD_BPClass(TEXT("/Game/Level/WBP_GameHUD"));
 	if (!ensure(WBP_GameHUD_BPClass.Class != nullptr)) return;
-	UE_LOG(LogTemp, Warning, TEXT("%x"),(void*)WBP_GameHUD_BPClass.Class.Get());
 	GameHUDWidgetClass = WBP_GameHUD_BPClass.Class;
+
+
+	ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/Level/MatchHUD"));
+	if (!ensure(MatchHUD_BPClass.Class != nullptr)) return;
+	MatchHUDClass = MatchHUD_BPClass.Class;
 }
 
 
@@ -19,6 +23,8 @@ void AGameHUD::BeginPlay()
 	Super::BeginPlay();
 
 	CreateGameInterface();
+
+	CreateMatchHUD();
 }
 
 void AGameHUD::CreateGameInterface()
@@ -39,14 +45,95 @@ void AGameHUD::CreateGameInterface()
 	}
 }
 
-void AGameHUD::ToggleAmmoHUD()
+
+void AGameHUD::CreateMatchHUD()
+{
+	if (!ensure(MatchHUDClass != nullptr)) return;
+	
+	
+	if (APlayerController* PC = GetOwningPlayerController())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateMatchHUD()"));
+		MatchHUD = CreateWidget<UMatchHUD>(PC, MatchHUDClass);
+	}
+}
+
+void AGameHUD::ShowMatchHUDAtGameStart()
+{
+	if (!ensure(MatchHUD != nullptr)) return;
+	MatchHUD->ShowAtGameStart();
+}
+
+
+void AGameHUD::UpdatePlayersScore(uint16 PlayerOne, uint16 PlayerTwo)
+{
+	if (!ensure(MatchHUD != nullptr)) return;
+
+	MatchHUD->SetPlayerOneScore(PlayerOne);
+	MatchHUD->SetPlayerTwoScore(PlayerTwo);
+
+}
+
+void AGameHUD::SetCurrentRound(uint16 Round)
+{
+	if (!ensure(MatchHUD != nullptr)) return;
+	MatchHUD->SetCurrentRound(Round);
+}
+
+void AGameHUD::ReloadStart()
 {
 	if (GameHUDWidget)
 	{
-		GameHUDWidget->ToggleAmmoHud();
+		GameHUDWidget->ReloadStart();
 	}
-	else
+}
+
+void AGameHUD::ClearCylinder()
+{
+	if (GameHUDWidget)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("GameHUDWidget is null"));
+		GameHUDWidget->ClearCylinder();
+	}
+}
+
+void AGameHUD::InsertingBullet()
+{
+	if (GameHUDWidget)
+	{
+		GameHUDWidget->InsertingBullet();
+	}
+}
+
+void AGameHUD::BulletInserted()
+{
+	if (GameHUDWidget)
+	{
+		GameHUDWidget->BulletInserted();
+	}
+}
+
+
+void AGameHUD::ReloadEnd()
+{
+	if (GameHUDWidget)
+	{
+		GameHUDWidget->ReloadEnd();
+	}
+}
+
+void AGameHUD::OnFire()
+{
+	if (GameHUDWidget)
+	{
+		GameHUDWidget->OnFire();
+	}
+}
+
+
+void AGameHUD::OnPawnPossessed()
+{
+	if (GameHUDWidget)
+	{
+		GameHUDWidget->OnPawnPossessed();
 	}
 }

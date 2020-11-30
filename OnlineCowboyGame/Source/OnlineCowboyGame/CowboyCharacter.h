@@ -47,6 +47,8 @@ public:
 
 	void DestroyWeapons();
 
+	virtual void Restart() override;
+
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* CapsuleComponent;
 
@@ -98,6 +100,16 @@ public:
 	UPROPERTY()
 	AWeaponBase* TPPWeapon = nullptr;
 
+	bool CanFire();
+	void OnFire();
+	void Fired();
+
+	bool CanReload();
+	void Reload();
+	void ReloadEnd();
+	bool IsReloading();
+	void BulletInserted();
+
 protected:
 	void OnStartingGame();
 
@@ -116,11 +128,13 @@ private:
 
 	void GrabGun();
 
-	void OnFire();
 
 	FString RoleString();
 
 	void Respawn();
+
+	uint16 CurrentAmmo = 6;
+	bool Reloading = false;
 
 
 };

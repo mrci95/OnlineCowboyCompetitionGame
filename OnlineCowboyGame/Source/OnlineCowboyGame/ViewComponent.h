@@ -59,11 +59,16 @@ public:
 
 	void GunTaken();
 
+	bool CanFire();
 	void OnFire();
 
 	FVector GetBulletHitPoint();
 
 	void Respawn();
+
+	bool CanReload();
+	void Reload();
+	void ReloadEnd();
 
 protected:
 
@@ -121,4 +126,13 @@ private:
 	FVector TPP_GetBulletHitPoint();
 
 	void PlayFireAnimation();
+	bool IsFireAnimationPlaying();
+	bool IsReloadAnimationPlaying();
+
+	void FPP_Reload();
+	void TPP_Reload();
+
+	void FPP_ReloadEnd();
+	void TPP_ReloadEnd();
+
 };

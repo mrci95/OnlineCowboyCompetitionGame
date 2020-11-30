@@ -11,3 +11,34 @@ void UFPPAnimInstance::MontagePlay_Fire()
 
 	Montage_Play(FireMontage);
 }
+
+
+bool UFPPAnimInstance::IsMontagePlaying_Fire()
+{
+	if (!ensure(FireMontage != nullptr)) return false;
+
+	return Montage_IsPlaying(FireMontage);
+}
+
+void UFPPAnimInstance::MontagePlay_ReloadStart()
+{
+	if (!ensure(ReloadMontage != nullptr)) return;
+
+	if (Montage_IsPlaying(ReloadMontage)) return;
+
+	Montage_Play(ReloadMontage);
+}
+
+void UFPPAnimInstance::MontagePlay_ReloadEnd()
+{
+	if (!ensure(ReloadMontage != nullptr)) return;
+
+	Montage_JumpToSection(FName("ReloadEnd"), ReloadMontage);
+}
+
+bool UFPPAnimInstance::IsMontagePlaying_Reload()
+{
+	if (!ensure(ReloadMontage != nullptr)) return false;
+
+	return Montage_IsPlaying(ReloadMontage);
+}

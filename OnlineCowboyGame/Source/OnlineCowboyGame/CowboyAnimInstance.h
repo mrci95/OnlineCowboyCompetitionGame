@@ -44,11 +44,20 @@ class ONLINECOWBOYGAME_API UCowboyAnimInstance : public UAnimInstance
 		UPROPERTY(EditAnywhere, Category = "Montages")
 		UAnimMontage* FireHipMontage;
 
+		UPROPERTY(EditAnywhere, Category = "Montages")
+		UAnimMontage* ReloadMontage;
+
 		void MontagePlay_TakeGun();
 
 		void MontagePlay_FireHip();
+		bool IsMontagePlaying_FireHip();
 
 		void MontagePlay_FireAiming();
+
+		void MontagePlay_ReloadStart();
+		void MontagePlay_ReloadEnd();
+
+		bool IsMontagePlaying_Reload();
 
 		void SetTppAimOffset(float Yaw, float Pitch);
 
@@ -61,6 +70,18 @@ class ONLINECOWBOYGAME_API UCowboyAnimInstance : public UAnimInstance
 private:
 		UFUNCTION(BlueprintCallable)
 		void GunTaken();
+
+		UFUNCTION(BlueprintCallable)
+		void InsertingBullet();
+
+		UFUNCTION(BlueprintCallable)
+		void BulletInserted();
+
+		UFUNCTION(BlueprintCallable)
+		void ClearCylinder();
+
+		UFUNCTION(BlueprintCallable)
+		void ReloadEnd();
 
 		UViewComponent* ViewComponent;
 };

@@ -24,9 +24,18 @@ public:
 
 	void RequestRespawn();
 
+	void PawnRestarted();
+
+	void ClearCylinder();
+	void InsertingBullet();
+	void BulletInserted();
+	void FinishReload();
+	void ReloadEnd();
+
 private:
 
 	void Reload();
+	void OnFire();
 
 	void RequestRespawnFromGM();
 

@@ -4,6 +4,7 @@
 
 #include "CowboyMovement.h"
 #include "ViewComponent.h"
+#include "CowboyPlayerController.h"
 
 // Sets default values for this component's properties
 UCowboyMovement::UCowboyMovement()
@@ -126,10 +127,21 @@ void UCowboyMovement::TakeGun()
 	ViewComponent->TakeGun();
 }
 
+bool UCowboyMovement::CanFire()
+{
+	if (!ensure(ViewComponent != nullptr)) return false;
+
+	return ViewComponent->CanFire() && CurrentAmmo > 0 && !IsReloading();
+
+}
 
 void UCowboyMovement::OnFire()
 {
+	if (Pawn == nullptr) return;
 	if (!ensure(ViewComponent != nullptr)) return;
+
+
+	CurrentAmmo--;
 
 	ViewComponent->OnFire();
 }
@@ -148,3 +160,46 @@ void UCowboyMovement::Respawn()
 	ViewComponent->Respawn();
 }
 
+
+bool UCowboyMovement::CanReload()
+{
+
+	if (!ensure(ViewComponent != nullptr)) return false;
+
+	return ViewComponent->CanReload() && !IsReloading();
+}
+
+void UCowboyMovement::Reload()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	CurrentAmmo = 0;
+	Reloading = true;
+	ViewComponent->Reload();
+}
+
+void UCowboyMovement::BulletInserted()
+{
+	CurrentAmmo++;
+	if (CurrentAmmo == 6)
+	{
+		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
+		{
+			PC->FinishReload();
+		}
+	}
+}
+
+void UCowboyMovement::ReloadEnd()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	Reloading = false;
+
+	ViewComponent->ReloadEnd();
+}
+
+bool UCowboyMovement::IsReloading()
+{
+	return Reloading;
+}

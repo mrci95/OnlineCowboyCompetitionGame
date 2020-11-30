@@ -5,15 +5,58 @@
 #include "AmmoHUD.h"
 
 
-
-void UGameHUDWidget::ToggleAmmoHud()
+void UGameHUDWidget::ReloadStart()
 {
 	if (AmmoHUD)
 	{
-			AmmoHUD->SetVisibility(ESlateVisibility::Hidden);
+		AmmoHUD->StartReload();
 	}
-	else
+}
+
+void UGameHUDWidget::ClearCylinder()
+{
+	if (AmmoHUD)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AmmoHUD is null"));
+		AmmoHUD->ClearCylinder();
+	}
+}
+
+void UGameHUDWidget::InsertingBullet()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->InsertingBullet();
+	}
+}
+
+void UGameHUDWidget::BulletInserted()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->BulletInserted();
+	}
+}
+
+void UGameHUDWidget::ReloadEnd()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->ReloadEnd();
+	}
+}
+
+void UGameHUDWidget::OnFire()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->Fire();
+	}
+}
+
+void UGameHUDWidget::OnPawnPossessed()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->Reset();
 	}
 }

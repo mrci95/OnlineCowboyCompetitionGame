@@ -19,5 +19,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Montages")
 	UAnimMontage* FireMontage;
 
+	UPROPERTY(EditAnywhere, Category = "Montages")
+	UAnimMontage* ReloadMontage;
+
+
 	void MontagePlay_Fire();
+	bool IsMontagePlaying_Fire();
+
+	void MontagePlay_ReloadStart();
+
+	void MontagePlay_ReloadEnd();
+
+	bool IsMontagePlaying_Reload();
 };

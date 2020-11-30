@@ -52,7 +52,6 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentRound)
 	uint8 CurrentRound;
 
-	TSubclassOf<class UMatchHUD> MatchHUDClass;
 
 	UFUNCTION()
 	void OnRep_CurrentGameState();
@@ -62,10 +61,7 @@ protected:
 private:
 	TArray<IGameStateInterface*> SubscribedObj;
 
-	UPROPERTY()
-	class UMatchHUD* MatchHUD;
-	void CreateMatchHUD();
-
+	class AGameHUD* GameHUD;
 	void WaitingForPlayers();
 	void StartingRound();
 	void RoundOver();

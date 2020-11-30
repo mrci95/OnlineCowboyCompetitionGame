@@ -7,9 +7,9 @@
 
 void UMatchHUD::ShowAtGameStart()
 {
-	this->AddToViewport();
+	AddToViewport();
 
-	this->PlayAnimation(Show);
+	PlayAnimation(Show);
 }
 
 void UMatchHUD::SetPlayerOneScore(uint16 Score)

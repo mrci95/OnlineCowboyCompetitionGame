@@ -414,6 +414,14 @@ void UViewComponent::GunTaken()
 	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunHand"));
 }
 
+bool UViewComponent::CanFire()
+{
+	if (!TPPAnimInstance->bIsGunTaken) return false;
+
+	return !IsFireAnimationPlaying() && !IsReloadAnimationPlaying();
+
+}
+
 void UViewComponent::OnFire()
 {
 	if (!TPPAnimInstance->bIsGunTaken) return;
@@ -523,6 +531,7 @@ void UViewComponent::PlayFireAnimation()
 		{
 		case View::FPP:
 			FPPAnimInstance->MontagePlay_Fire();
+			TPPAnimInstance->MontagePlay_FireAiming();
 			break;
 		case View::TPP:
 			TPPAnimInstance->MontagePlay_FireHip();
@@ -545,6 +554,106 @@ void UViewComponent::PlayFireAnimation()
 			break;
 		}
 	}
+}
+
+bool UViewComponent::IsFireAnimationPlaying()
+{
+	switch (CurrentView)
+	{
+		case View::FPP:
+			return FPPAnimInstance->IsMontagePlaying_Fire();
+			break;
+		case View::TPP:
+			return TPPAnimInstance->IsMontagePlaying_FireHip();
+			break;
+		default:
+			return false;
+			break;
+	}
+}
+
+bool UViewComponent::IsReloadAnimationPlaying()
+{
+	switch (CurrentView)
+	{
+	case View::FPP:
+		return FPPAnimInstance->IsMontagePlaying_Reload();
+		break;
+	case View::TPP:
+		return TPPAnimInstance->IsMontagePlaying_Reload();
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+
+
+bool UViewComponent::CanReload()
+{
+	return !IsReloadAnimationPlaying();
+}
+
+void UViewComponent::Reload()
+{
+	if (!TPPAnimInstance->bIsGunTaken) return;
+
+	switch (CurrentView)
+	{
+	case View::FPP:
+		FPP_Reload();
+		break;
+	case View::TPP:
+		TPP_Reload();
+		break;
+	default:
+		break;
+	}
+}
+
+void UViewComponent::FPP_Reload()
+{
+	FPPAnimInstance->MontagePlay_ReloadStart();
+
+	TPPAnimInstance->MontagePlay_ReloadStart();
+}
+
+
+void UViewComponent::TPP_Reload()
+{
+	FPPAnimInstance->MontagePlay_ReloadStart();
+
+	TPPAnimInstance->MontagePlay_ReloadStart();
+}
+
+void UViewComponent::ReloadEnd()
+{
+	if (!TPPAnimInstance->bIsGunTaken) return;
+
+	switch (CurrentView)
+	{
+	case View::FPP:
+		FPP_ReloadEnd();
+		break;
+	case View::TPP:
+		TPP_ReloadEnd();
+		break;
+	default:
+		break;
+	}
+}
+
+void UViewComponent::FPP_ReloadEnd()
+{
+	FPPAnimInstance->MontagePlay_ReloadEnd();
+	TPPAnimInstance->MontagePlay_ReloadEnd();
+}
+
+
+void UViewComponent::TPP_ReloadEnd()
+{
+	FPPAnimInstance->MontagePlay_ReloadEnd();
+	TPPAnimInstance->MontagePlay_ReloadEnd();
 }
 
 

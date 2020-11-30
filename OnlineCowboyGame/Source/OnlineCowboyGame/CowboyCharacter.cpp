@@ -2,6 +2,7 @@
 
 
 #include "CowboyCharacter.h"
+#include "CowboyPlayerController.h"
 
 //Legacy components
 #include "Components/CapsuleComponent.h"
@@ -169,10 +170,23 @@ void ACowboyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookRight", this, &ACowboyCharacter::LookRight);
 	PlayerInputComponent->BindAction("Aiming",IE_Pressed, this, &ACowboyCharacter::ToggleAimingView);
 	PlayerInputComponent->BindAction("GrabGun", IE_Pressed, this, &ACowboyCharacter::GrabGun);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ACowboyCharacter::OnFire);
 	PlayerInputComponent->BindAction("Respawn", IE_Pressed, this, &ACowboyCharacter::Respawn);
 }
 
+
+
+void ACowboyCharacter::Restart()
+{
+	Super::Restart();
+
+	if (IsLocallyControlled() && !HasAuthority())
+	{
+		if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
+		{
+			PC->PawnRestarted();
+		}
+	}
+}
 
 void ACowboyCharacter::LookUp(float Val)
 {
@@ -227,6 +241,12 @@ FString ACowboyCharacter::RoleString()
 	}
 }
 
+bool ACowboyCharacter::CanFire()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return false;
+	return CowboyMovementComponent->CanFire();
+}
+
 void ACowboyCharacter::OnFire()
 {
 	if (!ensure(CowboyMovementComponent != nullptr)) return;
@@ -234,6 +254,45 @@ void ACowboyCharacter::OnFire()
 
 	CowboyMovementComponent->OnFire();
 	CowboyMovementReplicator->OnFire();
+}
+
+
+bool ACowboyCharacter::CanReload()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return false;
+	return CowboyMovementComponent->CanReload();
+}
+
+void ACowboyCharacter::Reload()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+	if (!ensure(CowboyMovementReplicator != nullptr)) return;
+
+	CowboyMovementComponent->Reload();
+	//CowboyMovementReplicator->Reload();
+}
+
+void ACowboyCharacter::ReloadEnd()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+	if (!ensure(CowboyMovementReplicator != nullptr)) return;
+
+	CowboyMovementComponent->ReloadEnd();
+	//CowboyMovementReplicator->ReloadEnd();
+}
+bool ACowboyCharacter::IsReloading()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return true;
+	return CowboyMovementComponent->IsReloading();
+}
+
+void ACowboyCharacter::BulletInserted()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+	if (!ensure(CowboyMovementReplicator != nullptr)) return;
+
+	CowboyMovementComponent->BulletInserted();
+	//CowboyMovementReplicator->BulletInserted();
 }
 
 void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
