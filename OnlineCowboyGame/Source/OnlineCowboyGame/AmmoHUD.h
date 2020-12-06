@@ -27,6 +27,8 @@ public:
 	void BulletInserted();
 	void ReloadEnd();
 	void Reset();
+	void Show();
+	void Hide();
 
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* Root;
@@ -60,6 +62,9 @@ public:
 
 	UPROPERTY(meta = (BindWidgetAnim))
 	class UWidgetAnimation* ReloadEndAnimation;
+
+	UPROPERTY(meta = (BindWidgetAnim))
+	class UWidgetAnimation* ShowAnimation;
 	
 
 

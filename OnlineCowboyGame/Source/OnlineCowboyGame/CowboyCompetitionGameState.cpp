@@ -13,6 +13,7 @@ ACowboyCompetitionGameState::ACowboyCompetitionGameState()
 {
 	CurrentGameState = EGameState::WAITING_FOR_PLAYERS;
 	CurrentRound = 1;
+	PlayersWithPresentationDone = 0;
 }
 
 void ACowboyCompetitionGameState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -56,10 +57,11 @@ void ACowboyCompetitionGameState::SetGameState(EGameState State)
 
 	switch (CurrentGameState)
 	{
-		case EGameState::WAITING_FOR_PLAYERS:
-			WaitingForPlayers();
-			break;
 		case EGameState::PLAYERS_PRESENTATION:
+			PlayersPresentation();
+			break;
+		case EGameState::STARTING_MATCH:
+			StartingMatch();
 			break;
 		case EGameState::STARTING_ROUND:
 			StartingRound();
@@ -80,8 +82,11 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 
 	switch (CurrentGameState)
 	{
-		case EGameState::WAITING_FOR_PLAYERS:
-			WaitingForPlayers();
+		case EGameState::PLAYERS_PRESENTATION:
+			PlayersPresentation();
+			break;	
+		case EGameState::STARTING_MATCH:
+			StartingMatch();
 			break;
 		case EGameState::STARTING_ROUND:
 			StartingRound();
@@ -96,12 +101,62 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 	}
 }
 
-void ACowboyCompetitionGameState::WaitingForPlayers()
+void ACowboyCompetitionGameState::PlayersPresentation()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::PlayersPresentation()"));
+
+	if (GameHUD)
+	{
+		ACowboyPlayerState* FirstCowboyPS = Cast< ACowboyPlayerState>(PlayerArray[0]);
+		ACowboyPlayerState* SecondCowboyPS = Cast< ACowboyPlayerState>(PlayerArray[1]);
+
+		if (FirstCowboyPS == nullptr) return;
+		if (SecondCowboyPS == nullptr) return;
+
+		GameHUD->SetPlayersName(FirstCowboyPS->GetPlayerName(), SecondCowboyPS->GetPlayerName());
+
+		GameHUD->BeginPlayersPresentation();
+		
+	}
+}
+
+void ACowboyCompetitionGameState::PresentationDone()
+{
+	if (HasAuthority())
+	{
+		GetWorldTimerManager().SetTimer(DelayTimer, this, &ACowboyCompetitionGameState::TriggerPresentationEndForAllPlayers, 3.0f);
+	}
+}
+
+void ACowboyCompetitionGameState::PresentationEnded()
+{
+	if (HasAuthority())
+	{
+		SetGameState(EGameState::STARTING_MATCH);
+	}
+}
+
+void ACowboyCompetitionGameState::TriggerPresentationEndForAllPlayers()
+{
+	Multi_TriggerPresentationEnd();
+}
+
+void ACowboyCompetitionGameState::Multi_TriggerPresentationEnd_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::Multi_TriggerPresentationEnd_Implementation()"));
+	if (GameHUD)
+	{
+		GameHUD->EndPlayersPresentation();
+	}
 
 }
 
-void ACowboyCompetitionGameState::StartingRound()
+bool ACowboyCompetitionGameState::Multi_TriggerPresentationEnd_Validate()
+{
+	return true;
+}
+
+void ACowboyCompetitionGameState::StartingMatch()
 {
 	//Inform all subs about starting game
 	for (IGameStateInterface* Sub : SubscribedObj)
@@ -113,11 +168,18 @@ void ACowboyCompetitionGameState::StartingRound()
 	}
 	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::StartingGame(), NoOfPlayers %d"), PlayerArray.Num());
 
-
 	if (GameHUD != nullptr)
 	{
 		GameHUD->ShowMatchHUDAtGameStart();
 	}
+
+	DelayTimerDelegate.BindUFunction(this, FName("SetGameState"), EGameState::STARTING_ROUND);
+	GetWorld()->GetTimerManager().SetTimer(DelayTimer, DelayTimerDelegate, 2.0f, false);
+}
+
+void ACowboyCompetitionGameState::StartingRound()
+{
+	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::StartingRound()"));
 }
 
 void ACowboyCompetitionGameState::UpdateScore()

@@ -4,6 +4,7 @@
 #include "GameHUD.h"
 #include "GameHUDWidget.h"
 #include "MatchHUD.h"
+#include "MatchIntroHUD.h"
 
 AGameHUD::AGameHUD()
 {
@@ -15,6 +16,10 @@ AGameHUD::AGameHUD()
 	ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/Level/MatchHUD"));
 	if (!ensure(MatchHUD_BPClass.Class != nullptr)) return;
 	MatchHUDClass = MatchHUD_BPClass.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> MatchIntro_BPClass(TEXT("/Game/Level/WBP_MatchIntro"));
+	if (!ensure(MatchIntro_BPClass.Class != nullptr)) return;
+	MatchIntroHUDClass = MatchIntro_BPClass.Class;
 }
 
 
@@ -25,11 +30,12 @@ void AGameHUD::BeginPlay()
 	CreateGameInterface();
 
 	CreateMatchHUD();
+
+	CreateMatchIntroHUD();
 }
 
 void AGameHUD::CreateGameInterface()
 {
-
 	UE_LOG(LogTemp, Warning, TEXT("%x"), (void*)GameHUDWidgetClass.Get());
 	if (!ensure(GameHUDWidgetClass != nullptr)) return;
 
@@ -50,7 +56,6 @@ void AGameHUD::CreateMatchHUD()
 {
 	if (!ensure(MatchHUDClass != nullptr)) return;
 	
-	
 	if (APlayerController* PC = GetOwningPlayerController())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateMatchHUD()"));
@@ -58,10 +63,67 @@ void AGameHUD::CreateMatchHUD()
 	}
 }
 
+void AGameHUD::CreateMatchIntroHUD()
+{
+	if (!ensure(MatchIntroHUDClass != nullptr)) return;
+
+	if (APlayerController* PC = GetOwningPlayerController())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateMatchIntroHUD()"));
+		MatchIntroHUD = CreateWidget<UMatchIntroHUD>(PC, MatchIntroHUDClass);
+
+		MatchIntroHUD->AddToViewport();
+
+		MatchIntroHUD->BeginWaitingForPlayers();
+	}
+}
+
+
+void AGameHUD::BeginPlayersPresentation()
+{
+	if (!MatchIntroHUD) return;
+	MatchIntroHUD->StopWaitingForPlayers();
+
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &AGameHUD::PresentPlayers, 0.5f);
+}
+
+
+void AGameHUD::EndPlayersPresentation()
+{
+	if (!MatchIntroHUD) return;
+
+	MatchIntroHUD->EndPlayersPresentation();
+}
+
+void AGameHUD::PresentPlayers()
+{
+	if (!MatchIntroHUD) return;
+	MatchIntroHUD->PresentPlayers();
+
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &AGameHUD::PresentPlayersName, 1.0f);
+}
+
+
+void AGameHUD::SetPlayersName(FString PlayerOne, FString PlayerTwo)
+{
+	if (!MatchIntroHUD) return;
+	MatchIntroHUD->SetPlayersName(PlayerOne, PlayerTwo);
+}
+
+void AGameHUD::PresentPlayersName()
+{
+	if (!MatchIntroHUD) return;
+	MatchIntroHUD->PresentPlayersName();
+
+}
+
 void AGameHUD::ShowMatchHUDAtGameStart()
 {
 	if (!ensure(MatchHUD != nullptr)) return;
 	MatchHUD->ShowAtGameStart();
+
+	if (!ensure(GameHUDWidget != nullptr)) return;
+	GameHUDWidget->Show();
 }
 
 

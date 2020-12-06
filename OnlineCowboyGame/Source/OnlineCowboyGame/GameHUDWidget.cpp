@@ -4,6 +4,13 @@
 #include "GameHUDWidget.h"
 #include "AmmoHUD.h"
 
+void UGameHUDWidget::Show()
+{
+	if (AmmoHUD)
+	{
+		AmmoHUD->Show();
+	}
+}
 
 void UGameHUDWidget::ReloadStart()
 {

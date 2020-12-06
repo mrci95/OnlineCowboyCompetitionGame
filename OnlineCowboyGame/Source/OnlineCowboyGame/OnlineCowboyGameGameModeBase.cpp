@@ -6,6 +6,7 @@
 #include "CowboyCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
+#include "GameFramework/PlayerState.h"
 
 void AOnlineCowboyGameGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
@@ -15,7 +16,7 @@ void AOnlineCowboyGameGameModeBase::PostLogin(APlayerController* NewPlayer)
 	ConnectedPlayerControllers.AddUnique(NewPlayer);
 	if (ConnectedPlayers == MaxConnectedPlayers)
 	{
-		GetWorldTimerManager().SetTimer(StartGame, this, &AOnlineCowboyGameGameModeBase::SetGameStateStart, 1.0f);
+		GetWorldTimerManager().SetTimer(DelayTimer, this, &AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation, 2.0f);
 	}
 }
 
@@ -27,7 +28,41 @@ void AOnlineCowboyGameGameModeBase::Logout(AController* Exiting)
 	ConnectedPlayerControllers.Remove(Exiting);
 }
 
-void AOnlineCowboyGameGameModeBase::SetGameStateStart()
+
+void AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Begin Player presentation"));
+
+	SetPlayerData();
+	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
+	{
+		GS->SetGameState(EGameState::PLAYERS_PRESENTATION);
+	}
+}
+
+void AOnlineCowboyGameGameModeBase::SetPlayerData()
+{
+	int i = 0;
+	for (AController* Controller : ConnectedPlayerControllers)
+	{
+		APlayerController* PC = Cast< APlayerController>(Controller);
+
+		if (PC)
+		{
+			if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(PC->GetPawn()))
+			{
+				if (APlayerState* PS = Pawn->GetPlayerState<APlayerState>())
+				{
+					FString Name = i == 0 ? "Luq" : "Vinci";
+					PS->SetPlayerName(Name);
+					i++;
+				}
+			}
+		}
+	}
+}
+
+void AOnlineCowboyGameGameModeBase::GameStateStart()
 {
 	UE_LOG(LogTemp, Warning, TEXT("START GAME!"));
 	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())

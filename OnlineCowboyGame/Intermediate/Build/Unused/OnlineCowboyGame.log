@@ -1,3 +1,21 @@
 ﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame).
-  Target is up to date
-  Total execution time: 1,65 seconds
+  Parsing headers for OnlineCowboyGameEditor
+    Running UnrealHeaderTool "C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\OnlineCowboyGame.uproject" "C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\OnlineCowboyGameEditor\Development\OnlineCowboyGameEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="C:\Users\lukas\AppData\Local\UnrealBuildTool\Log_UHT.txt" -installed
+  Reflection code generated for OnlineCowboyGameEditor in 17,5516131 seconds
+  Building OnlineCowboyGameEditor...
+  Using Visual Studio 2019 14.27.29111 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  Building 10 actions with 4 processes...
+    [1/10] OnlineCowboyGame.init.gen.cpp
+    [2/10] CowboyCompetitionGameState.gen.cpp
+    [3/10] CowboyCompetitionGameState.cpp
+    [4/10] CowboyCharacter.cpp
+    [5/10] CowboyPlayerState.cpp
+    [6/10] OnlineCowboyGameGameModeBase.cpp
+    [7/10] MatchIntroHUD.cpp
+    [8/10] UE4Editor-OnlineCowboyGame.lib
+       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame.exp
+    [9/10] UE4Editor-OnlineCowboyGame.dll
+       Trwa tworzenie biblioteki C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame.suppressed.lib i obiektu C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Development\OnlineCowboyGame\UE4Editor-OnlineCowboyGame.suppressed.exp
+    [10/10] OnlineCowboyGameEditor.target
+  Total time in Parallel executor: 28,71 seconds
+  Total execution time: 48,43 seconds

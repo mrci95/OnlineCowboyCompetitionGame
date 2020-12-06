@@ -13,6 +13,7 @@ enum class EGameState : uint8
 {
 	WAITING_FOR_PLAYERS,
 	PLAYERS_PRESENTATION,
+	STARTING_MATCH,
 	STARTING_ROUND,
 	ROUND_PENDING,
 	ROUND_OVER,
@@ -35,6 +36,7 @@ public:
 
 	EGameState GetGameState(){ return CurrentGameState;};
 
+	UFUNCTION()
 	void SetGameState(EGameState State);
 
 	void Subscribe(IGameStateInterface* Obj);
@@ -42,6 +44,10 @@ public:
 	void UpdateScore();
 
 	void NextRound();
+
+	void PresentationDone();
+
+	void PresentationEnded();
 
 
 protected:
@@ -52,19 +58,30 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentRound)
 	uint8 CurrentRound;
 
+	uint8 PlayersWithPresentationDone;
+
 
 	UFUNCTION()
 	void OnRep_CurrentGameState();
 
 	UFUNCTION()
 	void OnRep_CurrentRound();
+
+
 private:
+
+	FTimerDelegate DelayTimerDelegate;
+	FTimerHandle DelayTimer;
+
 	TArray<IGameStateInterface*> SubscribedObj;
 
 	class AGameHUD* GameHUD;
-	void WaitingForPlayers();
+	void PlayersPresentation();
+	void StartingMatch();
 	void StartingRound();
 	void RoundOver();
+	void TriggerPresentationEndForAllPlayers();
+	void StartCounting();
 
 	FTimerHandle RespawnTimer;
 	void OnRespawnTimerExpiration();
@@ -73,4 +90,10 @@ private:
 	void Multi_Respawn();
 	void Multi_Respawn_Implementation();
 	bool Multi_Respawn_Validate();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_TriggerPresentationEnd();
+	void Multi_TriggerPresentationEnd_Implementation();
+	bool Multi_TriggerPresentationEnd_Validate();
+
 };

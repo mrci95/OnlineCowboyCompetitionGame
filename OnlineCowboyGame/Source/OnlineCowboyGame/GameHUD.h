@@ -19,8 +19,10 @@ public:
 
 
 	void ShowMatchHUDAtGameStart();
+	void BeginPlayersPresentation();
+	void EndPlayersPresentation();
 	void UpdatePlayersScore(uint16 PlayerOne, uint16 PlayerTwo);
-
+	void SetPlayersName(FString PlayerOne, FString PlayerTwo);
 	void OnPawnPossessed();
 
 	void SetCurrentRound(uint16 Round);
@@ -42,6 +44,9 @@ protected:
 
 	TSubclassOf<class UMatchHUD> MatchHUDClass;
 
+	TSubclassOf<class UMatchIntroHUD> MatchIntroHUDClass;
+
+
 private:
 
 	UPROPERTY()
@@ -50,7 +55,16 @@ private:
 	UPROPERTY()
 	class UMatchHUD* MatchHUD;
 
+	UPROPERTY()
+	class UMatchIntroHUD* MatchIntroHUD;
+
 	void CreateGameInterface();
 
 	void CreateMatchHUD();
+
+	void CreateMatchIntroHUD();
+
+	FTimerHandle DelayTimer;
+	void PresentPlayers();
+	void PresentPlayersName();
 };

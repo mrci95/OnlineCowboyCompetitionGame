@@ -11,6 +11,8 @@ void UAmmoHUD::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
+	Root->SetRenderOpacity(0.0f);
+
 	if (!Bullet1) return;
 	if (!Bullet2) return;
 	if (!Bullet3) return;
@@ -24,6 +26,16 @@ void UAmmoHUD::NativeOnInitialized()
 	Bullets.Add(Bullet4);
 	Bullets.Add(Bullet5);
 	Bullets.Add(Bullet6);
+}
+
+void UAmmoHUD::Show()
+{
+	PlayAnimationForward(ShowAnimation);
+}
+
+void UAmmoHUD::Hide()
+{
+	PlayAnimationReverse(ShowAnimation);
 }
 
 void UAmmoHUD::NativeTick(const FGeometry& MyGeometry, float DeltaTime)

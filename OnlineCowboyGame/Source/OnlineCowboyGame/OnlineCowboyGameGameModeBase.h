@@ -21,6 +21,7 @@ public:
 	void RespawnPawn(APlayerController* PC);
 	uint8 GetMaxRounds(){ return MaxRounds; };
 private:
+	void SetPlayerData();
 	TArray<AController*> ConnectedPlayerControllers;
 
 	uint8 ConnectedPlayers = 0;
@@ -28,7 +29,9 @@ private:
 
 	uint8 MaxRounds = 15;
 
-	FTimerHandle StartGame;
-	void SetGameStateStart();
+	FTimerHandle DelayTimer;
+
+	void GameStatePlayerPresentation();
+	void GameStateStart();
 
 };
