@@ -49,6 +49,7 @@ public:
 
 	void PresentationEnded();
 
+	void MatchOutroLoaded();
 
 protected:
 
@@ -58,7 +59,9 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentRound)
 	uint8 CurrentRound;
 
-	uint8 PlayersWithPresentationDone;
+
+	UPROPERTY(ReplicatedUsing = OnRep_RoundStartCounter)
+	uint8 RoundStartCounter;
 
 
 	UFUNCTION()
@@ -66,6 +69,9 @@ protected:
 
 	UFUNCTION()
 	void OnRep_CurrentRound();
+
+	UFUNCTION()
+	void OnRep_RoundStartCounter();
 
 
 private:
@@ -79,9 +85,17 @@ private:
 	void PlayersPresentation();
 	void StartingMatch();
 	void StartingRound();
+	void RoundPending();
 	void RoundOver();
+	void MatchEnd();
+
+
 	void TriggerPresentationEndForAllPlayers();
+	bool CheckIfAnyPlayerWon();
+
 	void StartCounting();
+	void OneSecondInterval();
+	void SetRoundStartCounterHUD(uint8 Counter);
 
 	FTimerHandle RespawnTimer;
 	void OnRespawnTimerExpiration();

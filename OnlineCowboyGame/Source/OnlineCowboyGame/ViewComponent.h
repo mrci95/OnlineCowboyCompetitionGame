@@ -68,7 +68,10 @@ public:
 
 	bool CanReload();
 	void Reload();
-	void ReloadEnd();
+	void ReloadBreak();
+
+	void Death();
+	void Winner();
 
 protected:
 
@@ -132,7 +135,9 @@ private:
 	void FPP_Reload();
 	void TPP_Reload();
 
-	void FPP_ReloadEnd();
-	void TPP_ReloadEnd();
+	void FPP_ReloadBreak();
+	void TPP_ReloadBreak();
+
+	void ShowTppMeshOnly();
 
 };

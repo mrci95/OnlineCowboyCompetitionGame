@@ -61,7 +61,7 @@ void UAmmoHUD::NativeTick(const FGeometry& MyGeometry, float DeltaTime)
 
 void UAmmoHUD::Fire()
 {
-	if (CurrentAmmo <= 0) return;
+	if (CurrentAmmo <= 0 || ResetCylinderAngle ) return;
 
 	PlayAnimation(FireAnimation);
 

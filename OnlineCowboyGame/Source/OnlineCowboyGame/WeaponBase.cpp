@@ -71,5 +71,5 @@ void AWeaponBase::OnFire(FVector HitPoint)
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.Owner = this;
 	SpawnParameters.Instigator = Cast<APawn>(GetOwner());
-	GetWorld()->SpawnActor<ABulletBase>(Bullet.Get(), BulletSpawnLoc, BulletSpawnDir, SpawnParameters);
+	ABulletBase* BulletActor = GetWorld()->SpawnActor<ABulletBase>(Bullet.Get(), BulletSpawnLoc, BulletSpawnDir, SpawnParameters);
 }

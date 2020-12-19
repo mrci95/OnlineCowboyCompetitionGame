@@ -96,12 +96,15 @@ public:
 	bool CanReload();
 	void Reload();
 	void BulletInserted();
-	void ReloadEnd();
+	void ReloadBreak();
 	bool IsReloading();
+
+	void Death();
+	void Winner();
 
 private:
 
-	APawn* Pawn;
+	class ACowboyCharacter* Pawn;
 
 	UViewComponent* ViewComponent;
 

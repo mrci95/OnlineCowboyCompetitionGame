@@ -24,13 +24,23 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* CurrentRound;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* PlayerName_1;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* PlayerName_2;
+
 	UPROPERTY(meta = (BindWidgetAnim))
 	class UWidgetAnimation* Show;
+
 
 	void ShowAtGameStart();
 
 	void SetPlayerOneScore(uint16 Score);
 	void SetPlayerTwoScore(uint16 Score);
 
+	void SetPlayersName(FString P1, FString P2);
+
 	void SetCurrentRound(uint8 Round);
+
 };

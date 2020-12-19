@@ -5,12 +5,13 @@
 #include "OnlineCowboyGameGameModeBase.h"
 #include "GameHUD.h"
 #include "CowboyCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine/PostProcessVolume.h"
+#include "UObject/ConstructorHelpers.h"
+#include "UObject/UObjectGlobals.h"
 
 ACowboyPlayerController::ACowboyPlayerController()
 {
-	//ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/Level/MatchHUD"));
-	//if (!ensure(MatchHUD_BPClass.Class != nullptr)) return;
-	//MatchHUDClass = MatchHUD_BPClass.Class;
 
 	FString server = HasAuthority() ? "Server" : "Client";
 	UE_LOG(LogTemp, Warning, TEXT("%s ACowboyPlayerController()"), *server);
@@ -18,7 +19,31 @@ ACowboyPlayerController::ACowboyPlayerController()
 
 void ACowboyPlayerController::BeginPlay()
 {
+
 	Super::BeginPlay();
+
+	DisableInput(this);
+
+	TArray<AActor*> Actors;
+	UGameplayStatics::GetAllActorsOfClass(this, APostProcessVolume::StaticClass(), Actors);
+	if (Actors.Num() > 0)
+	{
+		DeathPostProcess = Cast<APostProcessVolume>(Actors[0]);
+	}
+
+	if (TimelineCurve)
+	{
+		FOnTimelineFloat TimelineProgress;
+		TimelineProgress.BindUFunction(this, FName("OnTimelineTick"));
+		DeathPostprocessTimeline.AddInterpFloat(TimelineCurve, TimelineProgress);
+	}
+}
+
+
+void ACowboyPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	DeathPostprocessTimeline.TickTimeline(DeltaTime);
 }
 
 void ACowboyPlayerController::SetupInputComponent()
@@ -27,6 +52,15 @@ void ACowboyPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("Reload",IE_Pressed, this, &ACowboyPlayerController::Reload);
 	InputComponent->BindAction("Fire", IE_Pressed, this, &ACowboyPlayerController::OnFire);
+
+	InputComponent->BindAxis("LookUp", this, &ACowboyPlayerController::LookUp);
+	InputComponent->BindAxis("LookRight", this, &ACowboyPlayerController::LookRight);
+	InputComponent->BindAction("Aiming", IE_Pressed, this, &ACowboyPlayerController::ToggleAimingView);
+	InputComponent->BindAction("GrabGun", IE_Pressed, this, &ACowboyPlayerController::GrabGun);
+
+
+	InputComponent->BindAction("DeathCam", IE_Pressed, this, &ACowboyPlayerController::OnPawnDeath);
+
 }
 
 void ACowboyPlayerController::RequestRespawn()
@@ -41,6 +75,9 @@ void ACowboyPlayerController::RequestRespawn()
 		UE_LOG(LogTemp, Warning, TEXT("Client: ACowboyPlayerController::RequestRespawn() - send request to the server in order to request respawn on GM"));
 		Server_RequestRespawn();
 	}
+
+	if(IsLocalController())
+		DisableDeathPostProcessWithBlend();
 }
 
 void ACowboyPlayerController::RequestRespawnFromGM()
@@ -100,22 +137,17 @@ void ACowboyPlayerController::InsertingBullet()
 
 void ACowboyPlayerController::BulletInserted()
 {
-
-	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	if (AGameHUD* GameHUD = Cast<AGameHUD>(GetHUD()))
 	{
-		Cowboy->BulletInserted();	
-		if (AGameHUD* GameHUD = Cast<AGameHUD>(GetHUD()))
-		{
-			GameHUD->BulletInserted();
-		}
+		GameHUD->BulletInserted();
 	}
 }
 
-void ACowboyPlayerController::FinishReload()
+void ACowboyPlayerController::ReloadBreak()
 {
 	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
 	{
-		Cowboy->ReloadEnd();
+		Cowboy->ReloadBreak();
 	}
 }
 
@@ -143,7 +175,7 @@ void ACowboyPlayerController::OnFire()
 		}
 		else if (Cowboy->IsReloading())
 		{
-			FinishReload();
+			ReloadBreak();
 		}
 	}
 }
@@ -151,7 +183,6 @@ void ACowboyPlayerController::OnFire()
 
 void ACowboyPlayerController::PawnRestarted()
 {	
-	
 	if (IsLocalController())
 	{
 		if (AGameHUD* GameHUD = Cast<AGameHUD>(GetHUD()))
@@ -159,4 +190,81 @@ void ACowboyPlayerController::PawnRestarted()
 			GameHUD->OnPawnPossessed();
 		}
 	}
+}
+
+void ACowboyPlayerController::LookUp(float Val)
+{
+	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	{
+		Cowboy->LookUp(Val);
+	}
+}
+
+void ACowboyPlayerController::LookRight(float Val)
+{
+	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	{
+		Cowboy->LookRight(Val);
+	}
+}
+
+void ACowboyPlayerController::ToggleAimingView()
+{
+	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	{
+		Cowboy->ToggleAimingView();
+	}
+}
+
+void ACowboyPlayerController::GrabGun()
+{
+	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	{
+		Cowboy->GrabGun();
+	}
+}
+
+
+void ACowboyPlayerController::DisableAndResetInput()
+{
+	DisableInput(this);
+	LookRight(0.f);
+	LookUp(0.f);
+}
+
+void ACowboyPlayerController::OnPawnDeath()
+{
+	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+	{
+		AActor* Target = Cowboy->GetDeathCamTarget();
+
+		if (Target)
+		{
+			SetViewTargetWithBlend(Target, 1.5f, EViewTargetBlendFunction::VTBlend_Cubic);
+		}
+
+		EnableDeathPostProcessWithBlend();
+	}
+}
+
+
+void ACowboyPlayerController::OnTimelineTick(float Value)
+{
+	if (DeathPostProcess)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OnTimelineTick %f"), Value);
+		DeathPostProcess->BlendWeight = Value;
+	}
+}
+
+void ACowboyPlayerController::EnableDeathPostProcessWithBlend()
+{
+	UE_LOG(LogTemp, Warning, TEXT("EnableDeathPostProcessWithBlend"));
+	DeathPostprocessTimeline.PlayFromStart();
+}
+
+void ACowboyPlayerController::DisableDeathPostProcessWithBlend()
+{
+	if (DeathPostProcess && DeathPostProcess->BlendWeight > 0.0f)
+		DeathPostprocessTimeline.ReverseFromEnd();
 }

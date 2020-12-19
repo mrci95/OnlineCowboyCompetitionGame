@@ -40,6 +40,8 @@ public:
 	void TakeGun();
 	void OnFire();
 	void Respawn();
+	void Reload();
+	void ReloadBreak();
 
 protected:
 	// Called when the game starts
@@ -78,6 +80,26 @@ public:
 	void Multi_OnFire(FVector HitPoint);
 	void Multi_OnFire_Implementation(FVector HitPoint);
 	bool Multi_OnFire_Validate(FVector HitPoint);
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_Reload();
+	void Server_Reload_Implementation();
+	bool Server_Reload_Validate();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_Reload();
+	void Multi_Reload_Implementation();
+	bool Multi_Reload_Validate();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_ReloadBreak();
+	void Server_ReloadBreak_Implementation();
+	bool Server_ReloadBreak_Validate();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_ReloadBreak();
+	void Multi_ReloadBreak_Implementation();
+	bool Multi_ReloadBreak_Validate();
 
 	UFUNCTION(NetMulticast, Reliable, WithValidation)
 	void Multi_Respawn();

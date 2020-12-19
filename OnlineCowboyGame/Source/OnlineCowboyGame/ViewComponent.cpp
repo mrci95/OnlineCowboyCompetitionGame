@@ -626,34 +626,57 @@ void UViewComponent::TPP_Reload()
 	TPPAnimInstance->MontagePlay_ReloadStart();
 }
 
-void UViewComponent::ReloadEnd()
+void UViewComponent::ReloadBreak()
 {
 	if (!TPPAnimInstance->bIsGunTaken) return;
 
 	switch (CurrentView)
 	{
 	case View::FPP:
-		FPP_ReloadEnd();
+		FPP_ReloadBreak();
 		break;
 	case View::TPP:
-		TPP_ReloadEnd();
+		TPP_ReloadBreak();
 		break;
 	default:
 		break;
 	}
 }
 
-void UViewComponent::FPP_ReloadEnd()
+void UViewComponent::FPP_ReloadBreak()
 {
-	FPPAnimInstance->MontagePlay_ReloadEnd();
-	TPPAnimInstance->MontagePlay_ReloadEnd();
+	FPPAnimInstance->MontagePlay_ReloadBreak();
+	TPPAnimInstance->MontagePlay_ReloadBreak();
 }
 
 
-void UViewComponent::TPP_ReloadEnd()
+void UViewComponent::TPP_ReloadBreak()
 {
-	FPPAnimInstance->MontagePlay_ReloadEnd();
-	TPPAnimInstance->MontagePlay_ReloadEnd();
+	FPPAnimInstance->MontagePlay_ReloadBreak();
+	TPPAnimInstance->MontagePlay_ReloadBreak();
 }
+
+void UViewComponent::Death()
+{
+	ShowTppMeshOnly();
+}
+
+void UViewComponent::Winner()
+{
+	ShowTppMeshOnly();
+}
+
+void UViewComponent::ShowTppMeshOnly()
+{
+	if (Pawn->IsLocallyControlled())
+	{
+		CoboyTppMesh->SetVisibility(true);
+		TPPWeapon->SetVisibility(true);
+
+		FPPWeapon->SetVisibility(false);
+		CowboyFppMesh->SetVisibility(false);
+	}
+}
+
 
 

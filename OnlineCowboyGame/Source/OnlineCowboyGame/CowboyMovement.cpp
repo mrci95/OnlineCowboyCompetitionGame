@@ -4,7 +4,7 @@
 
 #include "CowboyMovement.h"
 #include "ViewComponent.h"
-#include "CowboyPlayerController.h"
+#include "CowboyCharacter.h"
 
 // Sets default values for this component's properties
 UCowboyMovement::UCowboyMovement()
@@ -19,7 +19,7 @@ UCowboyMovement::UCowboyMovement()
 void UCowboyMovement::Setup(APawn* Owner, UViewComponent* Component)
 {
 	UE_LOG(LogTemp, Warning, TEXT("UCowboyMovement::Setup"));
-	Pawn = Owner;
+	Pawn = Cast<ACowboyCharacter>(Owner);
 	ViewComponent = Component;
 }
 
@@ -183,23 +183,38 @@ void UCowboyMovement::BulletInserted()
 	CurrentAmmo++;
 	if (CurrentAmmo == 6)
 	{
-		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
+		if (Pawn)
 		{
-			PC->FinishReload();
+			Pawn->ReloadBreak();
 		}
 	}
 }
 
-void UCowboyMovement::ReloadEnd()
+void UCowboyMovement::ReloadBreak()
 {
 	if (!ensure(ViewComponent != nullptr)) return;
 
 	Reloading = false;
 
-	ViewComponent->ReloadEnd();
+	ViewComponent->ReloadBreak();
 }
 
 bool UCowboyMovement::IsReloading()
 {
 	return Reloading;
+}
+
+
+void UCowboyMovement::Death()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->Death();
+}
+
+void UCowboyMovement::Winner()
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->Winner();
 }

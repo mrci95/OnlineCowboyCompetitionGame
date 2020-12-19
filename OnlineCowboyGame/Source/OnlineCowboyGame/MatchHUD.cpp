@@ -29,3 +29,10 @@ void UMatchHUD::SetCurrentRound(uint8 Round)
 	UE_LOG(LogTemp, Warning, TEXT("UMatchHUD::SetCurrentRound %d"), Round);
 	CurrentRound->SetText(FText::FromString(FString::FromInt(Round)));
 }
+
+
+void UMatchHUD::SetPlayersName(FString P1, FString P2)
+{
+	PlayerName_1->SetText(FText(FText::FromString(P1)));
+	PlayerName_2->SetText(FText(FText::FromString(P2)));
+}

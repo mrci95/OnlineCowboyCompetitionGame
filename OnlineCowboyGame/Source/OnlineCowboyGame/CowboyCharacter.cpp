@@ -10,6 +10,9 @@
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Engine/StaticMeshActor.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "Engine/TextureRenderTarget2D.h"
 
 //Helpers
 #include "DrawDebugHelpers.h"
@@ -100,6 +103,16 @@ ACowboyCharacter::ACowboyCharacter()
 
 	CoboyTppMesh->OnComponentHit.AddDynamic(this, &ACowboyCharacter::OnCowobyHit);
 
+	//Setup SceneCaptureComponent2D for match intro/outro preview
+	MatchIntroView = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("MatchIntroView"));
+	MatchIntroView->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	MatchIntroView->SetRelativeLocation(FVector(90, -141, 55));
+	MatchIntroView->SetRelativeRotation(FRotator(0, 97, 0));
+	MatchIntroView->FOVAngle = 60;
+	MatchIntroView->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_RenderScenePrimitives;
+	MatchIntroView->CaptureSource = ESceneCaptureSource::SCS_SceneColorHDR;
+	MatchIntroView->MaxViewDistanceOverride = 400.f;
+	MatchIntroView->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
@@ -108,7 +121,6 @@ void ACowboyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	UE_LOG(LogTemp, Warning, TEXT("ACowboyCharacter::BeginPlay()"));
-	//DrawDebugString(GetWorld(), FVector(0, 0, 150), RoleString(), this, FColor::Black);
 
 	CowboyFppMesh->SetVisibility(false);
 
@@ -125,6 +137,14 @@ void ACowboyCharacter::BeginPlay()
 	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunLeg"));
 	TPPWeapon->SetCastHiddenShadow(true);
 
+	if (!ensure(DeathCamActor != nullptr)) return;
+	DeathCamTarget = GetWorld()->SpawnActor<AActor>(DeathCamActor.Get(), GetTransform());
+	DeathCamTarget->SetOwner(this);
+	DeathCamTarget->AttachToComponent(RootComponent, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	DeathCamTarget->SetActorRelativeLocation(FVector(328.67f, 167.13, 94.81));
+	DeathCamTarget->SetActorRelativeRotation(FRotator(-12.80, 205.99, 0));
+	DeathCamTarget->SetActorHiddenInGame(true);
+
 	if (!ensure(ViewComponent != nullptr)) return;
 	ViewComponent->Setup(FPPWeapon, TPPWeapon);
 
@@ -136,6 +156,29 @@ void ACowboyCharacter::BeginPlay()
 			GS->Subscribe(this);
 		}
 	}
+
+	MatchIntroViewRenderTarget2D = NewObject<UTextureRenderTarget2D>();
+	
+	// Setting parameters and size
+	MatchIntroViewRenderTarget2D->ClearColor = FLinearColor::White;
+	MatchIntroViewRenderTarget2D->InitAutoFormat(1920, 1080);
+
+	// Setting the new target
+	MatchIntroView->TextureTarget = MatchIntroViewRenderTarget2D;
+
+	if (ACowboyPlayerState* PS = GetPlayerState<ACowboyPlayerState>())
+	{
+		FString User = HasAuthority() ? "Server" : "Client";
+		UE_LOG(LogTemp, Warning, TEXT("%s PS found"), *User);
+
+
+		PS->SetMatchIntroView(MatchIntroViewRenderTarget2D);
+	}
+	else
+	{
+		FString User = HasAuthority() ? "Server" : "Client";
+		UE_LOG(LogTemp, Warning, TEXT("%s PS not found"), *User);
+	}
 }
 
 // Called every frame
@@ -146,7 +189,10 @@ void ACowboyCharacter::Tick(float DeltaTime)
 	if (ACowboyPlayerState* PS = GetPlayerState<ACowboyPlayerState>())
 	{
 		uint16 RoundsWon = PS->GetRoundsWon();
+		FString Name = PS->GetPlayerName();
 		//DrawDebugString(GetWorld(), FVector(0, 0, 100), FString::Printf(TEXT("RoundsWon %d"), RoundsWon), this, FColor::Black, 0.1f);
+		//DrawDebugString(GetWorld(), FVector(0, 0, 150), FString::Printf(TEXT("%s"), *Name), this, FColor::Black, 0.1f);
+
 	}
 
 		UWorld* World = GetWorld();
@@ -165,12 +211,6 @@ void ACowboyCharacter::Tick(float DeltaTime)
 void ACowboyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis("LookUp", this, &ACowboyCharacter::LookUp);
-	PlayerInputComponent->BindAxis("LookRight", this, &ACowboyCharacter::LookRight);
-	PlayerInputComponent->BindAction("Aiming",IE_Pressed, this, &ACowboyCharacter::ToggleAimingView);
-	PlayerInputComponent->BindAction("GrabGun", IE_Pressed, this, &ACowboyCharacter::GrabGun);
-	PlayerInputComponent->BindAction("Respawn", IE_Pressed, this, &ACowboyCharacter::Respawn);
 }
 
 
@@ -269,17 +309,42 @@ void ACowboyCharacter::Reload()
 	if (!ensure(CowboyMovementReplicator != nullptr)) return;
 
 	CowboyMovementComponent->Reload();
-	//CowboyMovementReplicator->Reload();
+	CowboyMovementReplicator->Reload();
 }
 
-void ACowboyCharacter::ReloadEnd()
+void ACowboyCharacter::ClearCylinder()
+{
+	if (ACowboyPlayerController* PC = GetController< ACowboyPlayerController>())
+	{
+		PC->ClearCylinder();
+	}
+}
+
+void ACowboyCharacter::InsertingBullet()
+{
+	if (ACowboyPlayerController* PC = GetController< ACowboyPlayerController>())
+	{
+		PC->InsertingBullet();
+	}
+}
+
+void ACowboyCharacter::ReloadBreak()
 {
 	if (!ensure(CowboyMovementComponent != nullptr)) return;
 	if (!ensure(CowboyMovementReplicator != nullptr)) return;
 
-	CowboyMovementComponent->ReloadEnd();
-	//CowboyMovementReplicator->ReloadEnd();
+	CowboyMovementComponent->ReloadBreak();
+	CowboyMovementReplicator->ReloadBreak();
 }
+
+void ACowboyCharacter::ReloadEnd()
+{
+	if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
+	{
+		PC->ReloadEnd();
+	}
+}
+
 bool ACowboyCharacter::IsReloading()
 {
 	if (!ensure(CowboyMovementComponent != nullptr)) return true;
@@ -292,7 +357,11 @@ void ACowboyCharacter::BulletInserted()
 	if (!ensure(CowboyMovementReplicator != nullptr)) return;
 
 	CowboyMovementComponent->BulletInserted();
-	//CowboyMovementReplicator->BulletInserted();
+
+	if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
+	{
+		PC->BulletInserted();
+	}
 }
 
 void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -318,6 +387,18 @@ void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 			}
 		}
 
+		if (IsLocallyControlled())
+		{
+			if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
+			{
+				PC->OnPawnDeath();
+
+				if (!ensure(CowboyMovementComponent != nullptr)) return;
+
+				CowboyMovementComponent->Death();
+			}
+		}
+
 		//Request round over in game state
 		if (UWorld* World = GetWorld())
 		{
@@ -330,36 +411,24 @@ void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 	}
 }
 
-void ACowboyCharacter::OnRespawnTimerExpiration()
-{
-	//CowboyMovementReplicator->Respawn();
-}
-
-void ACowboyCharacter::Respawn()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("ACowboyCharacter::Respawn()"));
-
-	//CoboyTppMesh->SetSimulatePhysics(false);
-	//CoboyTppMesh->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	//CoboyTppMesh->SetRelativeLocation(FVector(0, 0, 0));
-	//CoboyTppMesh->SetRelativeLocationAndRotation(FVector(0, 0, -81), FRotator(0, -90, 0));
-}
-
 void ACowboyCharacter::OnStartingGame()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ACowboyCharacter::OnStartingGame()"));
 
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		if (APlayerController* PC = World->GetFirstPlayerController())
-		{
-			EnableInput(PC);
-		}
-	}
+}
+
+void ACowboyCharacter::OnRoundStarted()
+{
+	
 }
 
 void ACowboyCharacter::DestroyWeapons()
 {
 	CowboyMovementReplicator->DestroyWeapons();
+}
+
+void ACowboyCharacter::Winner()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+
+	CowboyMovementComponent->Winner();
 }

@@ -4,6 +4,7 @@
 #include "CowboyPlayerState.h"
 #include "CowboyCompetitionGameState.h"
 #include "Net/UnrealNetwork.h"
+#include "CowboyCharacter.h"
 
 
 ACowboyPlayerState::ACowboyPlayerState()
@@ -21,7 +22,6 @@ void ACowboyPlayerState::PostInitializeComponents()
 	{
 		World->GetGameState()->AddPlayerState(this);
 	}
-
 }
 
 void ACowboyPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -39,7 +39,7 @@ void ACowboyPlayerState::RoundWin()
 		UE_LOG(LogTemp, Warning, TEXT("Server: RoundsWon: %d"), RoundsWon);
 
 		UWorld* World = GetWorld();
-		// Register this PlayerState with the Game's ReplicationInfo
+
 		if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
 		{
 			GS->UpdateScore();
@@ -54,5 +54,28 @@ void ACowboyPlayerState::OnRep_RoundsWon()
 	if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
 	{
 		GS->UpdateScore();
+	}
+
+	if (APawn* Pawn = GetPawn())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Client Pawn Available"));
+	}
+	else
+	{
+
+		UE_LOG(LogTemp, Warning, TEXT("Client Pawn not Available"));
+	}
+}
+
+
+void ACowboyPlayerState::UpdateMatchIntroView()
+{
+	if (ACowboyCharacter* SelfCowboy = GetPawn<ACowboyCharacter>())
+	{
+		MatchIntroView = SelfCowboy->GetMatchIntroView();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ACowboyPlayerState::UpdateMatchIntroView() cowoby not found"));
 	}
 }

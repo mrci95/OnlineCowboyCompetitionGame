@@ -4,6 +4,8 @@ C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowbo
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\GameStateInterface.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyCharacter.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyPlayerController.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/TimelineComponent.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\TimelineComponent.generated.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Intermediate\Build\Win64\UE4Editor\Inc\OnlineCowboyGame\CowboyPlayerController.generated.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/CapsuleComponent.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/ShapeComponent.h
@@ -13,6 +15,16 @@ C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Camera/
 C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\CameraComponent.generated.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\GameFramework/SpringArmComponent.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SpringArmComponent.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Engine/StaticMeshActor.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\StaticMeshActor.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/SceneCaptureComponent2D.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Components/SceneCaptureComponent.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SceneCaptureComponent.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\SceneCaptureComponent2D.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Engine/TextureRenderTarget2D.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Classes\Engine/TextureRenderTarget.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\TextureRenderTarget.generated.h
+C:\Program Files\Epic Games\UE_4.25\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\TextureRenderTarget2D.generated.h
 C:\Program Files\Epic Games\UE_4.25\Engine\Source\Runtime\Engine\Public\DrawDebugHelpers.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\TPPAimingComponent.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\CowboyMovement.h

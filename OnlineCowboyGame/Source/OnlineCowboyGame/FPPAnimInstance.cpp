@@ -29,7 +29,7 @@ void UFPPAnimInstance::MontagePlay_ReloadStart()
 	Montage_Play(ReloadMontage);
 }
 
-void UFPPAnimInstance::MontagePlay_ReloadEnd()
+void UFPPAnimInstance::MontagePlay_ReloadBreak()
 {
 	if (!ensure(ReloadMontage != nullptr)) return;
 

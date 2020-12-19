@@ -206,6 +206,93 @@ bool UMovementReplicator::Multi_OnFire_Validate(FVector HitPoint)
 	return true;
 }
 
+void UMovementReplicator::Reload()
+{
+	if (GetOwnerRole() == ROLE_AutonomousProxy)
+	{
+		Server_Reload();
+	}
+	else
+	{
+		Multi_Reload();
+	}
+}
+
+
+void UMovementReplicator::Server_Reload_Implementation()
+{
+	if (CowboyMovement == nullptr) return;
+
+	CowboyMovement->Reload();
+
+	Multi_Reload();
+}
+
+bool UMovementReplicator::Server_Reload_Validate()
+{
+	return true;
+}
+
+void UMovementReplicator::Multi_Reload_Implementation()
+{
+	if (Pawn == nullptr) return;
+	if (CowboyMovement == nullptr) return;
+
+	if (!Pawn->IsLocallyControlled() && GetOwnerRole() == ROLE_SimulatedProxy)
+	{
+		CowboyMovement->Reload();
+	}
+}
+
+bool UMovementReplicator::Multi_Reload_Validate()
+{
+	return true;
+}
+
+
+void UMovementReplicator::ReloadBreak()
+{
+	if (GetOwnerRole() == ROLE_AutonomousProxy)
+	{
+		Server_ReloadBreak();
+	}
+	else
+	{
+		Multi_ReloadBreak();
+	}
+}
+
+
+void UMovementReplicator::Server_ReloadBreak_Implementation()
+{
+	if (CowboyMovement == nullptr) return;
+
+	CowboyMovement->ReloadBreak();
+
+	Multi_ReloadBreak();
+}
+
+bool UMovementReplicator::Server_ReloadBreak_Validate()
+{
+	return true;
+}
+
+void UMovementReplicator::Multi_ReloadBreak_Implementation()
+{
+	if (Pawn == nullptr) return;
+	if (CowboyMovement == nullptr) return;
+
+	if (!Pawn->IsLocallyControlled() && GetOwnerRole() == ROLE_SimulatedProxy)
+	{
+		CowboyMovement->ReloadBreak();
+	}
+}
+
+bool UMovementReplicator::Multi_ReloadBreak_Validate()
+{
+	return true;
+}
+
 void UMovementReplicator::Respawn()
 {
 

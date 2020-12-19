@@ -32,6 +32,5 @@ private:
 	FTimerHandle DelayTimer;
 
 	void GameStatePlayerPresentation();
-	void GameStateStart();
 
 };

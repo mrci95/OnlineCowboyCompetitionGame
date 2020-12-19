@@ -6,7 +6,7 @@
 #include "CowboyCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
-#include "GameFramework/PlayerState.h"
+#include "CowboyPlayerState.h"
 
 void AOnlineCowboyGameGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
@@ -51,7 +51,7 @@ void AOnlineCowboyGameGameModeBase::SetPlayerData()
 		{
 			if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(PC->GetPawn()))
 			{
-				if (APlayerState* PS = Pawn->GetPlayerState<APlayerState>())
+				if (ACowboyPlayerState* PS = Pawn->GetPlayerState<ACowboyPlayerState>())
 				{
 					FString Name = i == 0 ? "Luq" : "Vinci";
 					PS->SetPlayerName(Name);
@@ -59,15 +59,6 @@ void AOnlineCowboyGameGameModeBase::SetPlayerData()
 				}
 			}
 		}
-	}
-}
-
-void AOnlineCowboyGameGameModeBase::GameStateStart()
-{
-	UE_LOG(LogTemp, Warning, TEXT("START GAME!"));
-	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
-	{
-		GS->SetGameState(EGameState::STARTING_ROUND);
 	}
 }
 

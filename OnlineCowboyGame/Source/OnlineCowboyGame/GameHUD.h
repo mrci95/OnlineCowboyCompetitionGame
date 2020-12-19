@@ -6,6 +6,8 @@
 #include "GameFramework/HUD.h"
 #include "GameHUD.generated.h"
 
+
+class UTextureRenderTarget2D;
 /**
  * 
  */
@@ -21,8 +23,10 @@ public:
 	void ShowMatchHUDAtGameStart();
 	void BeginPlayersPresentation();
 	void EndPlayersPresentation();
+	void BeginMatchSummary();
+	void ShowWinner(FString PlayerName, UTextureRenderTarget2D* View);
 	void UpdatePlayersScore(uint16 PlayerOne, uint16 PlayerTwo);
-	void SetPlayersName(FString PlayerOne, FString PlayerTwo);
+	void SetPlayersData(FString PlayerOne, FString PlayerTwo, UTextureRenderTarget2D* PlayerOneView, UTextureRenderTarget2D* PlayerTwoView);
 	void OnPawnPossessed();
 
 	void SetCurrentRound(uint16 Round);
@@ -34,6 +38,9 @@ public:
 	void InsertingBullet();
 	void BulletInserted();
 	void ReloadEnd();
+
+	void SetRoundStartCounter(uint8 Counter);
+
 
 protected:
 

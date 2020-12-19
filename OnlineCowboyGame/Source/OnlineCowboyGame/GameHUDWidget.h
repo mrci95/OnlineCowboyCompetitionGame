@@ -24,6 +24,7 @@ public:
 	void ReloadEnd();
 	void OnFire();
 	void OnPawnPossessed();
+	void SetRoundStartCounter(uint8 Counter);
 
 protected:
 
@@ -33,5 +34,10 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UAmmoHUD* AmmoHUD;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* CounterValue;
+
+	UPROPERTY(meta = (BindWidgetAnim))
+	class UWidgetAnimation* ShowCounter;
 	
 };

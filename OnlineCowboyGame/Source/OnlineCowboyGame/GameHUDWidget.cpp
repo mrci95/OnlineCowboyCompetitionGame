@@ -3,6 +3,7 @@
 
 #include "GameHUDWidget.h"
 #include "AmmoHUD.h"
+#include "Components/TextBlock.h"
 
 void UGameHUDWidget::Show()
 {
@@ -66,4 +67,18 @@ void UGameHUDWidget::OnPawnPossessed()
 	{
 		AmmoHUD->Reset();
 	}
+}
+
+
+void UGameHUDWidget::SetRoundStartCounter(uint8 Counter)
+{
+	if (Counter != 0)
+	{
+		CounterValue->SetText(FText::FromString(FString::FromInt(Counter)));
+	}
+	else
+	{
+		CounterValue->SetText(FText::FromString(FString("DUEL")));
+	}
+	PlayAnimation(ShowCounter);
 }

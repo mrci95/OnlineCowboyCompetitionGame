@@ -72,8 +72,6 @@ void AGameHUD::CreateMatchIntroHUD()
 		UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateMatchIntroHUD()"));
 		MatchIntroHUD = CreateWidget<UMatchIntroHUD>(PC, MatchIntroHUDClass);
 
-		MatchIntroHUD->AddToViewport();
-
 		MatchIntroHUD->BeginWaitingForPlayers();
 	}
 }
@@ -95,6 +93,20 @@ void AGameHUD::EndPlayersPresentation()
 	MatchIntroHUD->EndPlayersPresentation();
 }
 
+void AGameHUD::BeginMatchSummary()
+{
+	if (!MatchIntroHUD) return;
+
+	MatchIntroHUD->BeginMatchSummary();
+}
+
+void AGameHUD::ShowWinner(FString PlayerName, UTextureRenderTarget2D* View)
+{
+	if (!MatchIntroHUD) return;
+
+	MatchIntroHUD->ShowWinner(PlayerName, View);
+}
+
 void AGameHUD::PresentPlayers()
 {
 	if (!MatchIntroHUD) return;
@@ -104,10 +116,12 @@ void AGameHUD::PresentPlayers()
 }
 
 
-void AGameHUD::SetPlayersName(FString PlayerOne, FString PlayerTwo)
+void AGameHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo, UTextureRenderTarget2D* PlayerOneView, UTextureRenderTarget2D* PlayerTwoView)
 {
 	if (!MatchIntroHUD) return;
-	MatchIntroHUD->SetPlayersName(PlayerOne, PlayerTwo);
+	if (!ensure(MatchHUD != nullptr)) return;
+	MatchIntroHUD->SetPlayersData(PlayerOne, PlayerTwo, PlayerOneView, PlayerTwoView);
+	MatchHUD->SetPlayersName(PlayerOne, PlayerTwo);
 }
 
 void AGameHUD::PresentPlayersName()
@@ -198,4 +212,11 @@ void AGameHUD::OnPawnPossessed()
 	{
 		GameHUDWidget->OnPawnPossessed();
 	}
+}
+
+
+void AGameHUD::SetRoundStartCounter(uint8 Counter)
+{
+	if (!ensure(GameHUDWidget != nullptr)) return;
+	GameHUDWidget->SetRoundStartCounter(Counter);
 }

@@ -55,7 +55,7 @@ class ONLINECOWBOYGAME_API UCowboyAnimInstance : public UAnimInstance
 		void MontagePlay_FireAiming();
 
 		void MontagePlay_ReloadStart();
-		void MontagePlay_ReloadEnd();
+		void MontagePlay_ReloadBreak();
 
 		bool IsMontagePlaying_Reload();
 

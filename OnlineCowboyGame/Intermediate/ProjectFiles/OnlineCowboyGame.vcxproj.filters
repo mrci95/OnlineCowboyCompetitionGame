@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{CFB4518E-E3E3-46ED-94ED-4CEE133C40AC}</UniqueIdentifier>
+      <UniqueIdentifier>{DBBA80A4-F449-46D2-A9E4-2CBA6F0BA594}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{C53E8DED-1C4A-4281-B5A3-7C5D78168424}</UniqueIdentifier>
+      <UniqueIdentifier>{314217DD-C4E3-4AF4-AC60-0CB5958A8BCC}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,7 +28,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{F765CA89-413A-4652-A4AC-1321D46600FE}</UniqueIdentifier>
+      <UniqueIdentifier>{2D0FC7D8-FBF5-4773-83C7-E930F395364B}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\AmmoHUD.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
@@ -82,6 +82,12 @@
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyPlayerState.h">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\CowboyRenderTargetHUD.cpp">
+      <Filter>Source\OnlineCowboyGame</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\CowboyRenderTargetHUD.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\FPPAimingComponent.cpp">

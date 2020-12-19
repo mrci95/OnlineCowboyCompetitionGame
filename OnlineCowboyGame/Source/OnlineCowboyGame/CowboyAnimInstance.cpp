@@ -3,7 +3,7 @@
 
 #include "CowboyAnimInstance.h"
 #include "ViewComponent.h"
-#include "CowboyPlayerController.h"
+#include "CowboyCharacter.h"
 
 void UCowboyAnimInstance::MontagePlay_TakeGun()
 {
@@ -80,7 +80,7 @@ bool UCowboyAnimInstance::IsMontagePlaying_Reload()
 	return Montage_IsPlaying(ReloadMontage);
 }
 
-void UCowboyAnimInstance::MontagePlay_ReloadEnd()
+void UCowboyAnimInstance::MontagePlay_ReloadBreak()
 {
 	if (!ensure(ReloadMontage != nullptr)) return;
 
@@ -89,45 +89,33 @@ void UCowboyAnimInstance::MontagePlay_ReloadEnd()
 
 void UCowboyAnimInstance::ClearCylinder()
 {
-	if (APawn* Pawn = TryGetPawnOwner())
+	if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(TryGetPawnOwner()))
 	{
-		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
-		{
-			PC->ClearCylinder();
-		}
+		Pawn->ClearCylinder();
 	}
 }
 
 
 void UCowboyAnimInstance::InsertingBullet()
 {
-	if (APawn* Pawn = TryGetPawnOwner())
+	if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(TryGetPawnOwner()))
 	{
-		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
-		{
-			PC->InsertingBullet();
-		}
-	}
-}
-
-void UCowboyAnimInstance::ReloadEnd()
-{
-	if (APawn* Pawn = TryGetPawnOwner())
-	{
-		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
-		{
-			PC->ReloadEnd();
-		}
+		Pawn->InsertingBullet();
 	}
 }
 
 void UCowboyAnimInstance::BulletInserted()
 {
-	if (APawn* Pawn = TryGetPawnOwner())
+	if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(TryGetPawnOwner()))
 	{
-		if (ACowboyPlayerController* PC = Pawn->GetController<ACowboyPlayerController>())
-		{
-			PC->BulletInserted();
-		}
+		Pawn->BulletInserted();
+	}
+}
+
+void UCowboyAnimInstance::ReloadEnd()
+{
+	if (ACowboyCharacter* Pawn = Cast<ACowboyCharacter>(TryGetPawnOwner()))
+	{
+		Pawn->ReloadEnd();
 	}
 }

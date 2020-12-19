@@ -20,6 +20,9 @@ class UMovementReplicator;
 class AWeaponBase;
 class UTPPAimingComponent;
 class UFPPAimingComponent;
+class AStaticMeshActor;
+class USceneCaptureComponent2D;
+class UTextureRenderTarget2D;
 
 UCLASS()
 class ONLINECOWBOYGAME_API ACowboyCharacter : public APawn, public IGameStateInterface
@@ -45,11 +48,24 @@ public:
 
 	AWeaponBase* GetTPPWeapon() { return TPPWeapon; }; 
 
+	AActor* GetDeathCamTarget() { return DeathCamTarget; };
+
+	UTextureRenderTarget2D* GetMatchIntroView() { return MatchIntroViewRenderTarget2D; };
+
 	void DestroyWeapons();
 
 	virtual void Restart() override;
 
-	UPROPERTY(VisibleAnywhere)
+	//Input binding
+	void LookUp(float Val);
+
+	void LookRight(float Val);
+
+	void ToggleAimingView();
+
+	void GrabGun();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(EditAnywhere)
@@ -91,8 +107,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UFPPAimingComponent* FPPAimingComponent;
 
+	UPROPERTY(VisibleAnywhere)
+	USceneCaptureComponent2D* MatchIntroView;
+
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	TSubclassOf<AWeaponBase> Weapon;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TSubclassOf<AActor> DeathCamActor;
 
 	UPROPERTY()
 	AWeaponBase* FPPWeapon = nullptr;
@@ -105,36 +127,32 @@ public:
 	void Fired();
 
 	bool CanReload();
-	void Reload();
-	void ReloadEnd();
 	bool IsReloading();
+
+	void Reload();
+	void ReloadBreak();
+
+	void ClearCylinder();
+	void InsertingBullet();
 	void BulletInserted();
+	void ReloadEnd();
+
+	void Winner();
 
 protected:
 	void OnStartingGame();
+	void OnRoundStarted();
 
 private:
-	FTimerHandle RespawnTimer;
-	void OnRespawnTimerExpiration();
 
 	UFUNCTION()
 	void OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	//Input binding
-	void LookUp(float Val);
-
-	void LookRight(float Val);
-
-	void ToggleAimingView();
-
-	void GrabGun();
-
 
 	FString RoleString();
 
-	void Respawn();
+	UPROPERTY()
+	AActor* DeathCamTarget = nullptr;
 
-	uint16 CurrentAmmo = 6;
-	bool Reloading = false;
-
-
+	UPROPERTY()
+	UTextureRenderTarget2D* MatchIntroViewRenderTarget2D = nullptr;
 };
