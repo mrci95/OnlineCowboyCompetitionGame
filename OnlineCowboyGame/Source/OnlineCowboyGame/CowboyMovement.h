@@ -102,6 +102,8 @@ public:
 	void Death();
 	void Winner();
 
+	void OnHit(FVector HitNormal, FVector Location, FName BoneName);
+
 private:
 
 	class ACowboyCharacter* Pawn;

@@ -185,6 +185,7 @@ void ACowboyPlayerController::PawnRestarted()
 {	
 	if (IsLocalController())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("PawnRestarted()"));
 		if (AGameHUD* GameHUD = Cast<AGameHUD>(GetHUD()))
 		{
 			GameHUD->OnPawnPossessed();

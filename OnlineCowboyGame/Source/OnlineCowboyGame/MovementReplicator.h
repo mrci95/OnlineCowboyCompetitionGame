@@ -42,6 +42,7 @@ public:
 	void Respawn();
 	void Reload();
 	void ReloadBreak();
+	void OnHit(FVector HitNormal, FVector Location, FName BoneName);
 
 protected:
 	// Called when the game starts
@@ -113,6 +114,11 @@ public:
 	bool Multi_Multi_DestroyWeapons_Validate();
 
 	void UpdateServerState();
+
+	UFUNCTION(NetMulticast, Reliable, WithValidation)
+	void Multi_OnHit(FVector HitNormal, FVector Location, FName BoneName);
+	void Multi_OnHit_Implementation(FVector HitNormal, FVector Location, FName BoneName);
+	bool Multi_OnHit_Validate(FVector HitNormal, FVector Location, FName BoneName);
 
 
 	UPROPERTY(ReplicatedUsing = OnRep_ServerState)

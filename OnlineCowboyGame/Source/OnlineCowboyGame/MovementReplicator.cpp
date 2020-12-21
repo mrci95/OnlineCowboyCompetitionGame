@@ -348,4 +348,23 @@ bool UMovementReplicator::Multi_DestroyWeapons_Validate()
 }
 
 
+void UMovementReplicator::OnHit(FVector HitNormal, FVector Location, FName BoneName)
+{
+	Multi_OnHit(HitNormal, Location, BoneName);
+}
+
+
+void UMovementReplicator::Multi_OnHit_Implementation(FVector HitNormal, FVector Location, FName BoneName)
+{
+	if (CowboyMovement == nullptr) return;
+
+	CowboyMovement->OnHit(HitNormal, Location, BoneName);
+}
+
+bool UMovementReplicator::Multi_OnHit_Validate(FVector HitNormal, FVector Location, FName BoneName)
+{
+	return true;
+}
+
+
 

@@ -218,3 +218,13 @@ void UCowboyMovement::Winner()
 
 	ViewComponent->Winner();
 }
+
+
+void UCowboyMovement::OnHit(FVector HitNormal, FVector Location, FName BoneName)
+{
+	if (!ensure(ViewComponent != nullptr)) return;
+
+	ViewComponent->OnHit(HitNormal, Location, BoneName);
+
+	Pawn->Death();
+}

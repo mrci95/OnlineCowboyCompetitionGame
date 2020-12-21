@@ -219,7 +219,7 @@ void ACowboyCharacter::Restart()
 {
 	Super::Restart();
 
-	if (IsLocallyControlled() && !HasAuthority())
+	if (IsLocallyControlled())
 	{
 		if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
 		{
@@ -371,42 +371,48 @@ void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Character hit event, HitComp %s, OtherActor %s, OtherComp %s, Bone %s"), *HitComp->GetName(), *OtherActor->GetName(), *OtherComp->GetName(), *Hit.BoneName.ToString());
 		UE_LOG(LogTemp, Warning, TEXT("Bullet owner hex: %x"),(void*)OtherActor->GetInstigator());
+
+		//Hit detected by actor with authority
+		if (HasAuthority())
+		{
+			//Enable ragdoll on self and all simulated proxies
+			CowboyMovementReplicator->OnHit(Hit.Normal * 5000, Hit.Location, Hit.BoneName);		
+			
+			//Mark shooter as a winner of this round
+			if (APawn* Winner = OtherActor->GetInstigator())
+			{
+				if (ACowboyPlayerState* PSWinner = Winner->GetPlayerState<ACowboyPlayerState>())
+				{
+					PSWinner->RoundWin();
+				}
+			}
+
+			//Request round over in game state
+			if (UWorld* World = GetWorld())
+			{
+				if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
+				{
+					GS->SetGameState(EGameState::ROUND_OVER);
+				}
+			}
+		}
+		else // No authority needed 
+		{
+			// VFX - blood particle
+
+		}
+
+
+
 		HitComp->SetSimulatePhysics(true);
 		HitComp->AddImpulseAtLocation(Hit.Normal * 5000, Hit.Location, Hit.BoneName);
-		if (GEngine)
+		
+		/*if (GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Hit on %s, OtherActor %s, OtherComp %s, Bone %s, %s"), *HitComp->GetName(), *OtherActor->GetName(), *OtherComp->GetName(), *Hit.BoneName.ToString(), *NormalImpulse.ToString()));
-		}
+		}*/
 
-		//Mark shooter as a winner of this round
-		if (APawn* Winner = OtherActor->GetInstigator())
-		{
-			if (ACowboyPlayerState* PSWinner = Winner->GetPlayerState<ACowboyPlayerState>())
-			{
-				PSWinner->RoundWin();
-			}
-		}
 
-		if (IsLocallyControlled())
-		{
-			if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
-			{
-				PC->OnPawnDeath();
-
-				if (!ensure(CowboyMovementComponent != nullptr)) return;
-
-				CowboyMovementComponent->Death();
-			}
-		}
-
-		//Request round over in game state
-		if (UWorld* World = GetWorld())
-		{
-			if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
-			{
-				GS->SetGameState(EGameState::ROUND_OVER);
-			}
-		}
 
 	}
 }
@@ -431,4 +437,20 @@ void ACowboyCharacter::Winner()
 	if (!ensure(CowboyMovementComponent != nullptr)) return;
 
 	CowboyMovementComponent->Winner();
+}
+
+
+void ACowboyCharacter::Death()
+{
+	if (IsLocallyControlled())
+	{
+		if (ACowboyPlayerController* PC = GetController<ACowboyPlayerController>())
+		{
+			PC->OnPawnDeath();
+
+			if (!ensure(CowboyMovementComponent != nullptr)) return;
+
+			CowboyMovementComponent->Death();
+		}
+	}
 }

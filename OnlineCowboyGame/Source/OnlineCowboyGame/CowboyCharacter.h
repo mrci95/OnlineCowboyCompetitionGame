@@ -138,6 +138,7 @@ public:
 	void ReloadEnd();
 
 	void Winner();
+	void Death();
 
 protected:
 	void OnStartingGame();

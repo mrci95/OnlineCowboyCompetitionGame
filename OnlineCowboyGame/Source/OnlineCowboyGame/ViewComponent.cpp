@@ -668,15 +668,16 @@ void UViewComponent::Winner()
 
 void UViewComponent::ShowTppMeshOnly()
 {
-	if (Pawn->IsLocallyControlled())
-	{
-		CoboyTppMesh->SetVisibility(true);
-		TPPWeapon->SetVisibility(true);
+	CoboyTppMesh->SetVisibility(true);
+	TPPWeapon->SetVisibility(true);
 
-		FPPWeapon->SetVisibility(false);
-		CowboyFppMesh->SetVisibility(false);
-	}
+	FPPWeapon->SetVisibility(false);
+	CowboyFppMesh->SetVisibility(false);
 }
 
 
-
+void UViewComponent::OnHit(FVector HitNormal, FVector Location, FName BoneName)
+{
+	CoboyTppMesh->SetSimulatePhysics(true);
+	CoboyTppMesh->AddImpulseAtLocation(HitNormal, Location, BoneName);
+}
