@@ -7,6 +7,7 @@
 
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/GameMenu.h"
+#include "LobbySystem/LobbyMenu.h"
 
 #include "OnlineSessionSettings.h"
 #include "Interfaces/OnlineSessionInterface.h"
@@ -19,12 +20,16 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 {
 	ConstructorHelpers::FClassFinder<UUserWidget> MainMenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
 	ConstructorHelpers::FClassFinder<UUserWidget> GameMenuBPClass(TEXT("/Game/MenuSystem/WBP_GameMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget> LobbyMenuBPClass(TEXT("/Game/LobbySystem/WBP_LobbyMenu"));
 
 	if (!ensure(MainMenuBPClass.Class != nullptr)) return;
 	MenuClass = MainMenuBPClass.Class;
 
 	if (!ensure(GameMenuBPClass.Class != nullptr)) return;
 	GameMenuClass = GameMenuBPClass.Class;
+
+	if (!ensure(LobbyMenuBPClass.Class != nullptr)) return;
+	LobbyMenuClass = LobbyMenuBPClass.Class;
 }
 
 void UCowobyGameInstance::Init()
@@ -78,6 +83,17 @@ void UCowobyGameInstance::LoadGameMenu()
 }
 
 
+void UCowobyGameInstance::LoadLobbyMenu()
+{
+	if (!ensure(LobbyMenuClass != nullptr)) return;
+
+	LobbyMenu = CreateWidget<ULobbyMenu>(this, LobbyMenuClass);
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->Setup();
+}
+
+
 void UCowobyGameInstance::Host(FString InServerName)
 {
 	ServerName = InServerName;
@@ -102,7 +118,16 @@ void UCowobyGameInstance::RefreshServerList()
 	if (SessionSearch.IsValid() && SessionInterface.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Search active sessions"));
-		//SessionSearch->bIsLanQuery = true;
+
+		if (IOnlineSubsystem::Get()->GetSubsystemName() == "NULL")
+		{
+			SessionSearch->bIsLanQuery = true;
+		}
+		else
+		{
+			SessionSearch->bIsLanQuery = false;
+		}
+
 		SessionSearch->MaxSearchResults = 100;
 		SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
@@ -122,8 +147,7 @@ void UCowobyGameInstance::Quit()
 	APlayerController* PlayerController = GetFirstLocalPlayerController();
 
 	if (!ensure(PlayerController != nullptr)) return;
-
-	PlayerController->ClientTravel("/Game/ThirdPersonCPP/Blueprints/MenuSystem/MenuLevel", ETravelType::TRAVEL_Absolute);
+	PlayerController->ClientTravel("/Game/MenuSystem/MenuLevel", ETravelType::TRAVEL_Absolute);
 }
 
 void UCowobyGameInstance::QuitGame()
@@ -150,7 +174,7 @@ void UCowobyGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSu
 
 	Menu->Teardown();
 
-	World->ServerTravel("/Game/ThirdPersonCPP/Maps/Lobby?listen");
+	World->ServerTravel("/Game/LobbySystem/LobbyLevel?listen");
 }
 
 void UCowobyGameInstance::OnDestroySessionComplete(FName SessionName, bool bWasSuccessful)
@@ -250,4 +274,36 @@ void UCowobyGameInstance::StartSession()
 	if (!SessionInterface.IsValid()) return;
 
 	SessionInterface->StartSession(SESSION_NAME);
+}
+
+
+void UCowobyGameInstance::UpdateLobbyPlayerList(const TArray<FPlayerData>& PlayerDataArray)
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->UpdatePlayerList(PlayerDataArray);
+}
+
+
+void UCowobyGameInstance::SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg)
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->SetupInterface(InterfaceArg);
+}
+
+
+void UCowobyGameInstance::UpdateLobbyPlayerReadyButton(bool bPlayerReady)
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->UpdateReadyButton(bPlayerReady);
+}
+
+
+void UCowobyGameInstance::MessageReceived(const FString& Message)
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->MessageReceived(Message);
 }

@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{FD588964-0775-4ED1-9B8F-3D9FDFD005F6}</UniqueIdentifier>
+      <UniqueIdentifier>{F6D84ABB-2777-4C1D-B3FD-8F9A8DD5A227}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{D4936D59-6974-4AFC-9ACC-7BB182211FA3}</UniqueIdentifier>
+      <UniqueIdentifier>{49E05875-4F92-440F-82F0-0727B4292A5B}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,7 +28,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{50A58EDC-1373-477C-8D37-E3322B19CDEB}</UniqueIdentifier>
+      <UniqueIdentifier>{EB75FA97-B634-458C-B9CC-50766017948D}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\AmmoHUD.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
@@ -183,8 +183,53 @@
     <ClInclude Include="..\..\Source\OnlineCowboyGame\WeaponBase.h">
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
+    <Filter Include="Source\OnlineCowboyGame\LobbySystem">
+      <UniqueIdentifier>{3711E74F-CE4F-41B2-8204-CDCF9A114427}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyConnectedPlayerRow.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyConnectedPlayerRow.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyGameMode.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyGameMode.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyGameState.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyGameState.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyMenu.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyMenu.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyMenuInterface.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyMenuInterface.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyPlayerController.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyPlayerController.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyPlayerState.cpp">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyPlayerState.h">
+      <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
+    </ClInclude>
     <Filter Include="Source\OnlineCowboyGame\MenuSystem">
-      <UniqueIdentifier>{8AD205C5-E565-4DF6-BF4E-DA863EE304AC}</UniqueIdentifier>
+      <UniqueIdentifier>{450B1D7F-38DB-4560-867F-E35A6263A4E8}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\MenuSystem\GameMenu.cpp">
       <Filter>Source\OnlineCowboyGame\MenuSystem</Filter>

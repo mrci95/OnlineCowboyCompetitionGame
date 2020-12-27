@@ -20,7 +20,6 @@ class UMovementReplicator;
 class AWeaponBase;
 class UTPPAimingComponent;
 class UFPPAimingComponent;
-class AStaticMeshActor;
 class USceneCaptureComponent2D;
 class UTextureRenderTarget2D;
 

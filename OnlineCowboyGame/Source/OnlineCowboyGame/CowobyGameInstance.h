@@ -8,6 +8,7 @@
 #include "MenuSystem/MenuInterface.h"
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
+#include "LobbySystem/LobbyMenuInterface.h"
 
 #include "CowobyGameInstance.generated.h"
 
@@ -30,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void LoadGameMenu();
 
+	UFUNCTION(BlueprintCallable)
+		void LoadLobbyMenu();
+
 	UFUNCTION(Exec)
 		void Host(FString InServerName);
 
@@ -47,9 +51,15 @@ public:
 
 	void StartSession();
 
+	void UpdateLobbyPlayerList(const TArray<struct FPlayerData>& PlayerDataArray);
+	void UpdateLobbyPlayerReadyButton(bool bPlayerReady);
+	void MessageReceived(const FString& Message);
+	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
+
 private:
 	TSubclassOf<class UMenuWidget> MenuClass;
 	TSubclassOf<class UMenuWidget> GameMenuClass;
+	TSubclassOf<class UMenuWidget> LobbyMenuClass;
 
 	IOnlineSessionPtr SessionInterface;
 
@@ -60,6 +70,7 @@ private:
 
 	class UMainMenu* Menu;
 	class UGameMenu* GameMenu;
+	class ULobbyMenu* LobbyMenu;
 
 	TSharedPtr<class FOnlineSessionSearch>		SessionSearch;
 
