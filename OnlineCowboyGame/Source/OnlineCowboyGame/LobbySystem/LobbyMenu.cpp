@@ -106,3 +106,16 @@ void ULobbyMenu::MessageReceived(const FString& Message)
 
 	Chat->AddChild(MessageWidget);
 }
+
+
+void ULobbyMenu::StartingMatchSeconds(int8 Seconds)
+{
+	FText StartMatch = FText::FromString(FString::Printf(TEXT("Starting match in %d ..."), Seconds));
+	StartingMatchText->SetText(StartMatch);
+
+	if (Seconds == 3)
+		StartingMatchText->SetVisibility(ESlateVisibility::Visible);
+
+	if (Seconds == 0)
+		StartingMatchText->SetVisibility(ESlateVisibility::Hidden);
+}

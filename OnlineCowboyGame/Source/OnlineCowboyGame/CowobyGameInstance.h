@@ -50,10 +50,13 @@ public:
 		void QuitGame();
 
 	void StartSession();
+	void BackToLobby();
 
 	void UpdateLobbyPlayerList(const TArray<struct FPlayerData>& PlayerDataArray);
 	void UpdateLobbyPlayerReadyButton(bool bPlayerReady);
 	void MessageReceived(const FString& Message);
+	void SetLobbyStartingTimer(int8 Seconds);
+	void LobbyMenuTeardown();
 	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
 
 private:

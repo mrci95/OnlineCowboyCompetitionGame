@@ -3,6 +3,7 @@
 
 #include "CowboyPlayerController.h"
 #include "OnlineCowboyGameGameModeBase.h"
+#include "CowboyCompetitionGameState.h"
 #include "GameHUD.h"
 #include "CowboyCharacter.h"
 #include "Kismet/GameplayStatics.h"
@@ -211,10 +212,20 @@ void ACowboyPlayerController::LookRight(float Val)
 
 void ACowboyPlayerController::ToggleAimingView()
 {
-	if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+
+	if (ACowboyCompetitionGameState* GS = GetWorld()->GetGameState<ACowboyCompetitionGameState>())
 	{
-		Cowboy->ToggleAimingView();
+		bool CanChangeView = GS->GetFPPAvailable();
+
+		if (!CanChangeView) return;
+
+		if (ACowboyCharacter* Cowboy = Cast<ACowboyCharacter>(GetPawn()))
+		{
+			Cowboy->ToggleAimingView();
+		}
 	}
+
+	
 }
 
 void ACowboyPlayerController::GrabGun()
@@ -268,4 +279,13 @@ void ACowboyPlayerController::DisableDeathPostProcessWithBlend()
 {
 	if (DeathPostProcess && DeathPostProcess->BlendWeight > 0.0f)
 		DeathPostprocessTimeline.ReverseFromEnd();
+}
+
+
+void ACowboyPlayerController::FPPViewDisabled()
+{
+	if (ACowboyCharacter* Cowboy = GetPawn<ACowboyCharacter>())
+	{
+		Cowboy->FPPDisabled();
+	}
 }

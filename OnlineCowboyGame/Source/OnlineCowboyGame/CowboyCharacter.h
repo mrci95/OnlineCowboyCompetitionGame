@@ -139,6 +139,9 @@ public:
 	void Winner();
 	void Death();
 
+	//Debug
+	void FPPDisabled();
+
 protected:
 	void OnStartingGame();
 	void OnRoundStarted();

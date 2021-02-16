@@ -83,6 +83,9 @@ private:
 		UFUNCTION(BlueprintCallable)
 		void ReloadEnd();
 
+		UFUNCTION(BlueprintCallable)
+		void BulletFired();
+
 		UViewComponent* ViewComponent;
 };
 

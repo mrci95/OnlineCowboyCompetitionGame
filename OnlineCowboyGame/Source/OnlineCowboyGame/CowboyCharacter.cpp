@@ -134,7 +134,7 @@ void ACowboyCharacter::BeginPlay()
 
 	TPPWeapon = GetWorld()->SpawnActor<AWeaponBase>(Weapon.Get(), GetTransform());
 	TPPWeapon->SetOwner(this);
-	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunLeg"));
+	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunSocket_Holder"));
 	TPPWeapon->SetCastHiddenShadow(true);
 
 	if (!ensure(DeathCamActor != nullptr)) return;
@@ -375,6 +375,15 @@ void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 		//Hit detected by actor with authority
 		if (HasAuthority())
 		{
+
+			UWorld* World = GetWorld();
+			ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>();
+
+			if (World == nullptr) return;
+			if (GS == nullptr) return;
+
+			if (GS->GetGameState() != EGameState::ROUND_PENDING) return;
+
 			//Enable ragdoll on self and all simulated proxies
 			CowboyMovementReplicator->OnHit(Hit.Normal * 5000, Hit.Location, Hit.BoneName);		
 			
@@ -388,29 +397,10 @@ void ACowboyCharacter::OnCowobyHit(UPrimitiveComponent* HitComp, AActor* OtherAc
 			}
 
 			//Request round over in game state
-			if (UWorld* World = GetWorld())
-			{
-				if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
-				{
-					GS->SetGameState(EGameState::ROUND_OVER);
-				}
-			}
-		}
-		else // No authority needed 
-		{
-			// VFX - blood particle
-
+			GS->SetGameState(EGameState::ROUND_OVER);
 		}
 
-
-
-		HitComp->SetSimulatePhysics(true);
-		HitComp->AddImpulseAtLocation(Hit.Normal * 5000, Hit.Location, Hit.BoneName);
-		
-		/*if (GEngine)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Hit on %s, OtherActor %s, OtherComp %s, Bone %s, %s"), *HitComp->GetName(), *OtherActor->GetName(), *OtherComp->GetName(), *Hit.BoneName.ToString(), *NormalImpulse.ToString()));
-		}*/
+		// VFX - blood particle
 
 
 
@@ -452,5 +442,17 @@ void ACowboyCharacter::Death()
 
 			CowboyMovementComponent->Death();
 		}
+	}
+}
+
+void ACowboyCharacter::FPPDisabled()
+{
+	if (!ensure(CowboyMovementComponent != nullptr)) return;
+
+	View AimingView = CowboyMovementComponent->GetAimingView();
+
+	if (AimingView == View::FPP)
+	{
+		ToggleAimingView();
 	}
 }

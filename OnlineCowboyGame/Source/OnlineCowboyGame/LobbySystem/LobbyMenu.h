@@ -40,6 +40,8 @@ public:
 
 	void MessageReceived(const FString& Message);
 
+	void StartingMatchSeconds(int8 Seconds);
+
 protected:
 
 	virtual bool Initialize();
@@ -63,6 +65,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UEditableText* MessageInput;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* StartingMatchText;
 
 	TSubclassOf<class ULobbyConnectedPlayerRow> LobbyConnectedPlayerRowClass;
 

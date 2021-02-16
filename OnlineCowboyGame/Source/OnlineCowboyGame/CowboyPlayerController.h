@@ -46,6 +46,9 @@ public:
 	UFUNCTION()
 	void OnTimelineTick(float Value);
 
+	//DEBUG
+	void FPPViewDisabled();
+
 protected:
 
 	//Death post process enabler timeline

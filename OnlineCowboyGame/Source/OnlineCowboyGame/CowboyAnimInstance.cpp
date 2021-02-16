@@ -63,6 +63,12 @@ void UCowboyAnimInstance::GunTaken()
 	ViewComponent->GunTaken();
 }
 
+
+void UCowboyAnimInstance::BulletFired()
+{
+	ViewComponent->BulletFired();
+}
+
 void UCowboyAnimInstance::MontagePlay_ReloadStart()
 {
 	if (!ensure(ReloadMontage != nullptr)) return;

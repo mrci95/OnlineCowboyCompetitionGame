@@ -8,13 +8,15 @@
 #include "CowboyPlayerState.h"
 #include "CowboyPlayerController.h"
 #include "GameHUD.h"
-#include "CowboyCharacter.h"
+#include "CowboyCharacter.h"	
+#include "Kismet/GameplayStatics.h"
 
 ACowboyCompetitionGameState::ACowboyCompetitionGameState()
 {
 	CurrentGameState = EGameState::WAITING_FOR_PLAYERS;
 	CurrentRound = 1;
 	RoundStartCounter = 0;
+	FPPAvailable = true;
 }
 
 void ACowboyCompetitionGameState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -23,13 +25,19 @@ void ACowboyCompetitionGameState::GetLifetimeReplicatedProps(TArray< FLifetimePr
 	DOREPLIFETIME(ACowboyCompetitionGameState, CurrentGameState);
 	DOREPLIFETIME(ACowboyCompetitionGameState, CurrentRound);
 	DOREPLIFETIME(ACowboyCompetitionGameState, RoundStartCounter);
+	DOREPLIFETIME(ACowboyCompetitionGameState, FPPAvailable);
 }
 
 void ACowboyCompetitionGameState::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameHUD = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	APlayerController* PC = UGameplayStatics::GetPlayerControllerFromID(this, 0);
+	UE_LOG(LogTemp, Warning, TEXT(" ACowboyCompetitionGameState::BeginPlay() PC %x"), (void*)PC);
+	if (PC)
+	{
+		GameHUD = PC->GetHUD<AGameHUD>();
+	}
 }
 
 void ACowboyCompetitionGameState::PostInitializeComponents()
@@ -232,7 +240,7 @@ void ACowboyCompetitionGameState::RoundPending()
 	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::StartingRound()"));
 
 
-	if (ACowboyPlayerController* PC = GetWorld()->GetFirstPlayerController<ACowboyPlayerController>())
+	if (ACowboyPlayerController* PC = Cast<ACowboyPlayerController>(UGameplayStatics::GetPlayerControllerFromID(this, 0)))
 	{
 		PC->EnableInput(PC);
 	}
@@ -271,7 +279,7 @@ void ACowboyCompetitionGameState::OnRep_CurrentRound()
 
 void ACowboyCompetitionGameState::RoundOver()
 {
-	if (ACowboyPlayerController* PC = GetWorld()->GetFirstPlayerController<ACowboyPlayerController>())
+	if (ACowboyPlayerController* PC = Cast<ACowboyPlayerController>(UGameplayStatics::GetPlayerControllerFromID(this, 0)))
 	{
 		PC->DisableAndResetInput();
 	}
@@ -324,13 +332,10 @@ void ACowboyCompetitionGameState::OnRespawnTimerExpiration()
 
 void ACowboyCompetitionGameState::Multi_Respawn_Implementation()
 {
-	//Get My local PC
-	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::Multi_Respawn_Implementation()"));
 	if (UWorld* World = GetWorld())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::Multi_Respawn_Implementation() world ok"));
-		UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::Multi_Respawn_Implementation() %x"), (void*)World->GetFirstPlayerController());
-		ACowboyPlayerController* PC = World->GetFirstPlayerController< ACowboyPlayerController>();
+		ACowboyPlayerController* PC = Cast<ACowboyPlayerController>(UGameplayStatics::GetPlayerControllerFromID(this, 0));
 		UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::Multi_Respawn_Implementation() %x"), (void*)PC);
 
 		if (PC)
@@ -392,5 +397,44 @@ void ACowboyCompetitionGameState::MatchOutroLoaded()
 		}
 		CowboyPS2->UpdateMatchIntroView();
 		GameHUD->ShowWinner(CowboyPS2->GetPlayerName(), CowboyPS2->GetMatchIntroView());
+	}
+
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &ACowboyCompetitionGameState::BackToLobby, 5.0f, false);
+}
+
+void ACowboyCompetitionGameState::BackToLobby()
+{
+	if (UWorld* World = GetWorld())
+	{
+		if (AOnlineCowboyGameGameModeBase* GM = World->GetAuthGameMode<AOnlineCowboyGameGameModeBase>())
+		{
+			GM->BackToLobby();
+		}
+	}
+}
+
+void ACowboyCompetitionGameState::SetFPPAvailable(bool Var)
+{
+	FPPAvailable = Var; 	
+	
+	if (FPPAvailable == false)
+	{
+		ACowboyPlayerController* PC = Cast<ACowboyPlayerController>(UGameplayStatics::GetPlayerControllerFromID(this, 0));
+		if (PC)
+		{
+			PC->FPPViewDisabled();
+		}
+	}
+};
+
+void ACowboyCompetitionGameState::OnRep_FPPAvailable()
+{
+	if (FPPAvailable == false)
+	{
+		ACowboyPlayerController* PC = Cast<ACowboyPlayerController>(UGameplayStatics::GetPlayerControllerFromID(this, 0));
+		if (PC)
+		{
+			PC->FPPViewDisabled();
+		}
 	}
 }

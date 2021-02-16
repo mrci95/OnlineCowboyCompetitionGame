@@ -411,7 +411,7 @@ void UViewComponent::GunTaken()
 	if (!ensure(TPPWeapon != nullptr)) return;
 	if (!ensure(CoboyTppMesh != nullptr)) return;
 
-	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunHand"));
+	TPPWeapon->AttachToComponent(CoboyTppMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, FName("GunSocket_RightHand"));
 }
 
 bool UViewComponent::CanFire()
@@ -425,26 +425,6 @@ bool UViewComponent::CanFire()
 void UViewComponent::OnFire()
 {
 	if (!TPPAnimInstance->bIsGunTaken) return;
-
-	FVector HitPoint = GetBulletHitPoint();
-	if (Pawn->IsLocallyControlled())
-	{
-		switch (CurrentView)
-		{
-		case View::FPP:
-			FPPWeapon->OnFire(HitPoint);
-			break;
-		case View::TPP:
-			TPPWeapon->OnFire(HitPoint);
-			break;
-		default:
-			break;
-		}
-	}
-	else
-	{
-		TPPWeapon->OnFire(HitPoint);
-	}
 
 	PlayFireAnimation();
 }
@@ -509,6 +489,29 @@ FVector UViewComponent::TPP_GetBulletHitPoint()
 	}
 
 	return HitPoint;
+}
+
+void UViewComponent::BulletFired()
+{
+	FVector HitPoint = GetBulletHitPoint();
+	if (Pawn->IsLocallyControlled())
+	{
+		switch (CurrentView)
+		{
+		case View::FPP:
+			FPPWeapon->OnFire(HitPoint);
+			break;
+		case View::TPP:
+			TPPWeapon->OnFire(HitPoint);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		TPPWeapon->OnFire(HitPoint);
+	}
 }
 
 void UViewComponent::Respawn()

@@ -36,6 +36,9 @@ public:
 
 	EGameState GetGameState(){ return CurrentGameState;};
 
+	void SetFPPAvailable(bool Var);
+	bool GetFPPAvailable() { return FPPAvailable; };
+
 	UFUNCTION()
 	void SetGameState(EGameState State);
 
@@ -59,7 +62,6 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_CurrentRound)
 	uint8 CurrentRound;
 
-
 	UPROPERTY(ReplicatedUsing = OnRep_RoundStartCounter)
 	uint8 RoundStartCounter;
 
@@ -76,6 +78,12 @@ protected:
 
 private:
 
+	UPROPERTY(ReplicatedUsing = OnRep_FPPAvailable)
+	bool FPPAvailable;
+
+	UFUNCTION()
+	void OnRep_FPPAvailable();
+
 	FTimerDelegate DelayTimerDelegate;
 	FTimerHandle DelayTimer;
 
@@ -90,12 +98,14 @@ private:
 	void MatchEnd();
 
 
+
 	void TriggerPresentationEndForAllPlayers();
 	bool CheckIfAnyPlayerWon();
 
 	void StartCounting();
 	void OneSecondInterval();
 	void SetRoundStartCounterHUD(uint8 Counter);
+	void BackToLobby();
 
 	FTimerHandle RespawnTimer;
 	void OnRespawnTimerExpiration();

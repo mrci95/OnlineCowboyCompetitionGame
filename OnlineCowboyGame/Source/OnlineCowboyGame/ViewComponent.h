@@ -61,6 +61,7 @@ public:
 
 	bool CanFire();
 	void OnFire();
+	void BulletFired();
 
 	FVector GetBulletHitPoint();
 

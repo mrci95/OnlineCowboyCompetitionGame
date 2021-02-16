@@ -17,7 +17,7 @@ class ONLINECOWBOYGAME_API ALobbyGameMode : public AGameModeBase
 
 public:
 
-	void PostLogin(APlayerController* NewPlayer) override;
+	void GenericPlayerInitialization(AController* NewPlayer) override;
 
 	void Logout(AController* Exiting) override;
 
@@ -32,9 +32,12 @@ private:
 	TArray<class ALobbyPlayerController*> ConnectedPlayers;
 
 	uint32 NoOfCurrentPlayers = 0;
+	bool GameStarted = false;
 
 	FTimerHandle DelayTimer;
-	FTimerHandle StartSessionTimer;
+	FTimerHandle SessionStartTimer;
+
+	void StartingSessionTimer();
 
 	void StartSession();
 

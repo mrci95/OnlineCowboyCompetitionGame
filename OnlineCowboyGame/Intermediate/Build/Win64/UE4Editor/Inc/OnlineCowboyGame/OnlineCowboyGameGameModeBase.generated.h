@@ -14,8 +14,16 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define ONLINECOWBOYGAME_OnlineCowboyGameGameModeBase_generated_h
 
 #define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_SPARSE_DATA
-#define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_RPC_WRAPPERS
-#define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_RPC_WRAPPERS_NO_PURE_DECLS
+#define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_RPC_WRAPPERS \
+ \
+	DECLARE_FUNCTION(execSetFPP);
+
+
+#define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execSetFPP);
+
+
 #define OnlineCowboyGame_Source_OnlineCowboyGame_OnlineCowboyGameGameModeBase_h_13_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAOnlineCowboyGameGameModeBase(); \

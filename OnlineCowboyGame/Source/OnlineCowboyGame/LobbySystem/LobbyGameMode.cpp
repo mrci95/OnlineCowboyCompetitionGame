@@ -3,16 +3,17 @@
 
 
 #include "LobbyGameMode.h"
-#include "../CowboyAnimInstance.h"
+#include "../CowobyGameInstance.h"
 #include "GameFramework/PlayerState.h"
 #include "GameFramework/PlayerController.h"
 #include "LobbyPlayerState.h"
 #include "LobbyPlayerController.h"
 #include "LobbyMenu.h"
+#include "LobbyGameState.h"
 
-void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
+void ALobbyGameMode::GenericPlayerInitialization(AController* NewPlayer)
 {
-	Super::PostLogin(NewPlayer);
+	Super::GenericPlayerInitialization(NewPlayer);
 	++NoOfCurrentPlayers;
 
 	ALobbyPlayerController* JoiningPlayer = Cast<ALobbyPlayerController>(NewPlayer);
@@ -78,7 +79,12 @@ void ALobbyGameMode::PlayerReady()
 
 	if (CheckIfAllPlayersReady())
 	{
-		//start timer start session
+		if (ALobbyGameState* GS = GetGameState<ALobbyGameState>())
+		{
+			GameStarted = true;
+			GS->SetSecondsToStart(3);
+			GetWorldTimerManager().SetTimer(SessionStartTimer, this, &ALobbyGameMode::StartingSessionTimer, 1.0f);
+		}
 	}
 }
 
@@ -86,9 +92,13 @@ void ALobbyGameMode::PlayerNotReady()
 {
 	UpdatePlayersList();
 
-	if (CheckIfAllPlayersReady())
+	GameStarted = false;
+
+	GetWorldTimerManager().ClearTimer(SessionStartTimer);
+
+	if (ALobbyGameState* GS = GetGameState<ALobbyGameState>())
 	{
-		//start timer start session
+		GS->SetSecondsToStart(0);
 	}
 }
 
@@ -106,17 +116,53 @@ void ALobbyGameMode::MessageReceived(FString Message, class ALobbyPlayerControll
 
 void ALobbyGameMode::StartSession()
 {
-	//UPuzzlePlatformsGameInstance* GameInstance = Cast<UPuzzlePlatformsGameInstance>(GetGameInstance());
-	//GameInstance->StartSession();
+	bUseSeamlessTravel = true;
 
-	//UWorld* World = GetWorld();
-	//if (!ensure(World != nullptr)) return;
+	UCowobyGameInstance* GameInstance = Cast<UCowobyGameInstance>(GetGameInstance());
+	GameInstance->StartSession();
 
-	//World->ServerTravel("/Game/ThirdPersonCPP/Maps/Game?listen");
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+	World->ServerTravel("/Game/Level/TestLevel?listen");
 }
 
 
 bool ALobbyGameMode::CheckIfAllPlayersReady()
 {
-	return false;
+	bool AllReady = true;
+
+	for (ALobbyPlayerController* PC : ConnectedPlayers)
+	{
+		if (ALobbyPlayerState* PS = PC->GetPlayerState< ALobbyPlayerState>())
+		{
+			if (!PS->IsReady())
+			{
+				AllReady = false;
+				break;
+			}
+		}
+	}
+
+	return AllReady;
+}
+
+
+void ALobbyGameMode::StartingSessionTimer()
+{
+	if (ALobbyGameState* GS = GetGameState<ALobbyGameState>())
+	{
+		if (GameStarted)
+		{
+			if (GS->GetSecondsToStart() > 0)
+			{
+				GS->SetSecondsToStart(GS->GetSecondsToStart() - 1);
+				GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyGameMode::StartingSessionTimer, 1.0f);
+			}
+			else
+			{
+				GS->Multi_StartingGame();
+				StartSession();
+			}
+		}
+	}
 }

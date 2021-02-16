@@ -14,12 +14,18 @@ class ONLINECOWBOYGAME_API AOnlineCowboyGameGameModeBase : public AGameModeBase
 	
 public:
 
-	virtual void PostLogin(APlayerController* NewPlayer) override;
+
+	UFUNCTION(Exec)
+		void SetFPP(bool FPPAvailable);
+
+
+	virtual void GenericPlayerInitialization(AController* C) override;
 	virtual void Logout(AController* Exiting) override;
 	void DestoryAllPawns();
 	
 	void RespawnPawn(APlayerController* PC);
 	uint8 GetMaxRounds(){ return MaxRounds; };
+	void BackToLobby();
 private:
 	void SetPlayerData();
 	TArray<AController*> ConnectedPlayerControllers;

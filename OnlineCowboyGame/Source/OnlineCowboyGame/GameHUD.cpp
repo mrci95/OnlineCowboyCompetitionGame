@@ -31,7 +31,7 @@ void AGameHUD::BeginPlay()
 
 	CreateMatchHUD();
 
-	CreateMatchIntroHUD();
+	//CreateMatchIntroHUD();
 }
 
 void AGameHUD::CreateGameInterface()
@@ -41,7 +41,7 @@ void AGameHUD::CreateGameInterface()
 
 	if (UWorld* World = GetWorld())
 	{
-		if (APlayerController* PC = World->GetFirstPlayerController())
+		if (APlayerController* PC = GetOwningPlayerController())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateGameInterface()"));
 			GameHUDWidget = CreateWidget<UGameHUDWidget>(PC, GameHUDWidgetClass);

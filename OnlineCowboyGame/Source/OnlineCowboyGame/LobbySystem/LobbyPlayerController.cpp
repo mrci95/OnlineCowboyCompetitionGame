@@ -8,6 +8,7 @@
 
 void ALobbyPlayerController::BeginPlay()
 {
+	Super::BeginPlay();
 	if (UCowobyGameInstance* GameInstance = GetGameInstance<UCowobyGameInstance>())
 	{
 		if(IsLocalController())

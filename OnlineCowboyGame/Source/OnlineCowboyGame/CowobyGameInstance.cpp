@@ -307,3 +307,33 @@ void UCowobyGameInstance::MessageReceived(const FString& Message)
 
 	LobbyMenu->MessageReceived(Message);
 }
+
+void UCowobyGameInstance::SetLobbyStartingTimer(int8 Seconds)
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->StartingMatchSeconds(Seconds);
+}
+
+
+void UCowobyGameInstance::LobbyMenuTeardown()
+{
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	UE_LOG(LogTemp, Warning, TEXT("LobbyMenuTeardown"));
+
+	LobbyMenu->Teardown();
+}
+
+
+void UCowobyGameInstance::BackToLobby()
+{
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	if (!SessionInterface.IsValid()) return;
+
+	SessionInterface->EndSession(SESSION_NAME);
+
+	World->ServerTravel("/Game/LobbySystem/LobbyLevel?listen");
+}

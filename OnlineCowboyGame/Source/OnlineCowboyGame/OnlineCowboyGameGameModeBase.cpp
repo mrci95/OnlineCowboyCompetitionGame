@@ -7,16 +7,17 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "CowboyPlayerState.h"
+#include "CowobyGameInstance.h"
 
-void AOnlineCowboyGameGameModeBase::PostLogin(APlayerController* NewPlayer)
+void AOnlineCowboyGameGameModeBase::GenericPlayerInitialization(AController* NewPlayer)
 {
-	Super::PostLogin(NewPlayer);
-	UE_LOG(LogTemp, Warning, TEXT("AOnlineCowboyGameGameModeBase::PostLogin"));
+	Super::GenericPlayerInitialization(NewPlayer);
+	UE_LOG(LogTemp, Warning, TEXT("AOnlineCowboyGameGameModeBase::GenericPlayerInitialization"));
 	++ConnectedPlayers;
 	ConnectedPlayerControllers.AddUnique(NewPlayer);
 	if (ConnectedPlayers == MaxConnectedPlayers)
 	{
-		GetWorldTimerManager().SetTimer(DelayTimer, this, &AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation, 2.0f);
+		GetWorldTimerManager().SetTimer(DelayTimer, this, &AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation, 1.0f);
 	}
 }
 
@@ -31,18 +32,17 @@ void AOnlineCowboyGameGameModeBase::Logout(AController* Exiting)
 
 void AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Begin Player presentation"));
+	UE_LOG(LogTemp, Warning, TEXT("Begin Match"));
 
 	SetPlayerData();
 	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
 	{
-		GS->SetGameState(EGameState::PLAYERS_PRESENTATION);
+		GS->SetGameState(EGameState::STARTING_MATCH);
 	}
 }
 
 void AOnlineCowboyGameGameModeBase::SetPlayerData()
 {
-	int i = 0;
 	for (AController* Controller : ConnectedPlayerControllers)
 	{
 		APlayerController* PC = Cast< APlayerController>(Controller);
@@ -53,9 +53,8 @@ void AOnlineCowboyGameGameModeBase::SetPlayerData()
 			{
 				if (ACowboyPlayerState* PS = Pawn->GetPlayerState<ACowboyPlayerState>())
 				{
-					FString Name = i == 0 ? "Luq" : "Vinci";
+					FString Name = PS->GetPlayerName();
 					PS->SetPlayerName(Name);
-					i++;
 				}
 			}
 		}
@@ -122,4 +121,24 @@ void AOnlineCowboyGameGameModeBase::RespawnPawn(APlayerController* PC)
 		PC->Possess(NewCowboy);
 	}
 
+}
+
+void AOnlineCowboyGameGameModeBase::BackToLobby()
+{
+	bUseSeamlessTravel = true;
+
+	if (UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>())
+	{
+		GI->BackToLobby();
+	}
+}
+
+
+void AOnlineCowboyGameGameModeBase::SetFPP(bool FPPAvailable)
+{
+	UE_LOG(LogTemp, Warning, TEXT(" AOnlineCowboyGameGameModeBase::SetFPP %d"), FPPAvailable);
+	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
+	{
+		GS->SetFPPAvailable(FPPAvailable);
+	}
 }
