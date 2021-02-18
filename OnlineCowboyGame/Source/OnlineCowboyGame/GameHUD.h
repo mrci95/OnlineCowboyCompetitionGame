@@ -51,7 +51,6 @@ protected:
 
 	TSubclassOf<class UMatchHUD> MatchHUDClass;
 
-	TSubclassOf<class UMatchIntroHUD> MatchIntroHUDClass;
 
 
 private:
@@ -62,8 +61,6 @@ private:
 	UPROPERTY()
 	class UMatchHUD* MatchHUD;
 
-	UPROPERTY()
-	class UMatchIntroHUD* MatchIntroHUD;
 
 	void CreateGameInterface();
 

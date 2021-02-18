@@ -123,7 +123,7 @@ void ALobbyGameMode::StartSession()
 
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
-	World->ServerTravel("/Game/Level/TestLevel?listen");
+	World->ServerTravel("/Game/PlayersIntro/PlayersIntroLevel?listen");
 }
 
 

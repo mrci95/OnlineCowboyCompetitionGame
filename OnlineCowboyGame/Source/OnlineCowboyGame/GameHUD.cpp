@@ -8,18 +8,15 @@
 
 AGameHUD::AGameHUD()
 {
-	ConstructorHelpers::FClassFinder<UGameHUDWidget> WBP_GameHUD_BPClass(TEXT("/Game/Level/WBP_GameHUD"));
+	ConstructorHelpers::FClassFinder<UGameHUDWidget> WBP_GameHUD_BPClass(TEXT("/Game/GameLevel/WBP_GameHUD"));
 	if (!ensure(WBP_GameHUD_BPClass.Class != nullptr)) return;
 	GameHUDWidgetClass = WBP_GameHUD_BPClass.Class;
 
 
-	ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/Level/MatchHUD"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MatchHUD_BPClass(TEXT("/Game/GameLevel/MatchHUD"));
 	if (!ensure(MatchHUD_BPClass.Class != nullptr)) return;
 	MatchHUDClass = MatchHUD_BPClass.Class;
 
-	ConstructorHelpers::FClassFinder<UUserWidget> MatchIntro_BPClass(TEXT("/Game/Level/WBP_MatchIntro"));
-	if (!ensure(MatchIntro_BPClass.Class != nullptr)) return;
-	MatchIntroHUDClass = MatchIntro_BPClass.Class;
 }
 
 
@@ -63,24 +60,11 @@ void AGameHUD::CreateMatchHUD()
 	}
 }
 
-void AGameHUD::CreateMatchIntroHUD()
-{
-	if (!ensure(MatchIntroHUDClass != nullptr)) return;
-
-	if (APlayerController* PC = GetOwningPlayerController())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateMatchIntroHUD()"));
-		MatchIntroHUD = CreateWidget<UMatchIntroHUD>(PC, MatchIntroHUDClass);
-
-		MatchIntroHUD->BeginWaitingForPlayers();
-	}
-}
-
 
 void AGameHUD::BeginPlayersPresentation()
 {
-	if (!MatchIntroHUD) return;
-	MatchIntroHUD->StopWaitingForPlayers();
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
 	GetWorldTimerManager().SetTimer(DelayTimer, this, &AGameHUD::PresentPlayers, 0.5f);
 }
@@ -88,29 +72,29 @@ void AGameHUD::BeginPlayersPresentation()
 
 void AGameHUD::EndPlayersPresentation()
 {
-	if (!MatchIntroHUD) return;
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
-	MatchIntroHUD->EndPlayersPresentation();
 }
 
 void AGameHUD::BeginMatchSummary()
 {
-	if (!MatchIntroHUD) return;
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
-	MatchIntroHUD->BeginMatchSummary();
 }
 
 void AGameHUD::ShowWinner(FString PlayerName, UTextureRenderTarget2D* View)
 {
-	if (!MatchIntroHUD) return;
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
-	MatchIntroHUD->ShowWinner(PlayerName, View);
 }
 
 void AGameHUD::PresentPlayers()
 {
-	if (!MatchIntroHUD) return;
-	MatchIntroHUD->PresentPlayers();
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
 	GetWorldTimerManager().SetTimer(DelayTimer, this, &AGameHUD::PresentPlayersName, 1.0f);
 }
@@ -118,16 +102,14 @@ void AGameHUD::PresentPlayers()
 
 void AGameHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo, UTextureRenderTarget2D* PlayerOneView, UTextureRenderTarget2D* PlayerTwoView)
 {
-	if (!MatchIntroHUD) return;
 	if (!ensure(MatchHUD != nullptr)) return;
-	MatchIntroHUD->SetPlayersData(PlayerOne, PlayerTwo, PlayerOneView, PlayerTwoView);
 	MatchHUD->SetPlayersName(PlayerOne, PlayerTwo);
 }
 
 void AGameHUD::PresentPlayersName()
 {
-	if (!MatchIntroHUD) return;
-	MatchIntroHUD->PresentPlayersName();
+	//To be removed
+	//if (!MatchIntroHUD) return;
 
 }
 

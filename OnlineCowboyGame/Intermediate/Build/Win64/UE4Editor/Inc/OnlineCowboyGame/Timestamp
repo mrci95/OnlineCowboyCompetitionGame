@@ -1,5 +1,4 @@
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyConnectedPlayerRow.h
-C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyGameMode.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyGameState.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyMenu.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyMenuInterface.h
@@ -9,8 +8,10 @@ C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowbo
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MenuSystem\GameMenuInterface.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MenuSystem\MainMenu.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MenuSystem\MenuInterface.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\LobbySystem\LobbyGameMode.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MenuSystem\MenuWidget.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\MenuSystem\ServerRow.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\PlayersIntroSystem\PlayersIntroGameMode.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\AmmoHUD.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\BulletBase.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\BulletHUD.h
@@ -35,3 +36,4 @@ C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowbo
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\ViewComponent.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\WaitingForPlayersHUD.h
 C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\WeaponBase.h
+C:\Users\lukas\Documents\Unreal Projects\OnlineCowboyCompetitionGame\OnlineCowboyGame\Source\OnlineCowboyGame\PlayersIntroSystem\PlayerIntroGameState.h

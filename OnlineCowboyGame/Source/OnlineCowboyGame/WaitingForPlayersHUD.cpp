@@ -7,7 +7,6 @@
 void UWaitingForPlayersHUD::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	Root->SetRenderOpacity(0.0f);
 }
 
 void UWaitingForPlayersHUD::Show()

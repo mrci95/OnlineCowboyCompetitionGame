@@ -8,6 +8,7 @@
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/GameMenu.h"
 #include "LobbySystem/LobbyMenu.h"
+#include "MatchIntroHUD.h"
 
 #include "OnlineSessionSettings.h"
 #include "Interfaces/OnlineSessionInterface.h"
@@ -21,6 +22,7 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 	ConstructorHelpers::FClassFinder<UUserWidget> MainMenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
 	ConstructorHelpers::FClassFinder<UUserWidget> GameMenuBPClass(TEXT("/Game/MenuSystem/WBP_GameMenu"));
 	ConstructorHelpers::FClassFinder<UUserWidget> LobbyMenuBPClass(TEXT("/Game/LobbySystem/WBP_LobbyMenu"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MatchIntro_BPClass(TEXT("/Game/PlayersIntro/WBP_MatchIntro"));
 
 	if (!ensure(MainMenuBPClass.Class != nullptr)) return;
 	MenuClass = MainMenuBPClass.Class;
@@ -30,6 +32,9 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 
 	if (!ensure(LobbyMenuBPClass.Class != nullptr)) return;
 	LobbyMenuClass = LobbyMenuBPClass.Class;
+
+	if (!ensure(MatchIntro_BPClass.Class != nullptr)) return;
+	MatchIntroClass = MatchIntro_BPClass.Class;
 }
 
 void UCowobyGameInstance::Init()
@@ -93,6 +98,18 @@ void UCowobyGameInstance::LoadLobbyMenu()
 	LobbyMenu->Setup();
 }
 
+UMatchIntroHUD* UCowobyGameInstance::CreatePlayersIntroWidget()
+{
+	if (MatchIntroHUD != nullptr) return MatchIntroHUD;
+
+	if (!ensure(MatchIntroClass != nullptr)) return nullptr;
+
+	UE_LOG(LogTemp, Warning, TEXT("UCowboyGameInstance::CreatePlayersIntroWidget()"));
+
+	MatchIntroHUD = CreateWidget<UMatchIntroHUD>(this, MatchIntroClass);
+
+	return MatchIntroHUD;
+}
 
 void UCowobyGameInstance::Host(FString InServerName)
 {

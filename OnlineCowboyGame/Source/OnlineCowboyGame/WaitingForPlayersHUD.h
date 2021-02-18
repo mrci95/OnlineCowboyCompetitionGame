@@ -18,7 +18,9 @@ public:
 
 	virtual void NativeOnInitialized() override;
 
+
 	void Show();
+
 	void Hide();
 
 	UPROPERTY(meta = (BindWidget))

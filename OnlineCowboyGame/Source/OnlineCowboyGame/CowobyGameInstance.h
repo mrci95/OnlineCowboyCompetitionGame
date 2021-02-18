@@ -58,11 +58,13 @@ public:
 	void SetLobbyStartingTimer(int8 Seconds);
 	void LobbyMenuTeardown();
 	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
+	class UMatchIntroHUD* CreatePlayersIntroWidget();
 
 private:
 	TSubclassOf<class UMenuWidget> MenuClass;
 	TSubclassOf<class UMenuWidget> GameMenuClass;
 	TSubclassOf<class UMenuWidget> LobbyMenuClass;
+	TSubclassOf<class UMatchIntroHUD> MatchIntroClass;
 
 	IOnlineSessionPtr SessionInterface;
 
@@ -74,6 +76,9 @@ private:
 	class UMainMenu* Menu;
 	class UGameMenu* GameMenu;
 	class ULobbyMenu* LobbyMenu;
+
+	UPROPERTY()
+	class UMatchIntroHUD* MatchIntroHUD;
 
 	TSharedPtr<class FOnlineSessionSearch>		SessionSearch;
 

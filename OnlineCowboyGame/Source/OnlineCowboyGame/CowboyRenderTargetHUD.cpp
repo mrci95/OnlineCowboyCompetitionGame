@@ -9,10 +9,10 @@
 UCowboyRenderTargetHUD::UCowboyRenderTargetHUD(const FObjectInitializer& ObjectInitializer) : UUserWidget(ObjectInitializer)
 {
     // Path to the material
-    ConstructorHelpers::FObjectFinder<UMaterial> snapshotMaterialFinder(TEXT("/Game/CowboyPawn/MAT_PlayerRT"));
+    //ConstructorHelpers::FObjectFinder<UMaterial> snapshotMaterialFinder(TEXT("/Game/CowboyPawn/MAT_PlayerRT"));
 
     // Need to cast the pointer. The mSnapshotMaterial has type UMaterial*
-    SnapshotMaterialBase = (UMaterial*)snapshotMaterialFinder.Object;
+    //SnapshotMaterialBase = (UMaterial*)snapshotMaterialFinder.Object;
 }
 
 void UCowboyRenderTargetHUD::NativeConstruct()

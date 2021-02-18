@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\OnlineCowboyGame.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{F6D84ABB-2777-4C1D-B3FD-8F9A8DD5A227}</UniqueIdentifier>
+      <UniqueIdentifier>{9453EF52-E69B-4229-80D6-7DE8C234A649}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\OnlineCowboyGame.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\.gitignore" />
     <Filter Include="Config">
-      <UniqueIdentifier>{49E05875-4F92-440F-82F0-0727B4292A5B}</UniqueIdentifier>
+      <UniqueIdentifier>{64DB0588-CADD-4CF0-A70B-03E8D3D5D9A9}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -28,7 +28,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\OnlineCowboyGame">
-      <UniqueIdentifier>{EB75FA97-B634-458C-B9CC-50766017948D}</UniqueIdentifier>
+      <UniqueIdentifier>{140EA2AA-C7CC-40DE-B094-5457164F5577}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\AmmoHUD.cpp">
       <Filter>Source\OnlineCowboyGame</Filter>
@@ -184,7 +184,7 @@
       <Filter>Source\OnlineCowboyGame</Filter>
     </ClInclude>
     <Filter Include="Source\OnlineCowboyGame\LobbySystem">
-      <UniqueIdentifier>{3711E74F-CE4F-41B2-8204-CDCF9A114427}</UniqueIdentifier>
+      <UniqueIdentifier>{20F7B46A-CD5A-4678-B67E-8C897F99827F}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\LobbySystem\LobbyConnectedPlayerRow.cpp">
       <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
@@ -229,7 +229,7 @@
       <Filter>Source\OnlineCowboyGame\LobbySystem</Filter>
     </ClInclude>
     <Filter Include="Source\OnlineCowboyGame\MenuSystem">
-      <UniqueIdentifier>{450B1D7F-38DB-4560-867F-E35A6263A4E8}</UniqueIdentifier>
+      <UniqueIdentifier>{9F63144E-4872-4150-A400-2A7F07053483}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\OnlineCowboyGame\MenuSystem\GameMenu.cpp">
       <Filter>Source\OnlineCowboyGame\MenuSystem</Filter>
@@ -266,6 +266,21 @@
     </ClCompile>
     <ClInclude Include="..\..\Source\OnlineCowboyGame\MenuSystem\ServerRow.h">
       <Filter>Source\OnlineCowboyGame\MenuSystem</Filter>
+    </ClInclude>
+    <Filter Include="Source\OnlineCowboyGame\PlayersIntroSystem">
+      <UniqueIdentifier>{22FD9F3F-D3DC-41AF-A5EA-ECE4483ACDD2}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\PlayersIntroSystem\PlayerIntroGameState.cpp">
+      <Filter>Source\OnlineCowboyGame\PlayersIntroSystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\PlayersIntroSystem\PlayerIntroGameState.h">
+      <Filter>Source\OnlineCowboyGame\PlayersIntroSystem</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\OnlineCowboyGame\PlayersIntroSystem\PlayersIntroGameMode.cpp">
+      <Filter>Source\OnlineCowboyGame\PlayersIntroSystem</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\OnlineCowboyGame\PlayersIntroSystem\PlayersIntroGameMode.h">
+      <Filter>Source\OnlineCowboyGame\PlayersIntroSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

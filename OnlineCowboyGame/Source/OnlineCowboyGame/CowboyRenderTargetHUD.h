@@ -24,7 +24,6 @@ public:
 	
 protected:
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UImage* RenderedView = nullptr;
 
 private:
