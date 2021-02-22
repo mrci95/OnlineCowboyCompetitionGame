@@ -37,7 +37,7 @@ void AOnlineCowboyGameGameModeBase::GameStatePlayerPresentation()
 	SetPlayerData();
 	if (ACowboyCompetitionGameState* GS = GetGameState<ACowboyCompetitionGameState>())
 	{
-		GS->SetGameState(EGameState::STARTING_MATCH);
+		GS->SetGameState(EGameState::PLAYERS_PRESENTATION_DONE);
 	}
 }
 

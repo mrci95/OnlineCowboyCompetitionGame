@@ -32,8 +32,13 @@ public:
 	UPROPERTY(meta = (BindWidgetAnim))
 	class UWidgetAnimation* BeginPresentationAnimation;
 
+	UPROPERTY(meta = (BindWidgetAnim))
+	class UWidgetAnimation* TeardownAnimation;
+
 	UFUNCTION(BlueprintCallable)
 	void PresentationDone();
+
+	void TeardownPresentation();
 
 private:
 

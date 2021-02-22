@@ -36,3 +36,8 @@ void UMatchIntroHUD::PresentationDone()
 		GS->PresentationDone();
 	}
 }
+
+void UMatchIntroHUD::TeardownPresentation()
+{
+	PlayAnimation(TeardownAnimation);
+}

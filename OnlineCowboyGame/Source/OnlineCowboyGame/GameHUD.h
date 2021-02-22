@@ -26,7 +26,7 @@ public:
 	void BeginMatchSummary();
 	void ShowWinner(FString PlayerName, UTextureRenderTarget2D* View);
 	void UpdatePlayersScore(uint16 PlayerOne, uint16 PlayerTwo);
-	void SetPlayersData(FString PlayerOne, FString PlayerTwo, UTextureRenderTarget2D* PlayerOneView, UTextureRenderTarget2D* PlayerTwoView);
+	void SetPlayersData(FString PlayerOne, FString PlayerTwo);
 	void OnPawnPossessed();
 
 	void SetCurrentRound(uint16 Round);

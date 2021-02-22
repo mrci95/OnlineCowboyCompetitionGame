@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeOnlineCowboyGame_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0xE37B36FA,
+				0xFF0303E4,
 				0x31FABCC7,
 				METADATA_PARAMS(nullptr, 0)
 			};

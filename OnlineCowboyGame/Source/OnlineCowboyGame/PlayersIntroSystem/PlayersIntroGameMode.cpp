@@ -20,7 +20,7 @@ void APlayersIntroGameMode::GenericPlayerInitialization(AController* NewPlayer)
 
 	if (NoOfCurrentPlayers == 2)
 	{
-		GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::PresentPlayers, 0.5f);
+		GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::PresentPlayers, 2.5f);
 	}
 
 }
@@ -41,7 +41,6 @@ void APlayersIntroGameMode::Logout(AController* Exiting)
 void APlayersIntroGameMode::PresentPlayers()
 {
 	UE_LOG(LogTemp, Warning, TEXT("2 playeers logged start presentation"));
-
 	if (APlayerIntroGameState* GS = GetGameState<APlayerIntroGameState>())
 	{
 		GS->BeginPlayersPresentation();

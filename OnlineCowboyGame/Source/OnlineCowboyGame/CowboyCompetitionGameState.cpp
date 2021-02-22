@@ -3,11 +3,13 @@
 
 #include "CowboyCompetitionGameState.h"
 #include "OnlineCowboyGameGameModeBase.h"
+#include "CowobyGameInstance.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Net/UnrealNetwork.h"
 #include "CowboyPlayerState.h"
 #include "CowboyPlayerController.h"
 #include "GameHUD.h"
+#include "MatchIntroHUD.h"
 #include "CowboyCharacter.h"	
 #include "Kismet/GameplayStatics.h"
 
@@ -38,6 +40,10 @@ void ACowboyCompetitionGameState::BeginPlay()
 	{
 		GameHUD = PC->GetHUD<AGameHUD>();
 	}
+
+	UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>();
+	MatchIntroHUD = GI->CreatePlayersIntroWidget();
+
 }
 
 void ACowboyCompetitionGameState::PostInitializeComponents()
@@ -67,8 +73,8 @@ void ACowboyCompetitionGameState::SetGameState(EGameState State)
 
 	switch (CurrentGameState)
 	{
-		case EGameState::PLAYERS_PRESENTATION:
-			PlayersPresentation();
+		case EGameState::PLAYERS_PRESENTATION_DONE:
+			PresentationDone();
 			break;
 		case EGameState::STARTING_MATCH:
 			StartingMatch();
@@ -96,8 +102,8 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 
 	switch (CurrentGameState)
 	{
-		case EGameState::PLAYERS_PRESENTATION:
-			PlayersPresentation();
+		case EGameState::PLAYERS_PRESENTATION_DONE:
+			PresentationDone();
 			break;	
 		case EGameState::STARTING_MATCH:
 			StartingMatch();
@@ -119,9 +125,9 @@ void ACowboyCompetitionGameState::OnRep_CurrentGameState()
 	}
 }
 
-void ACowboyCompetitionGameState::PlayersPresentation()
+void ACowboyCompetitionGameState::SetPlayersDataOnHUD()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::PlayersPresentation()"));
+	UE_LOG(LogTemp, Warning, TEXT("ACowboyCompetitionGameState::SetPlayersDataOnHUD()"));
 
 	if (GameHUD)
 	{
@@ -131,20 +137,23 @@ void ACowboyCompetitionGameState::PlayersPresentation()
 		if (FirstCowboyPS == nullptr) return;
 		if (SecondCowboyPS == nullptr) return;
 
-		FirstCowboyPS->UpdateMatchIntroView();
-		SecondCowboyPS->UpdateMatchIntroView();
-
-		GameHUD->SetPlayersData(FirstCowboyPS->GetPlayerName(), SecondCowboyPS->GetPlayerName(), FirstCowboyPS->GetMatchIntroView(), SecondCowboyPS->GetMatchIntroView());
-
-		GameHUD->BeginPlayersPresentation();
+		GameHUD->SetPlayersData(FirstCowboyPS->GetPlayerName(), SecondCowboyPS->GetPlayerName());
 	}
 }
 
 void ACowboyCompetitionGameState::PresentationDone()
 {
+	if (MatchIntroHUD)
+	{
+		MatchIntroHUD->TeardownPresentation();
+	}
+
+	SetPlayersDataOnHUD();
+
 	if (HasAuthority())
 	{
-		GetWorldTimerManager().SetTimer(DelayTimer, this, &ACowboyCompetitionGameState::TriggerPresentationEndForAllPlayers, 3.0f);
+		DelayTimerDelegate.BindUFunction(this, FName("SetGameState"), EGameState::STARTING_MATCH);
+		GetWorld()->GetTimerManager().SetTimer(DelayTimer, DelayTimerDelegate, 2.f, false);
 	}
 }
 

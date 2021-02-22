@@ -12,7 +12,7 @@ enum class EGameState : uint8
 
 {
 	WAITING_FOR_PLAYERS,
-	PLAYERS_PRESENTATION,
+	PLAYERS_PRESENTATION_DONE,
 	STARTING_MATCH,
 	STARTING_ROUND,
 	ROUND_PENDING,
@@ -90,7 +90,9 @@ private:
 	TArray<IGameStateInterface*> SubscribedObj;
 
 	class AGameHUD* GameHUD;
-	void PlayersPresentation();
+	class UMatchIntroHUD* MatchIntroHUD;
+	void SetPlayersDataOnHUD();
+
 	void StartingMatch();
 	void StartingRound();
 	void RoundPending();

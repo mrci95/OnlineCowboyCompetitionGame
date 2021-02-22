@@ -5,6 +5,7 @@
 #include "../MatchIntroHUD.h"
 #include "../CowobyGameInstance.h"
 #include "PlayersIntroGameMode.h"
+#include "GameFramework/PlayerState.h"
 
 
 APlayerIntroGameState::APlayerIntroGameState()
@@ -45,6 +46,8 @@ void APlayerIntroGameState::Multi_BeginPlayersPresentation_Implementation()
 
 	if (!ensure(MatchIntroHUD != nullptr)) return;
 
+	SetPlayersDataOnHUD();
+
 	MatchIntroHUD->BeginPresentation();
 }
 
@@ -57,5 +60,25 @@ void APlayerIntroGameState::PresentationDone()
 	if (GM)
 	{
 		GM->RequestTravelToGame();
+	}
+}
+
+void APlayerIntroGameState::SetPlayersDataOnHUD()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APlayerIntroGameState::SetPlayersDataOnHUD()"));
+
+	if (MatchIntroHUD)
+	{
+		if (PlayerArray.Num() > 0)
+		{
+			APlayerState* Player1 = PlayerArray[0];
+			APlayerState* Player2 = PlayerArray[1];
+
+			if (Player1 == nullptr) return;
+			if (Player2 == nullptr) return;
+
+			MatchIntroHUD->SetPlayersData(Player1->GetPlayerName(), Player2->GetPlayerName());
+		}
+
 	}
 }

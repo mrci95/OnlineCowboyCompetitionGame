@@ -25,6 +25,7 @@ private:
 	class UMatchIntroHUD* MatchIntroHUD;
 	
 	void CreateMatchIntroHUD();
+	void SetPlayersDataOnHUD();
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multi_BeginPlayersPresentation();

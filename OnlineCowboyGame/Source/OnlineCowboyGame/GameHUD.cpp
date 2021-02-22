@@ -100,7 +100,7 @@ void AGameHUD::PresentPlayers()
 }
 
 
-void AGameHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo, UTextureRenderTarget2D* PlayerOneView, UTextureRenderTarget2D* PlayerTwoView)
+void AGameHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo)
 {
 	if (!ensure(MatchHUD != nullptr)) return;
 	MatchHUD->SetPlayersName(PlayerOne, PlayerTwo);
