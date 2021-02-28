@@ -167,6 +167,8 @@ void ACowboyPlayerController::OnFire()
 	{
 		if (Cowboy->CanFire())
 		{
+
+			UE_LOG(LogTemp, Warning, TEXT("PC can fire"));
 			Cowboy->OnFire();
 
 			if (AGameHUD* GameHUD = Cast<AGameHUD>(GetHUD()))
@@ -176,7 +178,14 @@ void ACowboyPlayerController::OnFire()
 		}
 		else if (Cowboy->IsReloading())
 		{
+
+			UE_LOG(LogTemp, Warning, TEXT("PC ReloadBreak"));
 			ReloadBreak();
+		}
+		else
+		{
+
+			UE_LOG(LogTemp, Warning, TEXT("PC cant fire"));
 		}
 	}
 }

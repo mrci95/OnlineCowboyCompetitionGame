@@ -23,6 +23,7 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 	ConstructorHelpers::FClassFinder<UUserWidget> GameMenuBPClass(TEXT("/Game/MenuSystem/WBP_GameMenu"));
 	ConstructorHelpers::FClassFinder<UUserWidget> LobbyMenuBPClass(TEXT("/Game/LobbySystem/WBP_LobbyMenu"));
 	ConstructorHelpers::FClassFinder<UUserWidget> MatchIntro_BPClass(TEXT("/Game/PlayersIntro/WBP_MatchIntro"));
+	ConstructorHelpers::FClassFinder<UUserWidget> MatchWinner_BPClass(TEXT("/Game/PlayersIntro/WBP_MatchWinner"));
 
 	if (!ensure(MainMenuBPClass.Class != nullptr)) return;
 	MenuClass = MainMenuBPClass.Class;
@@ -35,6 +36,9 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 
 	if (!ensure(MatchIntro_BPClass.Class != nullptr)) return;
 	MatchIntroClass = MatchIntro_BPClass.Class;
+
+	if (!ensure(MatchWinner_BPClass.Class != nullptr)) return;
+	MatchWinnerClass = MatchWinner_BPClass.Class;
 }
 
 void UCowobyGameInstance::Init()
@@ -109,6 +113,19 @@ UMatchIntroHUD* UCowobyGameInstance::CreatePlayersIntroWidget()
 	MatchIntroHUD = CreateWidget<UMatchIntroHUD>(this, MatchIntroClass);
 
 	return MatchIntroHUD;
+}
+
+UMatchIntroHUD* UCowobyGameInstance::CreateWinnerWidget()
+{
+	if (MatchWinnerHUD != nullptr) return MatchWinnerHUD;
+
+	if (!ensure(MatchWinnerClass != nullptr)) return nullptr;
+
+	UE_LOG(LogTemp, Warning, TEXT("UCowobyGameInstance::CreateWinnerWidget()"));
+
+	MatchWinnerHUD = CreateWidget<UMatchIntroHUD>(this, MatchWinnerClass);
+
+	return MatchWinnerHUD;
 }
 
 void UCowobyGameInstance::Host(FString InServerName)
@@ -353,4 +370,12 @@ void UCowobyGameInstance::BackToLobby()
 	SessionInterface->EndSession(SESSION_NAME);
 
 	World->ServerTravel("/Game/LobbySystem/LobbyLevel?listen");
+}
+
+void UCowobyGameInstance::TravelToWinnerPresentation()
+{
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	World->ServerTravel("/Game/PlayersIntro/WinnerLevel?listen");
 }

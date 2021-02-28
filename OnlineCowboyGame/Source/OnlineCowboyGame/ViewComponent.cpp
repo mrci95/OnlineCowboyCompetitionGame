@@ -80,10 +80,7 @@ void UViewComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	//TO DO - no need to tick
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	//FVector HitPoint = GetBulletHitPoint();
-
-	//DrawDebugSphere(GetOwner()->GetWorld(), HitPoint, 20.0f, 32, FColor::Red, false, 0.1f, 0, 2);
-
+	TPPAimingComponent->IsWithinAimingCone();
 }
 
 
@@ -418,7 +415,7 @@ bool UViewComponent::CanFire()
 {
 	if (!TPPAnimInstance->bIsGunTaken) return false;
 
-	return !IsFireAnimationPlaying() && !IsReloadAnimationPlaying();
+	return !IsFireAnimationPlaying() && !IsReloadAnimationPlaying() && TPPAimingComponent->IsWithinAimingCone();
 
 }
 

@@ -107,7 +107,7 @@ private:
 	void StartCounting();
 	void OneSecondInterval();
 	void SetRoundStartCounterHUD(uint8 Counter);
-	void BackToLobby();
+	void TravelToWinnerPresentation();
 
 	FTimerHandle RespawnTimer;
 	void OnRespawnTimerExpiration();

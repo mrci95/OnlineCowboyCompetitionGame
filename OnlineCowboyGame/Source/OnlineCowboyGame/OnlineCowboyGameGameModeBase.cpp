@@ -123,13 +123,13 @@ void AOnlineCowboyGameGameModeBase::RespawnPawn(APlayerController* PC)
 
 }
 
-void AOnlineCowboyGameGameModeBase::BackToLobby()
+void AOnlineCowboyGameGameModeBase::TravelToWinnerPresentation()
 {
 	bUseSeamlessTravel = true;
 
 	if (UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>())
 	{
-		GI->BackToLobby();
+		GI->TravelToWinnerPresentation();
 	}
 }
 

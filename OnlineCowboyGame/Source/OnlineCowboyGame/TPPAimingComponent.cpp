@@ -9,23 +9,34 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "ViewComponent.h"
 
 // Sets default values for this component's properties
 UTPPAimingComponent::UTPPAimingComponent()
+#include "CowboyCharacter.h"
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	SetIsReplicatedByDefault(true);
+	SetIsReplicated(true);
 	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent()"));
 }
 
-void UTPPAimingComponent::Setup(USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera)
+void UTPPAimingComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UTPPAimingComponent, CameraInitialDirection);
+	DOREPLIFETIME(UTPPAimingComponent, bWithinAimingCone);
+	
+}
+
+void UTPPAimingComponent::Setup(ACowboyCharacter* PawnOwner, USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera)
 {
 	TPPAimuthGimbal = Gimbal;
 	TPPCameraRoot = CameraRoot;
 	TPPCamera = Camera;
-
+	Owner = PawnOwner;
 
 	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::Setup"));
 }
@@ -36,6 +47,8 @@ void UTPPAimingComponent::BeginPlay()
 	Super::BeginPlay();
 
 	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::BeginPlay()"));
+
+	IntitiateRangeCone();
 }
 
 
@@ -47,58 +60,63 @@ void UTPPAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UTPPAimingComponent::IntitiateRangeCone()
 {
-	FVector EnemyWorldLoc;
-
-	TArray<AActor*> SpawnPoints;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), SpawnPoints);
-
-	for (AActor* SpawnPoint : SpawnPoints)
+	
+	if (Owner == nullptr)
 	{
-		if (!SpawnPoint->GetActorLocation().Equals(GetOwner()->GetActorLocation()))
-		{
-			EnemyWorldLoc = SpawnPoint->GetActorLocation();
-		}
+		UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::IntitiateRangeCone() pawn is null"));
+		return;
 	}
 
 
-	FVector TPPCameraRootLocation = TPPCameraRoot->GetComponentLocation(); //Camera root position
-	TPPConeDirection = EnemyWorldLoc - TPPCameraRootLocation; //Cone direction from Camera to Enemy
+	UE_LOG(LogTemp, Warning, TEXT("UTPPAimingComponent::IntitiateRangeCone()"));
+	
+
+	FVector RangeStart = TPPCamera->GetComponentLocation();
+	FVector RangeEnd = Owner->GetActorLocation() + Owner->GetActorForwardVector() * 1500;
+
+	UE_LOG(LogTemp, Warning, TEXT("%s Start %s, End %s"), *Owner->GetName(), *RangeStart.ToString(), *RangeEnd.ToString());
+	//DrawDebugLine(GetWorld(), RangeStart, RangeEnd, FColor::Emerald, true, -1, 0, 5);
+
+	TPPConeDirection = RangeEnd - RangeStart; 
 	FVector RadiusVector = (TPPConeDirection.ToOrientationQuat().GetUpVector().GetSafeNormal() * TPPCameraRangeRadius);
-	FVector ConeBaseEdgePoint = EnemyWorldLoc + RadiusVector;
-	FVector ConeEdge = ConeBaseEdgePoint - TPPCameraRootLocation;
+	FVector ConeBaseEdgePoint = RangeEnd + RadiusVector;
+	FVector ConeEdge = ConeBaseEdgePoint - RangeStart;
 
 	float ConeHigh = TPPConeDirection.Size();
-	//UE_LOG(LogTemp, Warning, TEXT("ConeHigh: %f"), ConeHigh);
+	UE_LOG(LogTemp, Warning, TEXT("ConeHigh: %f"), ConeHigh);
 
-	float ConeAncleInRadians = FMath::Sin(TPPCameraRangeRadius / (ConeBaseEdgePoint - TPPCameraRootLocation).Size());
-	//UE_LOG(LogTemp, Warning, TEXT("ConeAncleInRadians: %f"), ConeAncleInRadians);
+	float ConeAncleInRadians = FMath::Sin(TPPCameraRangeRadius / (ConeBaseEdgePoint - RangeStart).Size());
+	UE_LOG(LogTemp, Warning, TEXT("ConeAncleInRadians: %f"), ConeAncleInRadians);
 
-	const int32 RandomSeed = FMath::Rand();
-	FRandomStream CameraRandomStream(RandomSeed);
 
-	const FVector InitialRandomVector = CameraRandomStream.VRandCone(TPPConeDirection.GetSafeNormal(), ConeAncleInRadians);
+	if (Owner->HasAuthority())
+	{
+		const int32 RandomSeed = FMath::Rand();
+		FRandomStream CameraRandomStream(RandomSeed);
 
-	TPPCameraLimit = FVector::DotProduct(TPPConeDirection.GetSafeNormal(), ConeEdge.GetSafeNormal());
+		const FVector InitialRandomVector = CameraRandomStream.VRandCone(TPPConeDirection.GetSafeNormal(), ConeAncleInRadians);
 
-	//UE_LOG(LogTemp, Warning, TEXT("DotLimit: %f"), TPPCameraLimit);
-	//UE_LOG(LogTemp, Warning, TEXT("DotCamera: %f"), FVector::DotProduct(TPPConeDirection.GetSafeNormal(), InitialRandomVector.GetSafeNormal()));
+		FVector RandomLocationAtConeBase = RangeStart + InitialRandomVector.GetSafeNormal() * ConeHigh;
 
-	FRotator LookAtRandomRotation = UKismetMathLibrary::FindLookAtRotation(TPPCameraRootLocation, (TPPCameraRootLocation + InitialRandomVector.GetSafeNormal() * 100));
+		TPPCameraLimit = FVector::DotProduct(TPPConeDirection.GetSafeNormal(), ConeEdge.GetSafeNormal());
 
-	FQuat LocalLookAtRotationYaw = TPPAimuthGimbal->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
-	FQuat LocalLookAtRotationPitch= TPPCameraRoot->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
-
-	
-	
-
-	TPPAimuthGimbal->SetRelativeRotation(FRotator(0,0, 0));
-	TPPCameraRoot->SetRelativeRotation(FRotator(0,0, 0));
-	TPPAimuthGimbal->SetWorldRotation(LookAtRandomRotation);
+		//////UE_LOG(LogTemp, Warning, TEXT("DotCamera: %f"), FVector::DotProduct(TPPConeDirection.GetSafeNormal(), InitialRandomVector.GetSafeNormal()));
 
 
 
-	if (DrawTppRangeCone)
-		DrawDebugCone(GetWorld(), TPPCameraRootLocation, TPPConeDirection.GetSafeNormal(), ConeHigh, ConeAncleInRadians, ConeAncleInRadians, 16, FColor::Red, true, -1, 0, 1);
+		FRotator LookAtRandomRotation = UKismetMathLibrary::FindLookAtRotation(TPPCamera->GetComponentLocation(), RandomLocationAtConeBase);
+		CameraInitialDirection = LookAtRandomRotation;
+		SetCameraInitialDirection();
+		////FQuat LocalLookAtRotationYaw = TPPAimuthGimbal->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
+		////FQuat LocalLookAtRotationPitch= TPPCameraRoot->GetComponentTransform().InverseTransformRotation(LookAtRandomRotation.Quaternion());
+		//DrawDebugCone(GetWorld(), RangeStart, TPPConeDirection.GetSafeNormal(), ConeHigh, ConeAncleInRadians, ConeAncleInRadians, 16, FColor::Red, true, -1, 0, 1);
+	}
+
+
+
+	//;
+
+	/*if (DrawTppRangeCone)
 
 	if (DrawTppConeDirectionLine)
 		DrawDebugLine(GetWorld(), TPPCameraRootLocation, EnemyWorldLoc, FColor::Blue, true, -1, 0, 1);
@@ -110,7 +128,7 @@ void UTPPAimingComponent::IntitiateRangeCone()
 		DrawDebugLine(GetWorld(), EnemyWorldLoc, ConeBaseEdgePoint, FColor::Blue, true, -1, 0, 1);
 
 	if (DrawTppConeLimitEdgeLine)
-		DrawDebugLine(GetWorld(), TPPCameraRootLocation, ConeBaseEdgePoint, FColor::Purple, true, -1, 0, 1);
+		DrawDebugLine(GetWorld(), TPPCameraRootLocation, ConeBaseEdgePoint, FColor::Purple, true, -1, 0, 1);*/
 }
 
 FString UTPPAimingComponent::OwnerRoleString()
@@ -199,10 +217,47 @@ void UTPPAimingComponent::SetCameraLookAtPoint(FVector PointInWorld)
 
 void UTPPAimingComponent::GetAimingOffset(float& Yaw, float& Pitch)
 {
-	FVector CowboyDirection = GetOwner()->GetActorForwardVector();
+	FVector CowboyDirection = Owner->GetActorForwardVector();
+
+
 	FQuat OffsetAngle = FQuat::FindBetweenNormals(TPPConeDirection.GetSafeNormal(), TPPCamera->GetForwardVector());
-	Pitch = FMath::Clamp<float>(OffsetAngle.Rotator().Pitch, -7.5f, 7.5f) * CowboyDirection.X;
-	Yaw = FMath::Clamp<float>(OffsetAngle.Rotator().Yaw, -7.5f, 7.5f);
+	Pitch = FMath::Clamp<float>(OffsetAngle.Rotator().Pitch, -11.f, 11.f) * CowboyDirection.X;
+	Yaw = -FMath::Clamp<float>(OffsetAngle.Rotator().Yaw, -11.f, 11.f);
+
+	if (Owner->HasAuthority() && Owner->IsLocallyControlled())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pitch %f, Yaw %f"), Pitch, Yaw);
+	}
+
 }
+
+void UTPPAimingComponent::OnRep_CameraInitialDirection()
+{
+	SetCameraInitialDirection();
+}
+
+
+void UTPPAimingComponent::SetCameraInitialDirection()
+{
+	TPPAimuthGimbal->SetRelativeRotation(FRotator(0, 0, 0));
+	TPPCameraRoot->SetRelativeRotation(FRotator(0, 0, 0));
+	TPPAimuthGimbal->SetWorldRotation(CameraInitialDirection);
+}
+
+bool UTPPAimingComponent::IsWithinAimingCone()
+{
+	if (Owner->HasAuthority())
+	{
+		float AimingDotProduct = FVector::DotProduct(TPPConeDirection.GetSafeNormal(), TPPCamera->GetForwardVector());
+		bWithinAimingCone = AimingDotProduct > TPPCameraLimit;
+	}
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%d"),bWithinAimingCone));
+
+	return bWithinAimingCone;
+}
+
+
 
 

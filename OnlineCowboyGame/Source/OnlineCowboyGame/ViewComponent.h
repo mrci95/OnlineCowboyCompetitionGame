@@ -76,6 +76,8 @@ public:
 
 	void OnHit(FVector HitNormal, FVector Location, FName BoneName);
 
+	APawn* GetPawn() { return Pawn; };
+
 protected:
 
 	APawn* Pawn;
@@ -83,10 +85,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TEnumAsByte<View> CurrentView;
 
-	UPROPERTY()
 	UTPPAimingComponent* TPPAimingComponent;
 
-	UPROPERTY()
 	UFPPAimingComponent* FPPAimingComponent;
 
 	USkeletalMeshComponent* CoboyTppMesh;

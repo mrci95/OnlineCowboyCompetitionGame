@@ -131,6 +131,8 @@ void ACowboyCompetitionGameState::SetPlayersDataOnHUD()
 
 	if (GameHUD)
 	{
+		if (PlayerArray.Num() != 2) return;
+
 		ACowboyPlayerState* FirstCowboyPS = Cast< ACowboyPlayerState>(PlayerArray[0]);
 		ACowboyPlayerState* SecondCowboyPS = Cast< ACowboyPlayerState>(PlayerArray[1]);
 
@@ -315,7 +317,12 @@ bool ACowboyCompetitionGameState::CheckIfAnyPlayerWon()
 		{
 			if (CowboyPS->GetRoundsWon() == 8)
 			{
+				CowboyPS->SetWinner(true);
 				return true;
+			}
+			else
+			{
+
 			}
 		}
 	}
@@ -374,10 +381,7 @@ void ACowboyCompetitionGameState::SetRoundStartCounterHUD(uint8 Counter)
 void ACowboyCompetitionGameState::MatchEnd()
 {
 	UE_LOG(LogTemp, Warning, TEXT("MatchEnd"));
-
-	if (GameHUD == nullptr) return;
-
-	GameHUD->BeginMatchSummary();
+	TravelToWinnerPresentation();
 }
 
 
@@ -395,8 +399,6 @@ void ACowboyCompetitionGameState::MatchOutroLoaded()
 			Cowoby->Winner();
 		}
 
-		CowboyPS1->UpdateMatchIntroView();
-		GameHUD->ShowWinner(CowboyPS1->GetPlayerName(), CowboyPS1->GetMatchIntroView());
 	}
 	else
 	{
@@ -404,20 +406,18 @@ void ACowboyCompetitionGameState::MatchOutroLoaded()
 		{
 			Cowoby->Winner();
 		}
-		CowboyPS2->UpdateMatchIntroView();
-		GameHUD->ShowWinner(CowboyPS2->GetPlayerName(), CowboyPS2->GetMatchIntroView());
 	}
 
-	GetWorldTimerManager().SetTimer(DelayTimer, this, &ACowboyCompetitionGameState::BackToLobby, 5.0f, false);
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &ACowboyCompetitionGameState::TravelToWinnerPresentation, 5.0f, false);
 }
 
-void ACowboyCompetitionGameState::BackToLobby()
+void ACowboyCompetitionGameState::TravelToWinnerPresentation()
 {
 	if (UWorld* World = GetWorld())
 	{
 		if (AOnlineCowboyGameGameModeBase* GM = World->GetAuthGameMode<AOnlineCowboyGameGameModeBase>())
 		{
-			GM->BackToLobby();
+			GM->TravelToWinnerPresentation();
 		}
 	}
 }

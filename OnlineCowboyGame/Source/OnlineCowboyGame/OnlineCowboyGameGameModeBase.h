@@ -25,7 +25,7 @@ public:
 	
 	void RespawnPawn(APlayerController* PC);
 	uint8 GetMaxRounds(){ return MaxRounds; };
-	void BackToLobby();
+	void TravelToWinnerPresentation();
 private:
 	void SetPlayerData();
 	TArray<AController*> ConnectedPlayerControllers;

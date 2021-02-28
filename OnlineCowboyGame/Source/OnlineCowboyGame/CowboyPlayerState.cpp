@@ -5,11 +5,13 @@
 #include "CowboyCompetitionGameState.h"
 #include "Net/UnrealNetwork.h"
 #include "CowboyCharacter.h"
+#include "PlayersIntroSystem/WinnerPlayerState.h"
 
 
 ACowboyPlayerState::ACowboyPlayerState()
 {
 	RoundsWon = 0;
+	Winner = false;
 }
 
 void ACowboyPlayerState::PostInitializeComponents()
@@ -28,6 +30,7 @@ void ACowboyPlayerState::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >&
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ACowboyPlayerState, RoundsWon);
+	DOREPLIFETIME(ACowboyPlayerState, Winner);
 }
 
 void ACowboyPlayerState::RoundWin()
@@ -55,27 +58,30 @@ void ACowboyPlayerState::OnRep_RoundsWon()
 	{
 		GS->UpdateScore();
 	}
+}
 
-	if (APawn* Pawn = GetPawn())
+void ACowboyPlayerState::SetWinner(bool bWinner)
+{
+	if (HasAuthority())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Client Pawn Available"));
-	}
-	else
-	{
-
-		UE_LOG(LogTemp, Warning, TEXT("Client Pawn not Available"));
+		Winner = bWinner;
 	}
 }
 
-
-void ACowboyPlayerState::UpdateMatchIntroView()
+void ACowboyPlayerState::CopyProperties(APlayerState* PlayerState)
 {
-	if (ACowboyCharacter* SelfCowboy = GetPawn<ACowboyCharacter>())
+	Super::CopyProperties(PlayerState);
+
+	if (PlayerState != nullptr)
 	{
-		MatchIntroView = SelfCowboy->GetMatchIntroView();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("ACowboyPlayerState::UpdateMatchIntroView() cowoby not found"));
+		AWinnerPlayerState* WinnerPS = Cast<AWinnerPlayerState>(PlayerState);
+
+		if (WinnerPS)
+		{
+
+			WinnerPS->Winner = Winner;
+
+		}
+
 	}
 }

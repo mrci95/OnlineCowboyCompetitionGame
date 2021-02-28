@@ -18,14 +18,12 @@ void UAmmoHUD::NativeOnInitialized()
 	if (!Bullet3) return;
 	if (!Bullet4) return;
 	if (!Bullet5) return;
-	if (!Bullet6) return;
 
 	Bullets.Add(Bullet1);
 	Bullets.Add(Bullet2);
 	Bullets.Add(Bullet3);
 	Bullets.Add(Bullet4);
 	Bullets.Add(Bullet5);
-	Bullets.Add(Bullet6);
 }
 
 void UAmmoHUD::Show()
@@ -65,7 +63,7 @@ void UAmmoHUD::Fire()
 
 	PlayAnimation(FireAnimation);
 
-	CurrentCylinderAngle += 60;
+	CurrentCylinderAngle += 72;
 	CurrentAmmo--;
 
 	Bullets[CurrentCylinderIndex]->Fired();
@@ -109,7 +107,7 @@ void UAmmoHUD::ReloadEnd()
 
 void UAmmoHUD::Reset()
 {
-	CurrentAmmo = 6;
+	CurrentAmmo = 5;
 
 	for (UBulletHUD* Bullet : Bullets)
 	{

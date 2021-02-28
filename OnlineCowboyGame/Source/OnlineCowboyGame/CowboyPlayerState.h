@@ -25,29 +25,18 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_RoundsWon)
 	uint16 RoundsWon;
 
+	UPROPERTY(Replicated)
+	bool Winner = false;
+
 	UFUNCTION()
 	void OnRep_RoundsWon();
 
-	//Not network related
-
-	UTextureRenderTarget2D* MatchIntroView;
+	virtual void CopyProperties(APlayerState* PlayerState) override;
 
 public:
 	void RoundWin();
 
 	uint16 GetRoundsWon() { return RoundsWon; };
 
-
-	UTextureRenderTarget2D* GetMatchIntroView() { return MatchIntroView; };
-
-	void SetMatchIntroView(UTextureRenderTarget2D* RT) { 
-
-		FString User = HasAuthority()?"Server":"Client";
-
-		UE_LOG(LogTemp, Warning, TEXT("%s ACowboyPlayerState::SetMatchIntroView"), *User);
-
-		MatchIntroView = RT; 
-	};
-
-	void UpdateMatchIntroView();
+	void SetWinner(bool bWinner);
 };

@@ -51,6 +51,7 @@ public:
 
 	void StartSession();
 	void BackToLobby();
+	void TravelToWinnerPresentation();
 
 	void UpdateLobbyPlayerList(const TArray<struct FPlayerData>& PlayerDataArray);
 	void UpdateLobbyPlayerReadyButton(bool bPlayerReady);
@@ -59,12 +60,14 @@ public:
 	void LobbyMenuTeardown();
 	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
 	class UMatchIntroHUD* CreatePlayersIntroWidget();
+	class UMatchIntroHUD* CreateWinnerWidget();
 
 private:
 	TSubclassOf<class UMenuWidget> MenuClass;
 	TSubclassOf<class UMenuWidget> GameMenuClass;
 	TSubclassOf<class UMenuWidget> LobbyMenuClass;
 	TSubclassOf<class UMatchIntroHUD> MatchIntroClass;
+	TSubclassOf<class UMatchIntroHUD> MatchWinnerClass;
 
 	IOnlineSessionPtr SessionInterface;
 
@@ -76,9 +79,8 @@ private:
 	class UMainMenu* Menu;
 	class UGameMenu* GameMenu;
 	class ULobbyMenu* LobbyMenu;
-
-	UPROPERTY()
 	class UMatchIntroHUD* MatchIntroHUD;
+	class UMatchIntroHUD* MatchWinnerHUD;
 
 	TSharedPtr<class FOnlineSessionSearch>		SessionSearch;
 

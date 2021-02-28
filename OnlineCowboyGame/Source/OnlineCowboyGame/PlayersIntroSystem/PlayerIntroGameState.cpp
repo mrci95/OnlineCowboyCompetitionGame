@@ -10,6 +10,7 @@
 
 APlayerIntroGameState::APlayerIntroGameState()
 {
+
 }
 
 void APlayerIntroGameState::BeginPlay()
@@ -42,7 +43,7 @@ void APlayerIntroGameState::BeginPlayersPresentation()
 
 void APlayerIntroGameState::Multi_BeginPlayersPresentation_Implementation()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Multi_BeginPlayersPresentation_Implementation"));
+	UE_LOG(LogTemp, Warning, TEXT("Multi_BeginWinnerPresentation_Implementation"));
 
 	if (!ensure(MatchIntroHUD != nullptr)) return;
 
@@ -51,7 +52,7 @@ void APlayerIntroGameState::Multi_BeginPlayersPresentation_Implementation()
 	MatchIntroHUD->BeginPresentation();
 }
 
-void APlayerIntroGameState::PresentationDone()
+void APlayerIntroGameState::HandlePresentationDone()
 {
 	if (!HasAuthority())
 		return;

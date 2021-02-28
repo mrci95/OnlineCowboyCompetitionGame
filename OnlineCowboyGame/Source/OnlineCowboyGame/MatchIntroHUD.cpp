@@ -4,7 +4,7 @@
 #include "MatchIntroHUD.h"
 #include "WaitingForPlayersHUD.h"
 #include "Components/TextBlock.h"
-#include "PlayersIntroSystem/PlayerIntroGameState.h"
+#include "GameFramework/GameState.h"
 
 void UMatchIntroHUD::NativeOnInitialized()
 {
@@ -29,11 +29,11 @@ void UMatchIntroHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo)
 
 void UMatchIntroHUD::PresentationDone()
 {
-	APlayerIntroGameState* GS = GetWorld()->GetGameState< APlayerIntroGameState>();
+	AGameState* GS = GetWorld()->GetGameState<AGameState>();
 
 	if (GS)
 	{
-		GS->PresentationDone();
+		GS->HandlePresentationDone();
 	}
 }
 

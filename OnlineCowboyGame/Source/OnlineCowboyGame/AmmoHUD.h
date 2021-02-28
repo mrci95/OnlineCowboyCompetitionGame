@@ -48,9 +48,6 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UBulletHUD* Bullet5;
 
-	UPROPERTY(meta = (BindWidget))
-	class UBulletHUD* Bullet6;
-
 	UPROPERTY(meta = (BindWidgetAnim))
 	class UWidgetAnimation* FireAnimation;
 
@@ -70,7 +67,7 @@ public:
 
 private:
 
-	uint16 CurrentAmmo = 6;
+	uint16 CurrentAmmo = 5;
 	uint16 CurrentCylinderIndex = 0;
 	float CurrentCylinderAngle = 0;
 

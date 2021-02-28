@@ -83,7 +83,7 @@ ACowboyCharacter::ACowboyCharacter()
 	//Setup TPP Aiming Comp
 	TPPAimingComponent = CreateDefaultSubobject< UTPPAimingComponent>(TEXT("CowboyTPPAimingComponent"));
 	if (TPPAimingComponent != nullptr)
-		TPPAimingComponent->Setup(TPPAimuthGimbal, TPPCameraRoot, TPPCamera);
+		TPPAimingComponent->Setup(this, TPPAimuthGimbal, TPPCameraRoot, TPPCamera);
 
 	//Setup FPP Aiming Comp
 	FPPAimingComponent = CreateDefaultSubobject<UFPPAimingComponent>(TEXT("CowboyFPPAimingComponent"));
@@ -166,19 +166,6 @@ void ACowboyCharacter::BeginPlay()
 	// Setting the new target
 	MatchIntroView->TextureTarget = MatchIntroViewRenderTarget2D;
 
-	if (ACowboyPlayerState* PS = GetPlayerState<ACowboyPlayerState>())
-	{
-		FString User = HasAuthority() ? "Server" : "Client";
-		UE_LOG(LogTemp, Warning, TEXT("%s PS found"), *User);
-
-
-		PS->SetMatchIntroView(MatchIntroViewRenderTarget2D);
-	}
-	else
-	{
-		FString User = HasAuthority() ? "Server" : "Client";
-		UE_LOG(LogTemp, Warning, TEXT("%s PS not found"), *User);
-	}
 }
 
 // Called every frame
@@ -186,24 +173,8 @@ void ACowboyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (ACowboyPlayerState* PS = GetPlayerState<ACowboyPlayerState>())
-	{
-		uint16 RoundsWon = PS->GetRoundsWon();
-		FString Name = PS->GetPlayerName();
-		//DrawDebugString(GetWorld(), FVector(0, 0, 100), FString::Printf(TEXT("RoundsWon %d"), RoundsWon), this, FColor::Black, 0.1f);
-		//DrawDebugString(GetWorld(), FVector(0, 0, 150), FString::Printf(TEXT("%s"), *Name), this, FColor::Black, 0.1f);
 
-	}
-
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			if (ACowboyCompetitionGameState* GS = World->GetGameState<ACowboyCompetitionGameState>())
-			{
-				FString CurrentStateString = GS->GetGameState() == EGameState::WAITING_FOR_PLAYERS ? "Waiting for players..." : "Starting";
-				//DrawDebugString(GetWorld(), FVector(750, 0, 100), CurrentStateString, this, FColor::Black, 0.1f);
-			}
-		}
+	//UE_LOG(LogTemp, Warning, TEXT("%s %s"),*GetName(),*GetActorLocation().ToString() );
 
 }
 

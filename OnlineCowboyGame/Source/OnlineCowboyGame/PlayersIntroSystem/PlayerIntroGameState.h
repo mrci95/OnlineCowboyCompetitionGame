@@ -18,7 +18,8 @@ public:
 	APlayerIntroGameState();
 	void BeginPlay() override;
 	void BeginPlayersPresentation();
-	void PresentationDone();
+
+	virtual void HandlePresentationDone() override;
 
 private:
 

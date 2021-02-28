@@ -15,9 +15,6 @@ void APlayersIntroGameMode::GenericPlayerInitialization(AController* NewPlayer)
 	if (PC)
 		ConnectedPlayers.Add(PC);
 
-
-	UE_LOG(LogTemp, Warning, TEXT("player logged"));
-
 	if (NoOfCurrentPlayers == 2)
 	{
 		GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::PresentPlayers, 2.5f);

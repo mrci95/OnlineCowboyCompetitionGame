@@ -10,6 +10,7 @@
 class USceneComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class ACowboyCharacter;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ONLINECOWBOYGAME_API UTPPAimingComponent : public UActorComponent
@@ -20,7 +21,7 @@ public:
 	// Sets default values for this component's properties
 	UTPPAimingComponent();
 
-	void Setup(USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera);
+	void Setup(ACowboyCharacter* PawnOwner, USceneComponent* Gimbal, USpringArmComponent* CameraRoot, UCameraComponent* Camera);
 
 	FString OwnerRoleString();
 
@@ -33,8 +34,10 @@ public:
 	UPROPERTY()
 	UCameraComponent* TPPCamera;
 
+	ACowboyCharacter* Owner;
+
 	UPROPERTY(EditAnywhere)
-	float TPPCameraRangeRadius = 200.0f;
+	float TPPCameraRangeRadius = 300.0f;
 
 	UPROPERTY(EditAnywhere)
 	float TPPCameraPitchLimit = 89.0f;
@@ -70,6 +73,19 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	UPROPERTY(ReplicatedUsing = OnRep_CameraInitialDirection)
+	FRotator CameraInitialDirection;
+
+	UPROPERTY(Replicated)
+	bool bWithinAimingCone;
+
+	UFUNCTION()
+	void OnRep_CameraInitialDirection();
+
+private:
+
+	void SetCameraInitialDirection();
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -91,4 +107,6 @@ public:
 	void SetCameraLookAtPoint(FVector PointInWorld);
 
 	void GetAimingOffset(float& Yaw, float& Pitch);
+
+	bool IsWithinAimingCone();
 };

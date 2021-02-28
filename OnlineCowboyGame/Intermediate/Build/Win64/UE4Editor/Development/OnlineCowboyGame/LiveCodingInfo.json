@@ -38,6 +38,9 @@
 			"OnlineCowboyGameGameModeBase.cpp.obj",
 			"PlayerIntroGameState.cpp.obj",
 			"PlayersIntroGameMode.cpp.obj",
+			"WinnerGameMode.cpp.obj",
+			"WinnerGameState.cpp.obj",
+			"WinnerPlayerState.cpp.obj",
 			"TPPAimingComponent.cpp.obj",
 			"ViewComponent.cpp.obj",
 			"WaitingForPlayersHUD.cpp.obj",
@@ -83,7 +86,10 @@
 			"TPPAimingComponent.gen.cpp.obj",
 			"ViewComponent.gen.cpp.obj",
 			"WaitingForPlayersHUD.gen.cpp.obj",
-			"WeaponBase.gen.cpp.obj"
+			"WeaponBase.gen.cpp.obj",
+			"WinnerGameMode.gen.cpp.obj",
+			"WinnerGameState.gen.cpp.obj",
+			"WinnerPlayerState.gen.cpp.obj"
 		]
 	}
 }
