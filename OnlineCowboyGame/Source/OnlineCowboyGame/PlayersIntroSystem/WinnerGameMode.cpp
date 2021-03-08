@@ -12,15 +12,11 @@ void AWinnerGameMode::GenericPlayerInitialization(AController* NewPlayer)
 	++NoOfCurrentPlayers;
 
 
+	UE_LOG(LogTemp, Warning, TEXT("AWinnerGameMode::GenericPlayerInitialization()"));
+
 	APlayerController* PC = Cast<APlayerController>(NewPlayer);
 	if (PC)
 		ConnectedPlayers.Add(PC);
-
-	if (NoOfCurrentPlayers == 2)
-	{
-		GetWorldTimerManager().SetTimer(DelayTimer, this, &AWinnerGameMode::PresentWinner, 2.5f);
-	}
-
 }
 
 void AWinnerGameMode::Logout(AController* Exiting)
@@ -36,6 +32,25 @@ void AWinnerGameMode::Logout(AController* Exiting)
 
 }
 
+void AWinnerGameMode::ClientReady()
+{
+	++ReadyClients;
+	UE_LOG(LogTemp, Warning, TEXT("AWinnerGameMode::ClientReady()"));
+	if (ReadyClients == 2)
+	{
+		PresentWinner();
+	}
+}
+
+void AWinnerGameMode::ClientReadyToBackToLobby()
+{
+	++ReadyClientsToBackToLobby;
+	if (ReadyClientsToBackToLobby == 2)
+	{
+		RequestTravelToLobby();
+	}
+}
+
 void AWinnerGameMode::PresentWinner()
 {
 	UE_LOG(LogTemp, Warning, TEXT("2 playeers logged start presentation"));
@@ -47,7 +62,7 @@ void AWinnerGameMode::PresentWinner()
 
 void AWinnerGameMode::RequestTravelToLobby()
 {
-	GetWorldTimerManager().SetTimer(DelayTimer, this, &AWinnerGameMode::BackToLobby, 3.0f);
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &AWinnerGameMode::BackToLobby, 4.0f);
 }
 
 void AWinnerGameMode::BackToLobby()

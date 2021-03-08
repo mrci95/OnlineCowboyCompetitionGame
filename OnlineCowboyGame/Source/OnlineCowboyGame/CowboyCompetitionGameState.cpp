@@ -42,7 +42,7 @@ void ACowboyCompetitionGameState::BeginPlay()
 	}
 
 	UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>();
-	MatchIntroHUD = GI->CreatePlayersIntroWidget();
+	MatchIntroHUD = GI->GetPlayersIntroWidget();
 
 }
 
@@ -145,9 +145,11 @@ void ACowboyCompetitionGameState::SetPlayersDataOnHUD()
 
 void ACowboyCompetitionGameState::PresentationDone()
 {
-	if (MatchIntroHUD)
+	UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>();
+
+	if (GI)
 	{
-		MatchIntroHUD->TeardownPresentation();
+		GI->UnloadMatchIntro();
 	}
 
 	SetPlayersDataOnHUD();
@@ -315,14 +317,10 @@ bool ACowboyCompetitionGameState::CheckIfAnyPlayerWon()
 	{
 		if (ACowboyPlayerState* CowboyPS = Cast< ACowboyPlayerState>(PS))
 		{
-			if (CowboyPS->GetRoundsWon() == 8)
+			if (CowboyPS->GetRoundsWon() == 1)
 			{
 				CowboyPS->SetWinner(true);
 				return true;
-			}
-			else
-			{
-
 			}
 		}
 	}
@@ -381,6 +379,7 @@ void ACowboyCompetitionGameState::SetRoundStartCounterHUD(uint8 Counter)
 void ACowboyCompetitionGameState::MatchEnd()
 {
 	UE_LOG(LogTemp, Warning, TEXT("MatchEnd"));
+
 	TravelToWinnerPresentation();
 }
 

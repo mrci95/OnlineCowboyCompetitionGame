@@ -23,7 +23,7 @@ class ONLINECOWBOYGAME_API UCowobyGameInstance : public UGameInstance, public IM
 public:
 	UCowobyGameInstance(const FObjectInitializer& ObjectInitializer);
 
-	virtual void Init();
+	virtual void Init() override;
 
 	UFUNCTION(BlueprintCallable)
 		void LoadMenuWidget();
@@ -33,6 +33,24 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void LoadLobbyMenu();
+
+	UFUNCTION(BlueprintCallable)
+		void LoadMatchIntro();
+
+	UFUNCTION(BlueprintCallable)
+		void UnloadMatchIntro();
+
+	UFUNCTION(BlueprintCallable)
+		void LoadWinnerIntro();
+
+	UFUNCTION(BlueprintCallable)
+		void UnloadWinnerIntro();
+
+	UFUNCTION(BlueprintCallable)
+		void CreatePlayersIntroWidget();
+
+	UFUNCTION(BlueprintCallable)
+		void CreateWinnerWidget();
 
 	UFUNCTION(Exec)
 		void Host(FString InServerName);
@@ -59,8 +77,8 @@ public:
 	void SetLobbyStartingTimer(int8 Seconds);
 	void LobbyMenuTeardown();
 	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
-	class UMatchIntroHUD* CreatePlayersIntroWidget();
-	class UMatchIntroHUD* CreateWinnerWidget();
+	class UMatchIntroHUD* GetPlayersIntroWidget() { return MatchIntroHUD; };
+	class UMatchIntroHUD* GetWinnerWidget() { return MatchWinnerHUD; };
 
 private:
 	TSubclassOf<class UMenuWidget> MenuClass;
@@ -79,7 +97,9 @@ private:
 	class UMainMenu* Menu;
 	class UGameMenu* GameMenu;
 	class ULobbyMenu* LobbyMenu;
+	UPROPERTY()
 	class UMatchIntroHUD* MatchIntroHUD;
+	UPROPERTY()
 	class UMatchIntroHUD* MatchWinnerHUD;
 
 	TSharedPtr<class FOnlineSessionSearch>		SessionSearch;

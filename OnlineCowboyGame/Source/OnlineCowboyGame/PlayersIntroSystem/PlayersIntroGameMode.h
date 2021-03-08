@@ -16,15 +16,22 @@ class ONLINECOWBOYGAME_API APlayersIntroGameMode : public AGameMode
 	
 public:
 
+	APlayersIntroGameMode();
+
 	void GenericPlayerInitialization(AController* NewPlayer) override;
 
 	void Logout(AController* Exiting) override;
 
 	void RequestTravelToGame();
 
+	void ClientReady();
+	void ClientReadyToStartGame();
+
 private:
 
 	uint8 NoOfCurrentPlayers = 0;
+	uint8 ReadyClients = 0;
+	uint8 ReadyClientsToStartGame = 0;
 
 	TArray<class APlayerController*> ConnectedPlayers;
 

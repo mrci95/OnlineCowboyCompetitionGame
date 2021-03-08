@@ -4,7 +4,8 @@
 #include "MatchIntroHUD.h"
 #include "WaitingForPlayersHUD.h"
 #include "Components/TextBlock.h"
-#include "GameFramework/GameState.h"
+#include "PlayersIntroSystem/PlayersIntroPlayerController.h"
+#include "PlayersIntroSystem/WinnerPlayerController.h"
 
 void UMatchIntroHUD::NativeOnInitialized()
 {
@@ -29,15 +30,33 @@ void UMatchIntroHUD::SetPlayersData(FString PlayerOne, FString PlayerTwo)
 
 void UMatchIntroHUD::PresentationDone()
 {
-	AGameState* GS = GetWorld()->GetGameState<AGameState>();
+	FString LevelName = GetWorld()->GetMapName();
+	UE_LOG(LogTemp, Warning, TEXT("%s"),*LevelName);
+	//UEDPIE_0_PlayersIntroLevel
 
-	if (GS)
+	if (LevelName.Contains("PlayersIntroLevel"))
 	{
-		GS->HandlePresentationDone();
+		if (APlayersIntroPlayerController* PC = GetWorld()->GetFirstPlayerController< APlayersIntroPlayerController>())
+		{
+			PC->PresentationDone();
+		}
+	}
+	else
+	{
+		if (AWinnerPlayerController* PC = GetWorld()->GetFirstPlayerController< AWinnerPlayerController>())
+		{
+			PC->PresentationDone();
+		}
 	}
 }
 
 void UMatchIntroHUD::TeardownPresentation()
 {
 	PlayAnimation(TeardownAnimation);
+}
+
+
+void UMatchIntroHUD::ResetWidget()
+{
+	PlayAnimation(Reset);
 }

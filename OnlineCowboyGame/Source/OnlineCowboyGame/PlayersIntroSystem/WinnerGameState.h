@@ -16,15 +16,12 @@ class ONLINECOWBOYGAME_API AWinnerGameState : public AGameState
 	
 public:
 	AWinnerGameState();
-	void BeginPlay() override;
 	void BeginWinnerPresentation();
-	virtual void HandlePresentationDone() override;
 
 private:
 
 	class UMatchIntroHUD* MatchWinnerHUD;
 
-	void CreateMatchWinnerHUD();
 	void SetPlayersDataOnHUD();
 
 	UFUNCTION(NetMulticast, Reliable)

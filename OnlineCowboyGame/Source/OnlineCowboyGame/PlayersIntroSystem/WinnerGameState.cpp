@@ -15,24 +15,6 @@ AWinnerGameState::AWinnerGameState()
 
 }
 
-void AWinnerGameState::BeginPlay()
-{
-	Super::BeginPlay();
-
-	CreateMatchWinnerHUD();
-}
-
-void AWinnerGameState::CreateMatchWinnerHUD()
-{
-	UCowobyGameInstance* GameInstance = GetGameInstance<UCowobyGameInstance>();
-
-	MatchWinnerHUD = GameInstance->CreateWinnerWidget();
-
-	if (!ensure(MatchWinnerHUD != nullptr)) return;
-
-	MatchWinnerHUD->AddToViewport();
-}
-
 void AWinnerGameState::BeginWinnerPresentation()
 {
 	//Method should be called only on server
@@ -47,24 +29,18 @@ void AWinnerGameState::Multi_BeginWinnerPresentation_Implementation()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Multi_BeginWinnerPresentation_Implementation"));
 
-	if (!ensure(MatchWinnerHUD != nullptr)) return;
-
-	SetPlayersDataOnHUD();
-
-	MatchWinnerHUD->BeginPresentation();
-}
-
-void AWinnerGameState::HandlePresentationDone()
-{
-	if (!HasAuthority())
-		return;
-
-	AWinnerGameMode* GM = GetWorld()->GetAuthGameMode<AWinnerGameMode>();
-	if (GM)
+	if (UCowobyGameInstance* GI = GetGameInstance<UCowobyGameInstance>())
 	{
-		GM->RequestTravelToLobby();
+		MatchWinnerHUD = GI->GetWinnerWidget();
+		if (MatchWinnerHUD != nullptr)
+		{
+			SetPlayersDataOnHUD();
+			MatchWinnerHUD->BeginPresentation();
+		}
 	}
 }
+
+
 
 void AWinnerGameState::SetPlayersDataOnHUD()
 {

@@ -43,6 +43,8 @@ UCowobyGameInstance::UCowobyGameInstance(const FObjectInitializer& ObjectInitial
 
 void UCowobyGameInstance::Init()
 {
+	Super::Init();
+
 	IOnlineSubsystem* OnlineSubsystem = IOnlineSubsystem::Get();
 
 	if (OnlineSubsystem != nullptr)
@@ -63,6 +65,7 @@ void UCowobyGameInstance::Init()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Not found subsystem"));
 	}
+
 
 }
 
@@ -102,30 +105,68 @@ void UCowobyGameInstance::LoadLobbyMenu()
 	LobbyMenu->Setup();
 }
 
-UMatchIntroHUD* UCowobyGameInstance::CreatePlayersIntroWidget()
-{
-	if (MatchIntroHUD != nullptr) return MatchIntroHUD;
 
-	if (!ensure(MatchIntroClass != nullptr)) return nullptr;
+void UCowobyGameInstance::LoadMatchIntro()
+{
+	UE_LOG(LogTemp, Warning, TEXT("LoadMatchIntro()"));
+
+	if (!ensure(MatchIntroHUD != nullptr)) return;
+
+	MatchIntroHUD->AddToViewport();
+}
+
+void UCowobyGameInstance::UnloadMatchIntro()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UnloadMatchIntro()"));
+
+	if (MatchIntroHUD == nullptr) return;
+
+	MatchIntroHUD->RemoveFromViewport();
+
+	MatchIntroHUD->ResetWidget();
+}
+
+void UCowobyGameInstance::LoadWinnerIntro()
+{
+	UE_LOG(LogTemp, Warning, TEXT("LoadWinnerIntro()"));
+
+	if (!ensure(MatchWinnerHUD != nullptr)) return;
+
+
+	MatchWinnerHUD->AddToViewport();
+}
+
+void UCowobyGameInstance::UnloadWinnerIntro()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UnloadWinnerIntro()"));
+
+	if (MatchWinnerHUD == nullptr) return;
+
+	MatchWinnerHUD->RemoveFromViewport();
+
+	MatchWinnerHUD->ResetWidget();
+}
+
+void UCowobyGameInstance::CreatePlayersIntroWidget()
+{
+	if (MatchIntroHUD != nullptr) return;
+
+	if (!ensure(MatchIntroClass != nullptr)) return;
 
 	UE_LOG(LogTemp, Warning, TEXT("UCowboyGameInstance::CreatePlayersIntroWidget()"));
 
 	MatchIntroHUD = CreateWidget<UMatchIntroHUD>(this, MatchIntroClass);
-
-	return MatchIntroHUD;
 }
 
-UMatchIntroHUD* UCowobyGameInstance::CreateWinnerWidget()
+void UCowobyGameInstance::CreateWinnerWidget()
 {
-	if (MatchWinnerHUD != nullptr) return MatchWinnerHUD;
+	if (MatchWinnerHUD != nullptr) return;
 
-	if (!ensure(MatchWinnerClass != nullptr)) return nullptr;
+	if (!ensure(MatchWinnerClass != nullptr)) return;
 
 	UE_LOG(LogTemp, Warning, TEXT("UCowobyGameInstance::CreateWinnerWidget()"));
 
 	MatchWinnerHUD = CreateWidget<UMatchIntroHUD>(this, MatchWinnerClass);
-
-	return MatchWinnerHUD;
 }
 
 void UCowobyGameInstance::Host(FString InServerName)

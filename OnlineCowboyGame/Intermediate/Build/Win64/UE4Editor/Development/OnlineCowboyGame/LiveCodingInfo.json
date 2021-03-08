@@ -36,10 +36,12 @@
 			"MovementReplicator.cpp.obj",
 			"OnlineCowboyGame.cpp.obj",
 			"OnlineCowboyGameGameModeBase.cpp.obj",
-			"PlayerIntroGameState.cpp.obj",
 			"PlayersIntroGameMode.cpp.obj",
+			"PlayersIntroGameState.cpp.obj",
+			"PlayersIntroPlayerController.cpp.obj",
 			"WinnerGameMode.cpp.obj",
 			"WinnerGameState.cpp.obj",
+			"WinnerPlayerController.cpp.obj",
 			"WinnerPlayerState.cpp.obj",
 			"TPPAimingComponent.cpp.obj",
 			"ViewComponent.cpp.obj",
@@ -80,8 +82,9 @@
 			"MovementReplicator.gen.cpp.obj",
 			"OnlineCowboyGame.init.gen.cpp.obj",
 			"OnlineCowboyGameGameModeBase.gen.cpp.obj",
-			"PlayerIntroGameState.gen.cpp.obj",
 			"PlayersIntroGameMode.gen.cpp.obj",
+			"PlayersIntroGameState.gen.cpp.obj",
+			"PlayersIntroPlayerController.gen.cpp.obj",
 			"ServerRow.gen.cpp.obj",
 			"TPPAimingComponent.gen.cpp.obj",
 			"ViewComponent.gen.cpp.obj",
@@ -89,6 +92,7 @@
 			"WeaponBase.gen.cpp.obj",
 			"WinnerGameMode.gen.cpp.obj",
 			"WinnerGameState.gen.cpp.obj",
+			"WinnerPlayerController.gen.cpp.obj",
 			"WinnerPlayerState.gen.cpp.obj"
 		]
 	}

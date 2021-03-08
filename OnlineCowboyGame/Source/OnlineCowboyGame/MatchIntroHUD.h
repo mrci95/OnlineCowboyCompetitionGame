@@ -35,10 +35,15 @@ public:
 	UPROPERTY(meta = (BindWidgetAnim))
 	class UWidgetAnimation* TeardownAnimation;
 
+	UPROPERTY(meta = (BindWidgetAnim))
+	class UWidgetAnimation* Reset;
+
 	UFUNCTION(BlueprintCallable)
 	void PresentationDone();
 
 	void TeardownPresentation();
+
+	void ResetWidget();
 
 private:
 

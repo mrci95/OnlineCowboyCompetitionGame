@@ -2,7 +2,13 @@
 
 
 #include "PlayersIntroGameMode.h"
-#include "PlayerIntroGameState.h"
+#include "PlayersIntroGameState.h"
+
+
+APlayersIntroGameMode::APlayersIntroGameMode() :AGameMode()
+{
+
+}
 
 void APlayersIntroGameMode::GenericPlayerInitialization(AController* NewPlayer)
 {
@@ -10,16 +16,11 @@ void APlayersIntroGameMode::GenericPlayerInitialization(AController* NewPlayer)
 	Super::GenericPlayerInitialization(NewPlayer);
 	++NoOfCurrentPlayers;
 
+	UE_LOG(LogTemp, Warning, TEXT("player logged in"));
 
 	APlayerController* PC = Cast<APlayerController>(NewPlayer);
 	if (PC)
 		ConnectedPlayers.Add(PC);
-
-	if (NoOfCurrentPlayers == 2)
-	{
-		GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::PresentPlayers, 2.5f);
-	}
-
 }
 
 void APlayersIntroGameMode::Logout(AController* Exiting)
@@ -37,16 +38,26 @@ void APlayersIntroGameMode::Logout(AController* Exiting)
 
 void APlayersIntroGameMode::PresentPlayers()
 {
-	UE_LOG(LogTemp, Warning, TEXT("2 playeers logged start presentation"));
-	if (APlayerIntroGameState* GS = GetGameState<APlayerIntroGameState>())
+	UE_LOG(LogTemp, Warning, TEXT("All players ready. Start presentation"));
+	if (APlayersIntroGameState* GS = GetGameState<APlayersIntroGameState>())
 	{
 		GS->BeginPlayersPresentation();
+	}
+
+}
+
+void APlayersIntroGameMode::ClientReadyToStartGame()
+{
+	++ReadyClientsToStartGame;
+	if (ReadyClientsToStartGame == 2)
+	{
+		RequestTravelToGame();
 	}
 }
 
 void APlayersIntroGameMode::RequestTravelToGame()
 {
-	GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::StartGame, 3.0f);
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &APlayersIntroGameMode::StartGame, 4.0f);
 }
 
 void APlayersIntroGameMode::StartGame()
@@ -56,4 +67,14 @@ void APlayersIntroGameMode::StartGame()
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 	World->ServerTravel("/Game/GameLevel/GameLevel?listen");
+}
+
+void APlayersIntroGameMode::ClientReady()
+{
+	++ReadyClients;
+	UE_LOG(LogTemp, Warning, TEXT("APlayersIntroGameMode::ClientReady()"));
+	if (ReadyClients == 2)
+	{
+		PresentPlayers();
+	}
 }

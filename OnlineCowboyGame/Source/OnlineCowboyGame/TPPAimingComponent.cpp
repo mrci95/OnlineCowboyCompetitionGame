@@ -223,12 +223,6 @@ void UTPPAimingComponent::GetAimingOffset(float& Yaw, float& Pitch)
 	FQuat OffsetAngle = FQuat::FindBetweenNormals(TPPConeDirection.GetSafeNormal(), TPPCamera->GetForwardVector());
 	Pitch = FMath::Clamp<float>(OffsetAngle.Rotator().Pitch, -11.f, 11.f) * CowboyDirection.X;
 	Yaw = -FMath::Clamp<float>(OffsetAngle.Rotator().Yaw, -11.f, 11.f);
-
-	if (Owner->HasAuthority() && Owner->IsLocallyControlled())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Pitch %f, Yaw %f"), Pitch, Yaw);
-	}
-
 }
 
 void UTPPAimingComponent::OnRep_CameraInitialDirection()
@@ -251,9 +245,6 @@ bool UTPPAimingComponent::IsWithinAimingCone()
 		float AimingDotProduct = FVector::DotProduct(TPPConeDirection.GetSafeNormal(), TPPCamera->GetForwardVector());
 		bWithinAimingCone = AimingDotProduct > TPPCameraLimit;
 	}
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%d"),bWithinAimingCone));
 
 	return bWithinAimingCone;
 }

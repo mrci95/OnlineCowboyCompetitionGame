@@ -13,6 +13,9 @@ void ALobbyPlayerController::BeginPlay()
 	{
 		if(IsLocalController())
 			GameInstance->SetupLobbyInterface(this);
+
+		//If players back to lobby after match
+		GameInstance->UnloadWinnerIntro();
 	}
 }
 

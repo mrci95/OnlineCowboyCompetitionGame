@@ -30,7 +30,6 @@ void UMenuWidget::Setup()
 
 void UMenuWidget::Teardown()
 {
-
 	this->RemoveFromViewport();
 
 	UWorld* World = GetWorld();

@@ -22,9 +22,13 @@ public:
 
 	void RequestTravelToLobby();
 
+	void ClientReady();
+	void ClientReadyToBackToLobby();
 private:
 
 	uint8 NoOfCurrentPlayers = 0;
+	uint8 ReadyClients = 0;
+	uint8 ReadyClientsToBackToLobby = 0;
 
 	TArray<class APlayerController*> ConnectedPlayers;
 
