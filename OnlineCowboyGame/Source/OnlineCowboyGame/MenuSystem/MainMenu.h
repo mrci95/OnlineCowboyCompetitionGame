@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "MenuWidget.h"
 #include "MenuInterface.h"
+#include "ConfirmationInterface.h"
 #include "MainMenu.generated.h"
 
 USTRUCT()
@@ -22,7 +23,7 @@ struct FServerData
  * 
  */
 UCLASS()
-class ONLINECOWBOYGAME_API UMainMenu : public UMenuWidget
+class ONLINECOWBOYGAME_API UMainMenu : public UMenuWidget, public IConfirmationInterface
 {
 	GENERATED_BODY()
 
@@ -34,31 +35,40 @@ public:
 
 	void SetSelectedIndex(uint32 intex);
 
+	virtual void Confirm() override;
+	virtual void Reject() override;
+
 
 	//Main Menu widgets
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* HostMenuButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* JoinMenuButton;
+
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
+	class UButton* ExitButton;
 
 	//Host menu widgets
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* HostMenuToMainMenuButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* HostServerButton;
 
 	UPROPERTY(meta = (BindWidget))
-	class UEditableText* ServerNameTextBox;
+	class UEditableTextBox* ServerNameTextBox;
 
 
 	//Join menu widgets
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* JoinMenuToMainMenuButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
+	class UButton* JoinMenuRefreshServersButton;
+
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* JoinServerButton;
 
 
@@ -69,10 +79,11 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UWidgetSwitcher* MenuSwitcher;
 
-
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UButton* ExitGameButton;
 	
+	UPROPERTY(meta = (BindWidget))
+	class UOverlay* MenuBar;
 
 
 protected:
@@ -96,7 +107,10 @@ protected:
     void JoinServer();
 
 	UFUNCTION()
-	void QuitGame();
+	void Exit();
+
+	UFUNCTION()
+	void RefreshServerList();
 
 
 private:
@@ -104,6 +118,15 @@ private:
 	TOptional <uint32> SelectedIndex;
 
 	TSubclassOf<class UServerRow> ServerRowClass;
+	TSubclassOf<class UUserWidget> SearchingServersClass;
+	TSubclassOf<class UUserWidget> NoServersFoundClass;
+	TSubclassOf<class UExitConfirmation> ExitConfirmationClass;
+
+	UPROPERTY()
+	class UExitConfirmation* ExitConfirmation = nullptr;
 
 	void UpdateChildren();
+	void SetSearchingServers();
+	void MenuChange();
+	void QuitGame();
 };

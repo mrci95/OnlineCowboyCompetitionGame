@@ -378,7 +378,8 @@ void ACowboyCompetitionGameState::SetRoundStartCounterHUD(uint8 Counter)
 
 void ACowboyCompetitionGameState::MatchEnd()
 {
-	UE_LOG(LogTemp, Warning, TEXT("MatchEnd"));
+	if (GameHUD == nullptr) return;
+	GameHUD->Hide();
 
 	TravelToWinnerPresentation();
 }

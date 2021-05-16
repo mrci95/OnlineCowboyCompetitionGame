@@ -19,9 +19,9 @@ public:
 
 		void SetMenuInterface(IMenuInterface* MenuInterfaceArg);
 
-		void Setup();
+		virtual void Setup();
 
-		void Teardown();
+		virtual void Teardown();
 
 protected:
 

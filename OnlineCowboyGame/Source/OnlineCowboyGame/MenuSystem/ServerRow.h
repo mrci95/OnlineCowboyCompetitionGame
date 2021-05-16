@@ -21,16 +21,16 @@ public:
 
 	void Setup(class UMainMenu* InParent, uint32 InIndex);
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UTextBlock* ServerName;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* ServerRowButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UTextBlock* HostUsername;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget), BlueprintReadWrite)
 	class UTextBlock* ConnectionInfo;
 
 	UPROPERTY(BlueprintReadOnly)

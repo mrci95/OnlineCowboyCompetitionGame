@@ -79,6 +79,7 @@ public:
 	void SetupLobbyInterface(ILobbyMenuInterface* InterfaceArg);
 	class UMatchIntroHUD* GetPlayersIntroWidget() { return MatchIntroHUD; };
 	class UMatchIntroHUD* GetWinnerWidget() { return MatchWinnerHUD; };
+	class ULobbyMenu* GetLobbyWidget() { return LobbyMenu; };
 
 private:
 	TSubclassOf<class UMenuWidget> MenuClass;
@@ -96,6 +97,7 @@ private:
 
 	class UMainMenu* Menu;
 	class UGameMenu* GameMenu;
+	UPROPERTY()
 	class ULobbyMenu* LobbyMenu;
 	UPROPERTY()
 	class UMatchIntroHUD* MatchIntroHUD;

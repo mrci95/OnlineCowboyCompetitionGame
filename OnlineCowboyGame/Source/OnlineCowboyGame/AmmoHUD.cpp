@@ -11,7 +11,8 @@ void UAmmoHUD::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	Root->SetRenderOpacity(0.0f);
+	FLinearColor WidgetColor(1, 1, 1, 0);
+	SetColorAndOpacity(WidgetColor);
 
 	if (!Bullet1) return;
 	if (!Bullet2) return;

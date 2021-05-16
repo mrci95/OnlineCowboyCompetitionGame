@@ -17,6 +17,7 @@ class ONLINECOWBOYGAME_API UGameHUDWidget : public UUserWidget
 public:
 
 	void Show();
+	void Hide();
 	void ReloadStart();
 	void ClearCylinder();
 	void InsertingBullet();

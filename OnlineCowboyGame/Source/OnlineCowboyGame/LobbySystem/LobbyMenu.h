@@ -34,6 +34,8 @@ public:
 
 	void SetupInterface(ILobbyMenuInterface* LobbyInterfaceArg);
 
+	virtual void Setup() override;
+
 	void UpdatePlayerList(const TArray<FPlayerData>& PlayerDataArray);
 
 	void UpdateReadyButton(bool bPlayerReady);
@@ -78,4 +80,6 @@ private:
 	void SendButtonClicked();
 
 	ILobbyMenuInterface* LobbyInterface = nullptr;
+
+	void Reset();
 };

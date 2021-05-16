@@ -6,16 +6,35 @@
 #include "LobbyGameMode.h"
 #include "LobbyPlayerState.h"
 
+void ALobbyPlayerController::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ALobbyPlayerController, bIsJoiningPlayer);
+}
+
 void ALobbyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	ClientInitialized = false;
 	if (UCowobyGameInstance* GameInstance = GetGameInstance<UCowobyGameInstance>())
 	{
-		if(IsLocalController())
-			GameInstance->SetupLobbyInterface(this);
-
 		//If players back to lobby after match
 		GameInstance->UnloadWinnerIntro();
+
+		if (IsLocalController())
+		{
+			GameInstance->SetupLobbyInterface(this);
+
+
+			if (GameInstance->GetLobbyWidget() != nullptr)
+			{
+				Server_ClientInitialized();
+			}
+			else
+			{
+				GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyPlayerController::CheckIfClientInitialized, 0.5f);
+			}
+		}
 	}
 }
 
@@ -23,6 +42,31 @@ void ALobbyPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
+}
+
+
+void ALobbyPlayerController::Server_ClientInitialized_Implementation()
+{
+	if (ALobbyGameMode* GM = GetWorld()->GetAuthGameMode<ALobbyGameMode>())
+	{
+		ClientInitialized = true;
+		GM->ClientInitialized();
+	}
+}
+
+void ALobbyPlayerController::CheckIfClientInitialized()
+{
+	if (UCowobyGameInstance* GameInstance = GetGameInstance<UCowobyGameInstance>())
+	{
+		if (GameInstance->GetLobbyWidget() != nullptr)
+		{
+			Server_ClientInitialized();
+		}
+		else
+		{
+			GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyPlayerController::CheckIfClientInitialized, 0.5f);
+		}
+	}
 }
 
 void ALobbyPlayerController::Client_UpdatePlayerList_Implementation(const TArray<FPlayerData>& PlayerDataArray)

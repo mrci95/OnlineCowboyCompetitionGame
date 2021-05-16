@@ -21,6 +21,7 @@ public:
 
 
 	void ShowMatchHUDAtGameStart();
+	void Hide();
 	void BeginPlayersPresentation();
 	void EndPlayersPresentation();
 	void BeginMatchSummary();

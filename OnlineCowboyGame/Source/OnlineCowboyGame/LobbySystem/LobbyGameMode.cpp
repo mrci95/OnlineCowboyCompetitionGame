@@ -20,9 +20,14 @@ void ALobbyGameMode::GenericPlayerInitialization(AController* NewPlayer)
 
 	//if the joining player is a lobby player controller, add him to a list of connected Players
 	if (JoiningPlayer)
+	{
 		ConnectedPlayers.Add(JoiningPlayer);
 
-	GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyGameMode::UpdatePlayersList, 0.5f);
+		if (NoOfCurrentPlayers > 1)
+		{
+			JoiningPlayer->SetIsJoiningPlayer(true);
+		}
+	}
 
 }
 
@@ -39,6 +44,12 @@ void ALobbyGameMode::Logout(AController* Exiting)
 		GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyGameMode::UpdatePlayersList, 0.5f);
 	}
 
+}
+
+
+void ALobbyGameMode::ClientInitialized()
+{
+	GetWorldTimerManager().SetTimer(DelayTimer, this, &ALobbyGameMode::UpdatePlayersList, 0.5f);
 }
 
 
@@ -69,7 +80,12 @@ void ALobbyGameMode::UpdatePlayersList()
 
 	//call all the players to make them update and pass in the player info array
 	for (ALobbyPlayerController* Player : ConnectedPlayers)
-		Player->Client_UpdatePlayerList(PlayersDataArray);
+	{
+		if (Player->ClientInitialized)
+		{
+			Player->Client_UpdatePlayerList(PlayersDataArray);
+		}
+	}
 }
 
 

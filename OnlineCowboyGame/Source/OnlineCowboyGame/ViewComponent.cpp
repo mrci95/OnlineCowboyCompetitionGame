@@ -55,6 +55,7 @@ void UViewComponent::InitializeComponent()
 	TPPAnimInstance = Cast<UCowboyAnimInstance>(CoboyTppMesh->GetAnimInstance());
 	FPPAnimInstance = Cast<UFPPAnimInstance>(CowboyFppMesh->GetAnimInstance());
 
+
 	if (!ensure(TPPAnimInstance != nullptr)) return;
 	TPPAnimInstance->Setup(this);
 
@@ -535,6 +536,7 @@ void UViewComponent::PlayFireAnimation()
 			break;
 		case View::TPP:
 			TPPAnimInstance->MontagePlay_FireHip();
+			TPPWeapon->MontagePlay_Fire();
 			break;
 		default:
 			break;
@@ -549,6 +551,7 @@ void UViewComponent::PlayFireAnimation()
 			break;
 		case View::TPP:
 			TPPAnimInstance->MontagePlay_FireHip();
+			TPPWeapon->MontagePlay_Fire();
 			break;
 		default:
 			break;
@@ -591,7 +594,7 @@ bool UViewComponent::IsReloadAnimationPlaying()
 
 bool UViewComponent::CanReload()
 {
-	return !IsReloadAnimationPlaying();
+	return TPPAnimInstance->bIsGunTaken && !IsReloadAnimationPlaying();
 }
 
 void UViewComponent::Reload()
@@ -621,9 +624,8 @@ void UViewComponent::FPP_Reload()
 
 void UViewComponent::TPP_Reload()
 {
-	FPPAnimInstance->MontagePlay_ReloadStart();
-
 	TPPAnimInstance->MontagePlay_ReloadStart();
+	TPPWeapon->MontagePlay_ReloadStart();
 }
 
 void UViewComponent::ReloadBreak()
@@ -652,8 +654,8 @@ void UViewComponent::FPP_ReloadBreak()
 
 void UViewComponent::TPP_ReloadBreak()
 {
-	FPPAnimInstance->MontagePlay_ReloadBreak();
 	TPPAnimInstance->MontagePlay_ReloadBreak();
+	TPPWeapon->MontagePlay_ReloadBreak();
 }
 
 void UViewComponent::Death()

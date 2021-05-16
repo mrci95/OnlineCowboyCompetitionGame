@@ -35,6 +35,7 @@ public:
 
 
 	void ShowAtGameStart();
+	void Hide();
 
 	void SetPlayerOneScore(uint16 Score);
 	void SetPlayerTwoScore(uint16 Score);

@@ -18,6 +18,8 @@ public:
 
 	virtual void NativeConstruct() override;
 
+	virtual void NativeOnInitialized() override;
+
 	void Fired();
 
 	void RemoveBullet();
@@ -26,6 +28,11 @@ public:
 
 	void Reset();
 
+	void Show();
+
+
+	UPROPERTY(meta = (BindWidgetAnim))
+	class UWidgetAnimation* ShowAnimation;
 
 	// We need an Image widget in our Blueprint class named "IconImage"
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))

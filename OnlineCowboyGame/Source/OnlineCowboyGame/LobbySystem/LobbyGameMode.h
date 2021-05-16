@@ -21,11 +21,16 @@ public:
 
 	void Logout(AController* Exiting) override;
 
+	void ClientInitialized();
+
 	void PlayerReady();
 
 	void PlayerNotReady();
 
 	void MessageReceived(FString Message, class ALobbyPlayerController* Sender);
+
+	UFUNCTION(BlueprintCallable)
+	int GetNumberOfConnectedPlayers() { return ConnectedPlayers.Num(); };
 
 private:
 

@@ -3,6 +3,7 @@
 
 #include "WeaponBase.h"
 #include "BulletBase.h"
+#include "GunAnimInstance.h"
 #include "Components/SkeletalMeshComponent.h"
 
 #include "Kismet/KismetMathLibrary.h"
@@ -22,7 +23,7 @@ AWeaponBase::AWeaponBase()
 void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	AnimInstance = Cast<UGunAnimInstance>(WeaponMesh->GetAnimInstance());
 }
 
 // Called every frame
@@ -72,4 +73,26 @@ void AWeaponBase::OnFire(FVector HitPoint)
 	SpawnParameters.Owner = this;
 	SpawnParameters.Instigator = Cast<APawn>(GetOwner());
 	ABulletBase* BulletActor = GetWorld()->SpawnActor<ABulletBase>(Bullet.Get(), BulletSpawnLoc, BulletSpawnDir, SpawnParameters);
+}
+
+void AWeaponBase::MontagePlay_Fire()
+{
+	if (AnimInstance == nullptr) return;
+
+	AnimInstance->MontagePlay_Fire();
+}
+
+void AWeaponBase::MontagePlay_ReloadStart()
+{
+	if (AnimInstance == nullptr) return;
+
+	AnimInstance->MontagePlay_ReloadStart();
+}
+
+
+void AWeaponBase::MontagePlay_ReloadBreak()
+{
+	if (AnimInstance == nullptr) return;
+
+	AnimInstance->MontagePlay_ReloadBreak();
 }

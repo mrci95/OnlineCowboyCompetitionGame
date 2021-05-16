@@ -12,8 +12,13 @@ void UBulletHUD::NativeConstruct()
 	// Create dynamic material instance, based on parent
 	BulletMaterialInstance = UMaterialInstanceDynamic::Create(BulletMaterial, this);
 
-	BulletMaterialInstance->SetScalarParameterValue("Desaturation", 0.0f);
-	BulletIcon->SetBrushFromMaterial(BulletMaterialInstance);
+	/*BulletMaterialInstance->SetScalarParameterValue("Desaturation", 0.0f);
+	BulletIcon->SetBrushFromMaterial(BulletMaterialInstance);*/
+}
+
+void UBulletHUD::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
 }
 
 void UBulletHUD::Fired()
@@ -34,4 +39,9 @@ void UBulletHUD::InsertBullet()
 void UBulletHUD::Reset()
 {
 	BulletIcon->SetVisibility(ESlateVisibility::Visible);
+}
+
+void UBulletHUD::Show()
+{
+	PlayAnimationForward(ShowAnimation);
 }

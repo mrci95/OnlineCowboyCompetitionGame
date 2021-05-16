@@ -29,14 +29,16 @@ public:
 
 	void OnFire(FVector HitPoint);
 
-
+	void MontagePlay_Fire();
+	void MontagePlay_ReloadStart();
+	void MontagePlay_ReloadBreak();
 
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Setup")
 	USkeletalMeshComponent* WeaponMesh;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
@@ -46,4 +48,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+
+	class UGunAnimInstance* AnimInstance = nullptr;
 };

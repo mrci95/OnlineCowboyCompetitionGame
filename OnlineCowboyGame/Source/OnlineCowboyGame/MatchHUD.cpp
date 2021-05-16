@@ -12,6 +12,11 @@ void UMatchHUD::ShowAtGameStart()
 	PlayAnimation(Show);
 }
 
+void UMatchHUD::Hide()
+{
+	RemoveFromViewport();
+}
+
 void UMatchHUD::SetPlayerOneScore(uint16 Score)
 {
 	if (!ensure(PlayerScore_1 != nullptr)) return;

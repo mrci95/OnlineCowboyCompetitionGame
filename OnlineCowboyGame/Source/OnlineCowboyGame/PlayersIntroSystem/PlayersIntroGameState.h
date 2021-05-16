@@ -22,6 +22,7 @@ public:
 private:
 
 	uint8 ClientsWithFinishedPresentation = 0;
+	void SetPlayersData();
 
 	UFUNCTION(NetMulticast,Reliable)
 	void Multi_BeginPlayersPresentation();

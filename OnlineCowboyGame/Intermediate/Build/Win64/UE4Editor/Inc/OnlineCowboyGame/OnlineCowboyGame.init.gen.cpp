@@ -11,18 +11,22 @@
 #endif
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeOnlineCowboyGame_init() {}
+	ONLINECOWBOYGAME_API UFunction* Z_Construct_UDelegateFunction_OnlineCowboyGame_MenuChangeDelegate__DelegateSignature();
 	UPackage* Z_Construct_UPackage__Script_OnlineCowboyGame()
 	{
 		static UPackage* ReturnPackage = nullptr;
 		if (!ReturnPackage)
 		{
+			static UObject* (*const SingletonFuncArray[])() = {
+				(UObject* (*)())Z_Construct_UDelegateFunction_OnlineCowboyGame_MenuChangeDelegate__DelegateSignature,
+			};
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/OnlineCowboyGame",
-				nullptr,
-				0,
+				SingletonFuncArray,
+				UE_ARRAY_COUNT(SingletonFuncArray),
 				PKG_CompiledIn | 0x00000000,
-				0xC04A07C1,
-				0x7887992C,
+				0x8DC76DB8,
+				0x624FAA8C,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);

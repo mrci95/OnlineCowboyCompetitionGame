@@ -63,6 +63,12 @@ void ULobbyMenu::ReadyButtonClicked()
 	}
 }
 
+void ULobbyMenu::Setup()
+{
+	Reset();
+	Super::Setup();
+}
+
 void ULobbyMenu::SendButtonClicked()
 {
 
@@ -118,4 +124,15 @@ void ULobbyMenu::StartingMatchSeconds(int8 Seconds)
 
 	if (Seconds == 0)
 		StartingMatchText->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void ULobbyMenu::Reset()
+{
+	StartingMatchText->SetVisibility(ESlateVisibility::Hidden);
+	Chat->ClearChildren();
+
+	ReadyButton->SetBackgroundColor(FLinearColor::Green);
+	ReadyButtonText->SetText(FText::FromString("READY"));
+
+	ConnectedPlayersList->ClearChildren();
 }

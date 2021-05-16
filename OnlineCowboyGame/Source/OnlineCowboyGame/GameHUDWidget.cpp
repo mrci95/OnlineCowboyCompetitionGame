@@ -7,10 +7,16 @@
 
 void UGameHUDWidget::Show()
 {
+	AddToViewport();
 	if (AmmoHUD)
 	{
 		AmmoHUD->Show();
 	}
+}
+
+void UGameHUDWidget::Hide()
+{
+	RemoveFromViewport();
 }
 
 void UGameHUDWidget::ReloadStart()

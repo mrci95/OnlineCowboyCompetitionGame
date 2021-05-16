@@ -24,6 +24,8 @@ void UServerRow::Setup(UMainMenu* InParent, uint32 InIndex)
 
 void UServerRow::OnClicked()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Select"));
+
 	if (Parent != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Select %d"), Index);

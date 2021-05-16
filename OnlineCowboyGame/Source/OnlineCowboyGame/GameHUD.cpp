@@ -27,8 +27,6 @@ void AGameHUD::BeginPlay()
 	CreateGameInterface();
 
 	CreateMatchHUD();
-
-	//CreateMatchIntroHUD();
 }
 
 void AGameHUD::CreateGameInterface()
@@ -40,10 +38,8 @@ void AGameHUD::CreateGameInterface()
 	{
 		if (APlayerController* PC = GetOwningPlayerController())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("AGameHUD::CreateGameInterface()"));
 			GameHUDWidget = CreateWidget<UGameHUDWidget>(PC, GameHUDWidgetClass);
 
-			GameHUDWidget->AddToViewport();
 		}
 	}
 }
@@ -120,6 +116,15 @@ void AGameHUD::ShowMatchHUDAtGameStart()
 
 	if (!ensure(GameHUDWidget != nullptr)) return;
 	GameHUDWidget->Show();
+}
+
+void AGameHUD::Hide()
+{
+	if (!ensure(MatchHUD != nullptr)) return;
+	MatchHUD->Hide();
+
+	if (!ensure(GameHUDWidget != nullptr)) return;
+	GameHUDWidget->Hide();
 }
 
 

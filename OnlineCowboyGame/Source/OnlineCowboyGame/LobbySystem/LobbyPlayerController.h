@@ -28,6 +28,10 @@ public:
 	void Client_UpdatePlayerList_Implementation(const TArray<FPlayerData>& PlayerDataArray);
 
 	UFUNCTION(Server, Reliable)
+	void Server_ClientInitialized();
+	void Server_ClientInitialized_Implementation();
+
+	UFUNCTION(Server, Reliable)
 	void Server_ReadyToPlay();
 	void Server_ReadyToPlay_Implementation();
 
@@ -43,9 +47,19 @@ public:
 	void Client_MessageReceived(const FString& Message);
 	void Client_MessageReceived_Implementation(const FString& Message);
 
+	bool ClientInitialized = false;
+
+	UFUNCTION(BlueprintCallable)
+	bool IsJoiningPlayer(){ return bIsJoiningPlayer; };
+
+	void SetIsJoiningPlayer(bool val) { bIsJoiningPlayer = val; };
+
 private:
 
+	UPROPERTY(Replicated)
+	bool bIsJoiningPlayer = false;
 
+	void CheckIfClientInitialized();
 	void ReadyButtonClicked();
 
 	void SendButtonClicked(const FString& Message);

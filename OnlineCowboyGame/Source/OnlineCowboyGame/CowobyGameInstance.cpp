@@ -97,10 +97,13 @@ void UCowobyGameInstance::LoadGameMenu()
 
 void UCowobyGameInstance::LoadLobbyMenu()
 {
-	if (!ensure(LobbyMenuClass != nullptr)) return;
+	if (LobbyMenu == nullptr)
+	{
+		if (!ensure(LobbyMenuClass != nullptr)) return;
 
-	LobbyMenu = CreateWidget<ULobbyMenu>(this, LobbyMenuClass);
-	if (!ensure(LobbyMenu != nullptr)) return;
+		LobbyMenu = CreateWidget<ULobbyMenu>(this, LobbyMenuClass);
+		if (!ensure(LobbyMenu != nullptr)) return;
+	}
 
 	LobbyMenu->Setup();
 }
